@@ -1,0 +1,55 @@
+
+<!--div class='row text-center'>
+	<div class='col-sm-6 col-sm-offset-3'>
+		<h1>Login</h1>
+
+		<div class="alert alert-danger" role="alert" ng-show='errorMessage'>{{errorMessage}}</div>
+
+		<form ng-submit='login()' class='text-left'>
+			<div class="form-group">
+				<label>Email</label>
+				<input type='text' class='form-control input-lg' placeholder='Email' ng-model='loginUser.email' required autofocus>
+			</div>
+			<div class="form-group">
+				<label>Password</label>
+				<input type='password' class='form-control input-lg' placeholder='Password' ng-model='loginUser.password'>
+			</div>
+			<button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-lg btn-block btn-success">Log in</button>
+		</form>
+
+		<br/>
+		<p class="text-center text-muted">
+			<small>Don't have an account yet? <a ui-sref="register">Register here</a></small>
+		</p>
+	</div>
+</div-->
+<div layout="column" layout-align="center center">
+	<div class="alert alert-danger" role="alert" ng-show='errorMessage'>{{errorMessage}}</div>
+
+ <form name="loginForm" class="loginBox md-whiteframe-z1" layout = "column">
+		<md-toolbar>
+			<h2 class="md-toolbar-tools"><span>Login</span></h2>
+		</md-toolbar>
+
+		<md-content layout="column" class="md-padding">
+	        <md-input-container>
+	          <input ng-model="loginUser.email" name="email" type="text" placeholder="email" ng-required="true">
+	          <div ng-messages="loginForm.email.$error">
+	            <div ng-message="required">Your email is required.</div>
+	          </div>
+	        </md-input-container>
+	        <md-input-container>
+	          <input ng-model="loginUser.password" type="text" placeholder="Password" ng-required="true" name="password">
+	          <div ng-messages="loginForm.password.$error">
+	            <div ng-message="required">Your password is required.</div>
+	          </div>
+	        </md-input-container>
+		</md-content>
+      	<div layout="row" layout-align="center center">
+        	<md-button class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click = "login()">Login</md-button>
+        	<div flex="flex"></div>
+        	<md-button href="#" md-no-ink="md-no-ink">Forgot Password</md-button>
+      	</div>
+      	<md-button ui-sref="register">Register here</md-button>
+ </form>
+</div>
