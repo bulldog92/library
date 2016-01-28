@@ -1,14 +1,8 @@
 {
-  "name": "library sites",
-  "version": "0.0.1",
+  "name": "library",
+  "version": "1.0.0",
   "description": "library sites",
   "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
-  },
-  "author": "Fair_ray",
-  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.13.1",
@@ -19,5 +13,20 @@
     "method-override": "^2.3.3",
     "moment": "^2.11.1",
     "mongoose": "^4.0.5"
-  }
+    },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bulldog92/library.git"
+  },
+  "author": "Fair_ray",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bulldog92/library/issues"
+  },
+  "homepage": "https://github.com/bulldog92/library#readme"
 }
