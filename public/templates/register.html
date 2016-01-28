@@ -1,42 +1,45 @@
-
-<div class='row text-center'>
-	<div class='col-sm-6 col-sm-offset-3'>
-		<h1>Register</h1>
-
+<div layout="column" layout-align="center center">
+	<form name="registerForm" class="loginBox md-whiteframe-z1" layout = "column">
+		<md-toolbar>
+			<h2 class="md-toolbar-tools"><span>Register</span></h2>
+		</md-toolbar>
 		<div class="alert alert-danger" role="alert" ng-show='errorMessage'>{{errorMessage}}</div>
-
-		<form ng-submit='register()' class='text-left'>
-			<div class="form-group">
+		<md-content layout="column" class="md-padding">
+			<md-input-container>
 				<label>Name</label>
-				<input type='text' class='form-control input-lg' placeholder='Name' ng-model='newUser.displayName' required autofocus>
-			</div>
-			<div class="form-group">
+				<input type="text" required name="displayName" ng-model="newUser.displayName" minlength="4" maxlength="20">
+				<div ng-messages="registerForm.displayName.$error">
+					<div ng-message="required">This is required.</div>
+					<div ng-message="['minlength', 'maxlength']">Your name must be between 4 and 20 characters long.</div>
+				</div>
+			</md-input-container>
+			<md-input-container>
 				<label>Email address</label>
-				<input type='email' class='form-control input-lg' placeholder='Email' ng-model='newUser.email'>
-			</div>
-
-			<div class="form-group">
+				<input type="text" minlength="10" maxlength="25" ng-pattern="/^.+@.+\..+$/" required name="email" ng-model="newUser.email">
+				<div ng-messages="registerForm.email.$error">
+					<div ng-message="required">Your email is required.</div>
+	            	<div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 25 characters long and look like an e-mail address.</div>
+				</div>
+			</md-input-container>
+			<md-input-container>
 				<label>Password</label>
-				<input type='password' class='form-control input-lg' placeholder='Password' ng-model='newUser.password'>
-			</div>
-
-			<button type="submit" class="btn btn-lg btn-block btn-success" ng-disabled="loginForm.$invalid">Create Account</button>
-		</form>
-
-		<br/>
-		<p class="text-center text-muted">
-			<small>Already have an account? <a ui-sref='login'>Login</a></small>
-		</p>
-
-		<!--
-		<div class='row'>
-			<p style='font-size:18px;'>--OR--</p>
+				<input type="text" required name="password" ng-model="newUser.password">
+				<div ng-messages="registerForm.password.$error">
+					<div ng-message="required">This is required.</div>
+				</div>
+			</md-input-container>
+			<md-input-container>
+				<label>Confirm Password</label>
+				<input type="text" required name="passwordConfirm" ng-model="newUser.passwordConfirm" compare-to="newUser.password" required>
+				<div ng-messages="registerForm.passwordConfirm.$error">
+					<div ng-message="required">This is required.</div>
+					<div ng-message="compareTo">Must match the previous entry</div>
+				</div>
+			</md-input-container>
+		</md-content>
+		<div layout="column" layout-align="center center">
+			<md-button class="md-raised md-primary" ng-disabled="registerForm.$invalid" ng-click = "register()">Create Account</md-button>
+			<p class="md-body-1" layout="row" layout-align="center center">Already have an account? <md-button class="md-primary" ui-sref='login'>Login</md-button></p>
 		</div>
-
-		<button ng-click="authenticate('facebook')" class='btn btn-primary'>
-			<i class='fa fa-facebook fa-3'></i> Sign up with Facebook
-		</button>
-		-->
-		
-	</div>
+	</form>		
 </div>

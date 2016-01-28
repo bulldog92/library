@@ -3,7 +3,8 @@ var app = angular.module('libraryApp', [
 	'ui.router',
 	'satellizer',
 	'ngAnimate',
-	'ngMaterial'
+	'ngMaterial',
+	'ngMessages'
 ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $authProvider){
@@ -44,6 +45,14 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider){
 			resolve: {
 				loginRequired: loginRequired
 			}
+		})
+		.state('onlyAdmin', {
+			url: '/onlyAdmin',
+			templateUrl: 'templates/onlyAdmin.html',
+			controller: 'onlyAdminCtrl'
+			//resolve: {
+			//	loginRequiredAdmin: loginRequiredAdmin
+			//}
 		});
 
 	$urlRouterProvider.otherwise("/");
@@ -64,6 +73,17 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider){
         deferred.resolve();
       } else {
         $location.path('/login');
+      }
+      return deferred.promise;
+    }
+    function loginRequiredAdmin($q, $location, $auth, Account, $rootScope) {
+    	console.log($auth.isAuthenticated());
+
+      var deferred = $q.defer();
+      if ($auth.isAuthenticated() && $rootScope.user.displayName == 'Test_name') {
+        deferred.resolve();
+      } else {
+        $location.path('/');
       }
       return deferred.promise;
     }
