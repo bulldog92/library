@@ -33,12 +33,15 @@
         </md-button>
         <div flex></div>
         <md-button class="md-primary" ui-sref-active="active" ng-if="isAuthenticated()" ui-sref='profile' aria-label='edit'>
-        Edit <span ng-bind='user.displayName'></span>
+          Edit <span ng-bind='user.displayName'></span>
+        </md-button>
+        <md-button class="md-primary" ui-sref-active="active" ng-if="isAdmin()" ui-sref="onlyAdmin" aria-label='edit'>
+          Only admin <span ng-bind='user.displayName'></span>
+        </md-button>
       </div>
     </md-toolbar>
-
     <!-- Main content -->
-    <md-content layout-padding ui-view></md-content>
+    <div layout-padding flex ui-view></div>
   </div>
   
   <!-- Angular libs -->
@@ -58,7 +61,8 @@
   <script src='js/controllers/nav.js'></script>
   <script src='js/controllers/logout.js'></script>
   <script src='js/controllers/profile.js'></script>
-  <script src='js/controllers/onlyAdminCtrl.js'></script>
+  <script src='js/controllers/onlyadmin.js'></script>
+  <script src='js/controllers/forgotpass.js'></script>
   <script src='js/directives/confirm.js'></script>
 </body>
 </html>

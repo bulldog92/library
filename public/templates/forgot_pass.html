@@ -1,0 +1,26 @@
+<div layout="column" layout-align="center center">
+	<div class="alert alert-danger" role="alert" ng-show='errorMessage'>
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	{{errorMessage}}</div>
+	<div class="alert alert-success" role="alert" ng-show='successMessage'>
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	{{successMessage}}</div>
+ <form name="forgotForm" ng-submit = "forgotSubmit()" class="loginBox md-whiteframe-z1" layout = "column">
+		<md-toolbar>
+			<h2 class="md-toolbar-tools"><span>Forgot password</span></h2>
+		</md-toolbar>
+		<md-content layout="column" class="md-padding">
+			<p class="md-subhead">Отправить новый пароль на почту</p>
+	        <md-input-container>
+	          <input ng-model="forgotAccount.email" name="email" type="text" placeholder="Email" minlength="10" maxlength="25" ng-pattern="/^.+@.+\..+$/" required>
+	          <div ng-messages="forgotForm.email.$error">
+	            <div ng-message="required">Your email is required.</div>
+	            <div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 25 characters long and look like an e-mail address.</div>
+	          </div>
+	        </md-input-container>
+		</md-content>
+      	<div layout="row" layout-align="center center">
+        	<md-button flex class="md-raised md-primary" type="submit" ng-disabled="forgotForm.$invalid" >Submit</md-button>
+      	</div>
+ </form>
+</div>

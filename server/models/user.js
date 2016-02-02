@@ -7,7 +7,8 @@ var userSchema = new mongoose.Schema({
   password: { type: String, select: false },
   displayName: String,
   picture: String,
-  facebook: String
+  facebook: String,
+  role: String
 });
 
 // executed before a new user is saved

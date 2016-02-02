@@ -28,6 +28,6 @@ var indexRoutes = require('./server/routes');
 app.use('/', indexRoutes);
 
 // Start server
-app.listen(envConfig.port, function(){
+app.listen(envConfig.port, '78.140.173.111', function(){
   console.log('Server listening on port ' + envConfig.port)
 });

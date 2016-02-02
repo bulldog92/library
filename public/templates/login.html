@@ -1,6 +1,6 @@
 <div layout="column" layout-align="center center">
 	<div class="alert alert-danger" role="alert" ng-show='errorMessage'>{{errorMessage}}</div>
- <form name="loginForm" class="loginBox md-whiteframe-z1" layout = "column">
+ <form name="loginForm" ng-submit = "login()" class="loginBox md-whiteframe-z1" layout = "column">
 		<md-toolbar>
 			<h2 class="md-toolbar-tools"><span>Login</span></h2>
 		</md-toolbar>
@@ -24,9 +24,9 @@
 	        </md-input-container>
 		</md-content>
       	<div layout="row" layout-align="center center">
-        	<md-button class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click = "login()">Login</md-button>
+        	<md-button class="md-raised md-primary" type="submit" ng-disabled="loginForm.$invalid" >Login</md-button>
         	<div flex="flex"></div>
-        	<md-button href="#" md-no-ink="md-no-ink">Forgot Password</md-button>
+        	<md-button ui-sref="forgot_pass" md-no-ink="md-no-ink">Forgot Password</md-button>
       	</div>
       	<md-button ui-sref="register">Register here</md-button>
  </form>

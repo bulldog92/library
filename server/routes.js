@@ -6,6 +6,7 @@ var express = require('express'),
 	router = express.Router();
 
 var utils = require('./utils');
+var mailer = require('./mailer');
 
 /*
  |--------------------------------------------------------------------------
@@ -24,7 +25,8 @@ router.post('/auth/signup', function(req, res) {
 		var user = new User({
 		  displayName: req.body.displayName,
 		  email: req.body.email,
-		  password: req.body.password
+		  password: req.body.password,
+		  role: 'user'
 		});
 
 		user.save(function(err, result) {
@@ -35,6 +37,7 @@ router.post('/auth/signup', function(req, res) {
 		  res.send({ token: utils.createJWT(result) });
 		});
 	});
+	mailer.sendMail(req.body.email, req.body.email, req.body.password);
 });
 
 /*
@@ -85,6 +88,38 @@ router.put('/api/me', utils.ensureAuthenticated, function(req, res) {
       res.status(200).end();
     });
   });
+});
+
+/*
+ |-----------------------
+ | POST /api/forgot
+ |-----------------------
+*/
+router.post('/api/forgot', function(req, res){
+	User.findOne({email: req.body.email}, function(err, user){
+		var rand_val = str_rand();
+		if (!user) {
+      		return res.status(400).send({ message: 'User not found' });
+    	}
+    	function str_rand() {
+        var result = '';
+        var words = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+        var max_position = words.length - 1;
+            for( i = 0; i < 5; ++i ) {
+                position = Math.floor ( Math.random() * max_position );
+                result = result + words.substring(position, position + 1);
+            }
+       		return result;
+    	}
+    	user.password = rand_val;
+    	user.save(function(err) {
+    		if(err){
+    			res.status(400).end();
+    		}
+    		mailer.sendMail(req.body.email, req.body.email, rand_val);
+      		res.status(200).end();
+    	});
+	})
 });
 
 // angularjs catch all route

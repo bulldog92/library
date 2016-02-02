@@ -23,14 +23,14 @@
 			</md-input-container>
 			<md-input-container>
 				<label>Password</label>
-				<input type="text" required name="password" ng-model="newUser.password">
+				<input type="password" required name="password" ng-model="newUser.password">
 				<div ng-messages="registerForm.password.$error">
 					<div ng-message="required">This is required.</div>
 				</div>
 			</md-input-container>
 			<md-input-container>
 				<label>Confirm Password</label>
-				<input type="text" required name="passwordConfirm" ng-model="newUser.passwordConfirm" compare-to="newUser.password" required>
+				<input type="password" required name="passwordConfirm" ng-model="newUser.passwordConfirm" compare-to="newUser.password" required>
 				<div ng-messages="registerForm.passwordConfirm.$error">
 					<div ng-message="required">This is required.</div>
 					<div ng-message="compareTo">Must match the previous entry</div>

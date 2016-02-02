@@ -12,6 +12,9 @@ app.factory('Account', function($http, $rootScope) {
 		},
 		updateProfile: function(profileData) {
 			return $http.put('/api/me', profileData);
+		},
+		forgotPass: function(data){
+			return $http.post('/api/forgot', data);
 		}
 	};
 });
