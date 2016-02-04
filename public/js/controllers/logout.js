@@ -1,4 +1,4 @@
-app.controller('LogoutCtrl', function($location, $auth, $rootScope) {
+app.controller('LogoutCtrl', ['$location', '$auth', '$rootScope', function($location, $auth, $rootScope) {
 	if (!$auth.isAuthenticated()) { return; }
 
 	$auth.logout()
@@ -6,4 +6,4 @@ app.controller('LogoutCtrl', function($location, $auth, $rootScope) {
 	  	$rootScope.user = {};
 	    $location.path('/');
 	  });
-});
+}]);

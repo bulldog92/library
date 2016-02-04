@@ -14,7 +14,8 @@
     "moment": "^2.11.1",
     "mongoose": "^4.0.5",
     "nodemailer": "^2.1.0",
-    "nodemailer-smtp-transport": "^2.0.1"
+    "nodemailer-smtp-transport": "^2.0.1",
+    "validator": "^4.6.1"
   },
   "devDependencies": {},
   "scripts": {

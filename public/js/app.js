@@ -7,13 +7,7 @@ var app = angular.module('libraryApp', [
 	'ngMessages'
 ]);
 
-app.config(function($stateProvider, $urlRouterProvider, $authProvider){
-	// satellizer config
-	// $authProvider.facebook({
-	// 	clientId: 'Facebook App ID'
-	// });
-
-    // define routes
+app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider){
 	$stateProvider
 		.state('home', {
 			url: "/",
@@ -107,4 +101,4 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider){
       }
       return deferred.promise;
     };
-});
+}]);

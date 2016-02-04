@@ -1,4 +1,4 @@
-app.factory('Account', function($http, $rootScope) {
+app.factory('Account',['$http', '$rootScope', function($http, $rootScope) {
 	return {
 		setUser: function(){
 			return $http.get('/api/me')
@@ -17,4 +17,4 @@ app.factory('Account', function($http, $rootScope) {
 			return $http.post('/api/forgot', data);
 		}
 	};
-});
+}]);

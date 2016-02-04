@@ -7,18 +7,18 @@
 
 		<md-content layout="column" class="md-padding">
 	        <md-input-container>
-	          <input ng-model="loginUser.email" name="email" type="text" placeholder="Email" minlength="10" maxlength="25" ng-pattern="/^.+@.+\..+$/" required>
+	          <input ng-model="loginUser.email" name="email" type="text" placeholder="Email" minlength="10" maxlength="30" ng-pattern="/^.+@.+\..+$/" required>
 	          <div ng-messages="loginForm.email.$error">
 	            <div ng-message="required">Your email is required.</div>
-	            <div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 25 characters long and look like an e-mail address.</div>
+	            <div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 30 characters long and look like an e-mail address.</div>
 	          </div>
 	        </md-input-container>
 	        <md-input-container>
-	          <input ng-model="loginUser.password" type="password" placeholder="Password" minlength="4" maxlength="100" required name="password">
+	          <input ng-model="loginUser.password" type="password" placeholder="Password" minlength="4" maxlength="30" required name="password">
 	          <div ng-messages="loginForm.password.$error">
 	            <div ng-message="required">Your password is required.</div>
 	            <div ng-message-exp="['minlength', 'maxlength']">
-	            	Your password must be between 4 and 50 characters long.
+	            	Your password must be between 4 and 30 characters long.
 	            </div>
 	          </div>
 	        </md-input-container>

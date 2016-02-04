@@ -15,5 +15,4 @@ app.controller('forgotpassCtrl',['$scope', 'Account', '$location', '$timeout', f
 			$scope.errorMessage = 'При отправке произошла ошибка';
 		});	
 	}
-	
 }] );

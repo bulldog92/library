@@ -1,23 +1,34 @@
-<div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">Profile</div>
-    <div class="panel-body">
-      <legend><i class="ion-clipboard"></i> Edit My Profile</legend>
-      <form method="post" ng-submit="updateProfile()">
-        <div class="form-group">
-          <label class="control-label">Profile Picture</label>
-          <img class="profile-picture" ng-src="{{user.picture || 'http://placehold.it/100x100'}}">
-        </div>
-        <div class="form-group">
-          <label class="control-label"><i class="ion-person"></i> Display Name</label>
-          <input type="text" class="form-control" ng-model="user.displayName" />
-        </div>
-        <div class="form-group">
-          <label class="control-label"><i class="ion-at"></i> Email Address</label>
-          <input type="email" class="form-control" ng-model="user.email" />
-        </div>
-        <button class="btn btn-lg btn-success">Update Information</button>
-      </form>
+<div layout="column" layout-align="center center">
+  <form name="editFrom" ng-submit="updateProfile()" class="loginBox md-whiteframe-z1" layout = "column">
+    <md-toolbar>
+      <h2 class="md-toolbar-tools"><span>Edit My Profile</span></h2>
+    </md-toolbar>
+    <div class="alert alert-danger" role="alert" ng-show='errorMessage'>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    {{errorMessage}}</div>
+    <div class="alert alert-success" role="alert" ng-show='successMessage'>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{successMessage}}
     </div>
-  </div>
+    <md-content layout="column" class="md-padding">
+      <md-input-container>
+        <label>Name</label>
+        <input type="text" name="displayName" ng-model="editProfile.displayName" minlength="4" maxlength="20" required>
+        <div ng-messages="editFrom.displayName.$error">
+          <div ng-message="required">This is required.</div>
+          <div ng-message-exp="['minlength', 'maxlength']">Your name must be between 4 and 20 characters long.</div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Email address</label>
+        <input type="text" minlength="10" maxlength="30" ng-pattern="/^.+@.+\..+$/" required name="email" ng-model="editProfile.email">
+        <div ng-messages="editFrom.email.$error">
+          <div ng-message="required">Your email is required.</div>
+                <div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 30 characters long and look like an e-mail address.</div>
+        </div>
+      </md-input-container>
+    <div layout="column" layout-align="center center">
+      <md-button class="md-raised md-primary" flex type="submit" ng-disabled="editFrom.$invalid">Update Information</md-button>
+    </div>
+  </form>   
 </div>

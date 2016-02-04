@@ -7,6 +7,7 @@ var express = require('express'),
 
 var utils = require('./utils');
 var mailer = require('./mailer');
+var validator = require('validator');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,30 +15,33 @@ var mailer = require('./mailer');
  |--------------------------------------------------------------------------
  */
 router.post('/auth/signup', function(req, res) {
-
-	User.findOne({ email: req.body.email }, function(err, existingUser) {
-		if (existingUser) {
-			console.error('User exists already!');
-			res.status(409);
-			return res.send({ message: 'Email is already taken' });
-		}
-
-		var user = new User({
-		  displayName: req.body.displayName,
-		  email: req.body.email,
-		  password: req.body.password,
-		  role: 'user'
+	if(req.body.email != '' && validator.isEmail(req.body.email) && req.body.password != '' && validator.equals(req.body.password, req.body.passwordConfirm)){
+		User.findOne({ email: req.body.email }, function(err, existingUser) {
+			if (existingUser) {
+				console.error('User exists already!');
+				res.status(409);
+				return res.send({ message: 'Email is already taken' });
+			}
+			var user = new User({
+				displayName: req.body.displayName,
+		  		email: req.body.email,
+		  		password: req.body.password,
+		  		role: 'user'
+			});
+			user.save(function(err, result) {
+		  	if (err) {
+		  		console.error('Error saving the user!');
+		    	res.status(500).send({ message: err.message });
+		  	}
+		  	res.send({ token: utils.createJWT(result) });
+			});
 		});
-
-		user.save(function(err, result) {
-		  if (err) {
-		  	console.error('Error saving the user!');
-		    res.status(500).send({ message: err.message });
-		  }
-		  res.send({ token: utils.createJWT(result) });
-		});
-	});
-	mailer.sendMail(req.body.email, req.body.email, req.body.password);
+		var subject = req.body.displayName || req.body.email;
+		mailer.sendMail(req.body.email, subject, req.body.password);	
+	}else{
+		res.status(422);
+		res.send({message: 'Unprocessable Entity'});
+	}
 });
 
 /*
@@ -46,19 +50,26 @@ router.post('/auth/signup', function(req, res) {
  |--------------------------------------------------------------------------
  */
 router.post('/auth/login', function(req, res) {
-  User.findOne({ email: req.body.email }, '+password', function(err, user) {
-	if (!user) {
-    	console.log('user not found');
-    	return res.status(401).send({ message: 'Invalid email and/or password' });
-    }
-    user.comparePassword(req.body.password, function(err, isMatch) {
-      if (!isMatch) {
-      	console.log('wrong password');
-        return res.status(401).send({ message: 'Invalid email and/or password' });
-      }
-      res.send({ token: utils.createJWT(user) });
-    });
-  });
+	if(req.body.email != '' && validator.isEmail(req.body.email) && req.body.password != ''){
+
+		User.findOne({ email: req.body.email }, '+password', function(err, user) {
+			if (!user) {
+    			console.log('user not found');
+    			return res.status(401).send({ message: 'Invalid email and/or password' });
+    		}
+    		user.comparePassword(req.body.password, function(err, isMatch) {
+      		if (!isMatch) {
+      			console.log('wrong password');
+        		return res.status(401).send({ message: 'Invalid email and/or password' });
+      		}
+     	 	res.send({ token: utils.createJWT(user) });
+    		});
+  		});
+
+	}else{
+		res.status(422);
+		res.send({message: 'Unprocessable Entity'});	
+	}
 });
 
 /*
@@ -78,16 +89,59 @@ router.get('/api/me', utils.ensureAuthenticated, function(req, res) {
  |--------------------------------------------------------------------------
  */
 router.put('/api/me', utils.ensureAuthenticated, function(req, res) {
-  User.findById(req.user, function(err, user) {
-    if (!user) {
-      return res.status(400).send({ message: 'User not found' });
-    }
-    user.displayName = req.body.displayName || user.displayName;
-    user.email = req.body.email || user.email;
-    user.save(function(err) {
-      res.status(200).end();
-    });
-  });
+	if(req.body.email != '' && validator.isEmail(req.body.email) && req.body.displayName != '' && validator.isLength(req.body.displayName, {min:4, max:20}) ){
+		User.findById(req.user, function(err, user) {
+  			if (!user) {
+    			return res.status(400).send({ message: 'User not found' });
+  			}
+  			if(user.email != req.body.email ){
+          console.log(user.email);
+          console.log(req.body.email);
+  				User.findOne({ email: req.body.email}, function(err, res_user){
+  					if(!res_user){
+  						user.email = req.body.email;
+              if(user.displayName != req.body.displayName ){
+                user.displayName = req.body.displayName;
+                user.save(function(err) {
+                  if(err){
+                    res.status(500);
+                    return res.send({message: 'db save error'});
+                  }
+                  return res.status(200).end();
+                });
+              }else{
+                user.save(function(err) {
+                  if(err){
+                    res.status(500);
+                    return res.send({message: 'db save error'});
+                  }
+                  return res.status(200).end();
+                });
+              }              	
+  					}else{
+  						res.status(409);
+						return res.send({ message: 'Email is already taken' });
+  					}
+  				})
+  			}else{
+              if(user.displayName != req.body.displayName ){
+                user.displayName = req.body.displayName;
+                user.save(function(err) {
+                  if(err){
+                    res.status(500);
+                    return res.send({message: 'db save error'});
+                  }
+                  return res.status(200).end();
+                });
+              }else{
+                return res.status(304).end();
+              }  
+        }
+		});		
+	}else{
+    res.status(422);
+    res.send({message: 'Unprocessable Entity'});
+  }
 });
 
 /*
@@ -126,6 +180,5 @@ router.post('/api/forgot', function(req, res){
 router.get('/*', function(req, res) {
 	res.sendFile(rootPath + 'public/index.html', { user: req.user });
 });
-
 
 module.exports = router;

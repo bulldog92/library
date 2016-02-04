@@ -1,5 +1,5 @@
 
-app.controller('AuthCtrl', function($scope, $auth, $location, Account){
+app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', function($scope, $auth, $location, Account){
 
 	// For facebook login
 	// $scope.authenticate = function(provider) {
@@ -41,4 +41,4 @@ app.controller('AuthCtrl', function($scope, $auth, $location, Account){
 			$scope.errorMessage = res.data.message;
         });
     };
-});
+}]);

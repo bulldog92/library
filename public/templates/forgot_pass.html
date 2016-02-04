@@ -12,10 +12,10 @@
 		<md-content layout="column" class="md-padding">
 			<p class="md-subhead">Отправить новый пароль на почту</p>
 	        <md-input-container>
-	          <input ng-model="forgotAccount.email" name="email" type="text" placeholder="Email" minlength="10" maxlength="25" ng-pattern="/^.+@.+\..+$/" required>
+	          <input ng-model="forgotAccount.email" name="email" type="text" placeholder="Email" minlength="10" maxlength="30" ng-pattern="/^.+@.+\..+$/" required>
 	          <div ng-messages="forgotForm.email.$error">
 	            <div ng-message="required">Your email is required.</div>
-	            <div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 25 characters long and look like an e-mail address.</div>
+	            <div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 30 characters long and look like an e-mail address.</div>
 	          </div>
 	        </md-input-container>
 		</md-content>

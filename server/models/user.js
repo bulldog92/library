@@ -7,7 +7,6 @@ var userSchema = new mongoose.Schema({
   password: { type: String, select: false },
   displayName: String,
   picture: String,
-  facebook: String,
   role: String
 });
 
