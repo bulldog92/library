@@ -1,5 +1,5 @@
 
-app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', function($scope, $auth, $location, Account){
+app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', '$mdToast', function($scope, $auth, $location, Account, $mdToast, $rootScope){
 
 	// For facebook login
 	// $scope.authenticate = function(provider) {
@@ -31,6 +31,12 @@ app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', function(
 	$scope.login = function() {
       $auth.login($scope.loginUser)
         .then(function() {
+        	$mdToast.show(
+      			$mdToast.simple()
+        		.textContent('Вход')
+        		.position('top right')
+        		.hideDelay(1000)
+        	);
         	Account.setUser()
 		        .then(function(response) {
 		          $location.path('/');

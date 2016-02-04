@@ -1,5 +1,5 @@
 
-app.controller('ProfileCtrl',['$scope', '$auth', 'Account', function($scope, $auth, Account) {
+app.controller('ProfileCtrl',['$scope', '$auth', 'Account', '$mdToast', '$document', function($scope, $auth, Account, $mdToast, $document) {
 	$scope.editProfile = {
 		displayName : $scope.user.displayName,
 		email : $scope.user.email
@@ -9,6 +9,12 @@ app.controller('ProfileCtrl',['$scope', '$auth', 'Account', function($scope, $au
     	$scope.errorMessage = '';
     	Account.updateProfile($scope.editProfile)
         .then(function(data) {
+        	$mdToast.show(
+      			$mdToast.simple()
+        		.textContent('Профиль изменен!')
+        		.position('top right')
+        		.hideDelay(3000)
+    		);
         	$scope.successMessage = 'Профиль изменен';
         	console.log('Profile has been updated');
         	console.log(data.data.message);

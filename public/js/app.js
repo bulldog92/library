@@ -4,10 +4,56 @@ var app = angular.module('libraryApp', [
 	'satellizer',
 	'ngAnimate',
 	'ngMaterial',
-	'ngMessages'
+	'ngMessages',
+	'ngMdIcons'
 ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider){
+// Resolve functions
+	var skipIfLoggedIn = ['$q', '$auth', function ($q, $auth) {
+      var dfd = $q.defer();
+      if ($auth.isAuthenticated()) {
+        dfd.reject();
+      } else {
+        dfd.resolve();
+      }
+      return dfd.promise;
+    }];
+    var loginRequired = ['$q', '$location', '$auth', function ($q, $location, $auth) {
+      var deferred = $q.defer();
+      if ($auth.isAuthenticated()) {
+        deferred.resolve();
+      } else {
+        $location.path('/login');
+      }
+      return deferred.promise;
+    }];
+    var loginRequiredAdmin = ['$q', '$location', '$auth', 'Account', '$rootScope', function ($q, $location, $auth, Account, $rootScope) {
+      var deferred = $q.defer();
+      if($rootScope.user){
+      	if($rootScope.user.role == 'admin'){
+      		deferred.resolve();	
+      	}else{
+      		$location.path('/login');
+      	}
+      }else{
+      	var promise = Account.getProfile();
+      	promise.then(function(data){
+      		if(data.data.role == 'admin'){
+      			deferred.resolve();	
+      		}else{
+      			$location.path('/login');	
+      		} 
+      	}, function(error){
+      		$location.path('/login');
+      		console.log(error);
+      	});
+      }
+      return deferred.promise;
+    }];
+
+
+	
 	$stateProvider
 		.state('home', {
 			url: "/",
@@ -59,46 +105,5 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 
 	$urlRouterProvider.otherwise("/");
 
-	// Resolve functions
-	function skipIfLoggedIn($q, $auth) {
-      var dfd = $q.defer();
-      if ($auth.isAuthenticated()) {
-        dfd.reject();
-      } else {
-        dfd.resolve();
-      }
-      return dfd.promise;
-    };
-    function loginRequired($q, $location, $auth) {
-      var deferred = $q.defer();
-      if ($auth.isAuthenticated()) {
-        deferred.resolve();
-      } else {
-        $location.path('/login');
-      }
-      return deferred.promise;
-    };
-    function loginRequiredAdmin($q, $location, $auth, Account, $rootScope) {
-      var deferred = $q.defer();
-      if($rootScope.user){
-      	if($rootScope.user.role == 'admin'){
-      		deferred.resolve();	
-      	}else{
-      		$location.path('/login');
-      	}
-      }else{
-      	var promise = Account.getProfile();
-      	promise.then(function(data){
-      		if(data.data.role == 'admin'){
-      			deferred.resolve();	
-      		}else{
-      			$location.path('/login');	
-      		} 
-      	}, function(error){
-      		$location.path('/login');
-      		console.log(error);
-      	});
-      }
-      return deferred.promise;
-    };
+	
 }]);

@@ -14,10 +14,13 @@
   <![endif]-->
 
 </head>
-<body layout="row">
-  <div layout="column" flex>
+<body layout="row" ng-cloak>
+  <div layout="column" flex ng-controller='AppCtrl'>
     <md-toolbar ng-controller='NavCtrl'>
       <div class="md-toolbar-tools">
+        <md-button ng-click="toggleLeft()" ng-hide="isOpenLeft()" aria-label="Menu">
+            <ng-md-icon icon="menu"></ng-md-icon>
+        </md-button>
         <h2>
           <span><a ui-sref='home'>Toolbar sites</a></span>
         </h2>
@@ -41,7 +44,28 @@
       </div>
     </md-toolbar>
     <!-- Main content -->
-    <div layout-padding flex ui-view></div>
+    
+    <div layout="row">
+      <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+        <md-toolbar class="md-theme-left">
+          <h1 class="md-toolbar-tools">Sidenav Left</h1>
+        </md-toolbar>
+        <md-content ng-controller="leftCtrl" layout-padding>
+          <form>
+            <md-input-container>
+              <label for="testInput">Test input</label>
+              <input type="text" id="testInput"
+                   ng-model="data" md-autofocus>
+            </md-input-container>
+          </form>
+          <md-button ng-click="close()" class="md-primary">
+            Close Sidenav left
+          </md-button>
+        </md-content>
+      </md-sidenav>
+      <div layout-padding flex ui-view></div>  
+    </div>
+
   </div>
   
   <!-- Angular libs -->
@@ -52,6 +76,7 @@
   <script src="bower_components/angular-aria/angular-aria.min.js"></script>
   <script src="bower_components/angular-messages/angular-messages.min.js"></script>
   <script src="bower_components/angular-material/angular-material.min.js"></script>
+  <script src="//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
 
   <!-- Angular app -->
   <script src='js/app.js'></script>
@@ -63,6 +88,8 @@
   <script src='js/controllers/profile.js'></script>
   <script src='js/controllers/onlyadmin.js'></script>
   <script src='js/controllers/forgotpass.js'></script>
+  <script src='js/controllers/global.js'></script>
   <script src='js/directives/confirm.js'></script>
+  <!--script src='minjs/index.js'></script-->
 </body>
 </html>
