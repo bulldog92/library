@@ -4,7 +4,7 @@
       <h2 class="md-toolbar-tools"><span>Edit My Profile</span></h2>
     </md-toolbar>
     <div class="alert alert-danger" role="alert" ng-show='errorMessage'>
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <a href="#" ng-click="back()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     {{errorMessage}}</div>
     <div class="alert alert-success" role="alert" ng-show='successMessage'>
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -27,8 +27,9 @@
                 <div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 30 characters long and look like an e-mail address.</div>
         </div>
       </md-input-container>
-    <div layout="column" layout-align="center center">
+    <div layout="row" layout-align="center center">
       <md-button class="md-raised md-primary" flex type="submit" ng-disabled="editFrom.$invalid">Update Information</md-button>
+      <md-button class="md-raised md-warn" flex ng-click="back()">Отмена</md-button>
     </div>
   </form>   
 </div>

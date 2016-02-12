@@ -34,7 +34,7 @@ app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', '$mdToast
         	$mdToast.show(
       			$mdToast.simple()
         		.textContent('Вход')
-        		.position('top right')
+        		.position('bottom right')
         		.hideDelay(1000)
         	);
         	Account.setUser()

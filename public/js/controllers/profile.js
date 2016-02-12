@@ -12,7 +12,7 @@ app.controller('ProfileCtrl',['$scope', '$auth', 'Account', '$mdToast', '$docume
         	$mdToast.show(
       			$mdToast.simple()
         		.textContent('Профиль изменен!')
-        		.position('top right')
+        		.position('bottom right')
         		.hideDelay(3000)
     		);
         	$scope.successMessage = 'Профиль изменен';

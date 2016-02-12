@@ -7,9 +7,8 @@
 		<md-content layout="column" class="md-padding">
 			<md-input-container>
 				<label>Name</label>
-				<input type="text" name="displayName" ng-model="newUser.displayName" minlength="4" maxlength="20" required>
+				<input type="text" name="displayName" ng-model="newUser.displayName" minlength="4" maxlength="20">
 				<div ng-messages="registerForm.displayName.$error">
-					<div ng-message="required">This is required.</div>
 					<div ng-message-exp="['minlength', 'maxlength']">Your name must be between 4 and 20 characters long.</div>
 				</div>
 			</md-input-container>

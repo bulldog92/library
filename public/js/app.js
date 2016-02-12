@@ -5,7 +5,8 @@ var app = angular.module('libraryApp', [
 	'ngAnimate',
 	'ngMaterial',
 	'ngMessages',
-	'ngMdIcons'
+	'ngMdIcons',
+	'md.data.table'
 ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider){
@@ -94,6 +95,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 				adminLogin: loginRequiredAdmin
 			}
 		})
+		.state('onlyAdmin.users_list', {
+			url: '/users_list',
+			templateUrl: 'templates/users_list.html',
+			controller: 'usersListCtrl',
+			resolve:{
+				adminLogin: loginRequiredAdmin
+			}
+		})
 		.state('forgot_pass', {
 			url: '/forgot_pass',
 			templateUrl: 'templates/forgot_pass.html',
@@ -106,4 +115,17 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 	$urlRouterProvider.otherwise("/");
 
 	
+}]);
+app.run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+    $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
+        // to be used for back button //won't work when page is reloaded.
+        $rootScope.previousState_name = fromState.name;
+        $rootScope.previousState_params = fromParams;
+    });
+    //back button function called from back button's ng-click="back()"
+    $rootScope.back = function() {
+        $state.go($rootScope.previousState_name,$rootScope.previousState_params);
+    };
 }]);

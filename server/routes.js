@@ -7,6 +7,7 @@ var express = require('express'),
 
 var utils = require('./utils');
 var mailer = require('./mailer');
+var date = require('./models/date');
 var validator = require('validator');
 
 /*
@@ -26,7 +27,8 @@ router.post('/auth/signup', function(req, res) {
 				displayName: req.body.displayName,
 		  		email: req.body.email,
 		  		password: req.body.password,
-		  		role: 'user'
+		  		role: 'user',
+          date_born: date()
 			});
 			user.save(function(err, result) {
 		  	if (err) {
@@ -174,6 +176,23 @@ router.post('/api/forgot', function(req, res){
       		res.status(200).end();
     	});
 	})
+});
+
+/*
+ |-----------------------
+ | GET /api/user
+ |-----------------------
+*/
+router.get('/api/user', function(req, res){
+  User.find({}, function(err, result){
+    if(err){
+      res.status(500).end();
+    }
+    if(result){
+      res.status(200);
+      res.json(result);
+    }
+  })
 });
 
 // angularjs catch all route

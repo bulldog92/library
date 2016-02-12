@@ -1,14 +1,21 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+.inputdemoErrors .inputErrorsApp {
+  min-height: 48px; }
+.inputdemoErrors md-input-container > p {
+  font-size: 0.8em;
+  text-align: left;
+  width: 100%; }
 h1{
 	text-align: center;
 }
-.loginBox {
-  max-width:  90%;
-  width: 500px;
-}
-
 .stretch input  {
   width: 100%;
+}
+@media (min-width: 640px){
+	.loginBox {
+  		max-width:  90%;
+  		width: 500px;
+	}	
 }

@@ -6,7 +6,7 @@ app.controller('LogoutCtrl', ['$location', '$auth', '$rootScope', '$mdToast', fu
 	  	$mdToast.show(
       			$mdToast.simple()
         		.textContent('Пока')
-        		.position('top right')
+        		.position('bottom right')
         		.hideDelay(2000)
         	);
 	  	$rootScope.user = {};

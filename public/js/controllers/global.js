@@ -2,7 +2,7 @@ app.controller('leftCtrl', ['$scope', '$timeout', '$mdSidenav', '$log', function
     $scope.close = function () {
       $mdSidenav('left').close()
         .then(function () {
-          $log.debug("close RIGHT is done");
+          $log.debug("close Left is done");
         });
     };	
 }]);
