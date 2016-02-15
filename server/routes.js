@@ -194,6 +194,53 @@ router.get('/api/user', function(req, res){
     }
   })
 });
+/*
+ |-----------------------
+ | PUT /api/user
+ |-----------------------
+*/
+router.put('/api/user', function(req, res){
+  User.findOne({email: req.body.email}, function(err, result){
+    if(err){
+      res.status(500);
+      res.send({'message': 'db error'});
+    }
+    if(result){
+      if(result.role != req.body.role){
+        result.role = req.body.role;
+        result.save(function(err){
+          if(err){
+            res.status(500);
+            res.send({'message': 'db error'});
+          }
+          res.status(200);
+          res.send({'message': 'role changed'});
+        });
+      }else{
+        res.status(200);
+        res.send({'message': 'role not changed'});  
+      }
+    }
+  })
+});
+
+/*
+ |-----------------------
+ | POST /api/user
+ |-----------------------
+*/
+
+router.post('/api/user_delete', function(req, res){
+  User.findOne({email: req.body.email}, function(err, result){
+    if(err){
+      res.status(500);
+      res.send({'message': 'db error'});
+    }
+    if(result){
+      console.log(result);
+    }
+  })
+});
 
 // angularjs catch all route
 router.get('/*', function(req, res) {

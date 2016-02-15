@@ -72,7 +72,10 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 		.state('login', {
 			url: "/login",
 			templateUrl: "templates/login.html",
-			controller: 'AuthCtrl'
+			controller: 'AuthCtrl',
+			resolve: {
+	          skipIfLoggedIn: skipIfLoggedIn
+	        }
 		})
 		.state('logout', {
 			url: '/logout',

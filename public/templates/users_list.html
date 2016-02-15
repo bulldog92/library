@@ -10,6 +10,7 @@
 		        <th md-column md-order-by="email"><span>Email</span></th>
 		        <th md-column md-order-by="role"><span>Role</span></th>
 		        <th md-column md-order-by="date"><span>Date</span></th>
+		        <th md-column><span>Action</span></th>
 		      </tr>
 		    </thead>
 		    <tbody md-body>
@@ -19,6 +20,12 @@
 		        <td md-cell>{{user.email}}</td>
 		        <td md-cell>{{user.role}}</td>
 		        <td md-cell>{{user.date_born}}</td>
+		        <td md-cell>
+		        	<md-button class="md-raised md-primary" ng-click='editUser($event, user)'>Изменить</md-button>
+		        	<md-button ng-click='deleteUser($event, user)'>
+						<ng-md-icon icon="delete" size="38" aria-label="Delete user"></ng-md-icon>
+		        	</md-button>
+		        </td>
 		      </tr>
 		    </tbody>
 		  </table>
