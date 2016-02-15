@@ -39,7 +39,7 @@ router.post('/auth/signup', function(req, res) {
 			});
 		});
 		var subject = req.body.displayName || req.body.email;
-		mailer.sendMail(req.body.email, subject, req.body.password);	
+		mailer.sendMail(req.body.email, subject, req.body.password);
 	}else{
 		res.status(422);
 		res.send({message: 'Unprocessable Entity'});
@@ -70,7 +70,7 @@ router.post('/auth/login', function(req, res) {
 
 	}else{
 		res.status(422);
-		res.send({message: 'Unprocessable Entity'});	
+		res.send({message: 'Unprocessable Entity'});
 	}
 });
 
@@ -119,7 +119,7 @@ router.put('/api/me', utils.ensureAuthenticated, function(req, res) {
                   }
                   return res.status(200).end();
                 });
-              }              	
+              }
   					}else{
   						res.status(409);
 						return res.send({ message: 'Email is already taken' });
@@ -137,9 +137,9 @@ router.put('/api/me', utils.ensureAuthenticated, function(req, res) {
                 });
               }else{
                 return res.status(304).end();
-              }  
+              }
         }
-		});		
+		});
 	}else{
     res.status(422);
     res.send({message: 'Unprocessable Entity'});
@@ -218,7 +218,7 @@ router.put('/api/user', function(req, res){
         });
       }else{
         res.status(200);
-        res.send({'message': 'role not changed'});  
+        res.send({'message': 'role not changed'});
       }
     }
   })
