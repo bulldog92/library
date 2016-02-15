@@ -26,8 +26,8 @@ app.factory('usersList', ['$http', function($http){
 	};
 	function deleteUser(data){
 		return $http({
-			method : 'post',
-			url : 'user_delete',
+			method : 'POST',
+			url : '/api/user_delete',
 			data: data
 		});
 	};

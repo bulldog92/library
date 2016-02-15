@@ -237,7 +237,13 @@ router.post('/api/user_delete', function(req, res){
       res.send({'message': 'db error'});
     }
     if(result){
-      console.log(result);
+      result.remove(function(error){
+        if(error){
+          res.status(500);
+        }
+        res.status(200);
+        res.send({'message': 'Remove'})
+      });
     }
   })
 });
