@@ -7,7 +7,7 @@ app.controller('leftCtrl', ['$scope', '$timeout', '$mdSidenav', '$log', function
     };	
 }]);
 
-app.controller('AppCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+app.controller('AppCtrl',[ '$scope', '$timeout', '$mdSidenav', '$log', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.toggleLeft = buildToggler('left');
     $scope.isOpenLeft = function(){
       return $mdSidenav('left').isOpen();
@@ -50,4 +50,4 @@ app.controller('AppCtrl', function ($scope, $timeout, $mdSidenav, $log) {
           });
       }
     }
-  });
+  }]);

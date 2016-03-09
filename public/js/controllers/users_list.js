@@ -5,20 +5,19 @@ app.controller('usersListCtrl', ['$scope', 'usersList', '$mdDialog', '$mdToast',
 		console.log($scope.users);
 	};
 	$scope.editUser = function(ev, user){
-		$scope.popap_user = user;
-		showUserPopap(ev);
-		console.log($scope.popap_user);
+		$scope.popup_user = user;
+		showUserPopup(ev);		
 	};
-	function showUserPopap(ev) {
+	function showUserPopup(ev) {
 	    $mdDialog.show({
 	      controller: 'userDialogCtrl',
-	      templateUrl: '../templates/user_popap.html',
+	      templateUrl: '../templates/user_popup.html',
 	      parent: angular.element(document.body),
 	      targetEvent: ev,
 	      clickOutsideToClose:true,
 	      bindToController: true,
 	      locals: {
-	      	currentUser: $scope.popap_user
+	      	currentUser: $scope.popup_user
 	      }
 	    })
 	  };
@@ -28,19 +27,21 @@ app.controller('usersListCtrl', ['$scope', 'usersList', '$mdDialog', '$mdToast',
 	    var confirm = $mdDialog.confirm()
 	          .title('Вы уверенны?')
 	          .textContent('Пользователь удалится безвозвратно')
-	          .ariaLabel('Lucky day')
+	          .ariaLabel('Delete user')
 	          .targetEvent(ev)
 	          .ok('Удалить!')
 	          .cancel('Отмена');
 	    $mdDialog.show(confirm).then(function() {
+	    	console.log(user)
 	      usersList.deleteUser(user).then(function(data){
+	      	console.log(data);
 	      	$mdToast.show(
       			$mdToast.simple()
         		.textContent('Пользователь удален')
         		.position('bottom right')
         		.hideDelay(1000)
         	);
-					usersList.getUsers(cb);
+        	usersList.getUsers(cb);
 	      }, function(error){
 	      	console.log(error);
 	      		$mdToast.show(

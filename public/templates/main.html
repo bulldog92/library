@@ -1,3 +1,65 @@
 <div layout="column">
 	<h1 class="md-display-3">Welcome to Library Sites</h1>
+	<md-card>
+		<md-table-container class="md-whiteframe-2dp">
+		  <table md-table ng-model="selected" md-progress="promise">
+		    <thead md-head md-order="domain" md-on-reorder="logOrder">
+		      <tr md-row>
+		      	<th md-column md-numeric><span>№</span></th>
+		        <th md-column md-order-by="domain"><span>Domain</span></th>
+		        <th md-column md-order-by="date"><span>Date</span></th>
+		        <th md-column md-order-by="ip_site"><span>IP</span></th>
+		        <th md-column md-order-by="server"><span>Server</span></th>
+		        <th md-column><span>Action</span></th>
+		      </tr>
+		    </thead>
+		    <tbody md-body>
+		      <tr md-row ng-repeat="site in arrSites track by $index">
+		        <td md-cell>{{$index + 1}}</td>
+		        <td md-cell>{{site.domain}}</td>
+		        <td md-cell>{{site.date}}</td>
+		        <td md-cell>{{site.ip}}</td>
+		        <td md-cell>{{site.server}}</td>
+		        <td md-cell>
+		        	<md-button class="md-raised md-primary" ng-click='editSite($event, site)'>Изменить</md-button>
+		        </td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</md-table-container>
+	</md-card>
+		<md-card>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h3>Servers</h3>
+			</div>
+		</md-toolbar>
+		<md-table-container class="md-whiteframe-2dp">
+		  <table md-table ng-model="selected" md-progress="promise">
+		    <thead md-head md-order="domain" md-on-reorder="logOrder">
+		      <tr md-row>
+		      	<th md-column md-numeric><span>№</span></th>
+		        <th md-column md-order-by="name_server"><span>Name</span></th>
+		        <th md-column md-order-by="pass_server"><span>Password</span></th>
+		        <th md-column md-order-by="ip_server"><span>IP</span></th>
+		        <!--th md-column><span>Action</span></th-->
+		      </tr>
+		    </thead>
+		    <tbody md-body>
+		      <tr md-row ng-repeat="server in arrServers track by $index">
+		        <td md-cell>{{$index + 1}}</td>
+		        <td md-cell>{{server.name}}</td>
+		        <td md-cell>{{server.pass}}</td>
+		        <td md-cell>{{server.ip}}</td>
+		        <!--td md-cell>
+		        	<md-button class="md-raised md-primary" ng-click='editUser($event, user)'>Изменить</md-button>
+		        	<md-button ng-click='deleteUser($event, user)'>
+						<ng-md-icon icon="delete" size="38" aria-label="Delete user"></ng-md-icon>
+		        	</md-button>
+		        </td-->
+		      </tr>
+		    </tbody>
+		  </table>
+		</md-table-container>
+	</md-card>
 </div>

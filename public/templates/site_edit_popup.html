@@ -1,0 +1,38 @@
+<md-dialog  ng-cloak>
+  <form name="site_edit_popup" ng-submit="update_site()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Site edit</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <ng-md-icon icon="close" aria-label="Close dialog"></ng-md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container class="md-block">
+             <label>Domain</label>
+             <input ng-model="site.domain">
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>Date</label>
+             <input ng-model="site.date">
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>Ip</label>
+             <input ng-model="site.ip">
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>Server</label>
+             <input ng-model="site.server">
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button class="md-raised md-primary" type="submit" ng-disabled="site_edit_popup.$invalid">Update Information</md-button>
+      <span flex></span>
+      <md-button class="md-raised md-warn" ng-click="cancel()">Отмена</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

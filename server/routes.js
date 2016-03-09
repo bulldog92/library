@@ -2,6 +2,8 @@ var express = require('express'),
 	path = require('path'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
+  Servers = mongoose.model('Servers'),
+  Sites = mongoose.model('Sites'),
 	rootPath = path.normalize(__dirname + '/../'),
 	router = express.Router();
 
@@ -24,7 +26,7 @@ router.post('/auth/signup', function(req, res) {
 				return res.send({ message: 'Email is already taken' });
 			}
 			var user = new User({
-				displayName: req.body.displayName,
+				  displayName: req.body.displayName,
 		  		email: req.body.email,
 		  		password: req.body.password,
 		  		role: 'user',
@@ -244,6 +246,65 @@ router.post('/api/user_delete', function(req, res){
         res.status(200);
         res.send({'message': 'Remove'})
       });
+    }
+  })
+});
+
+/*
+ |-----------------------
+ | GET /api/sites
+ |-----------------------
+*/
+router.get('/api/sites', function(req, res){
+  Sites.find({}, function(err, result){
+    if(err){
+      res.status(500).end();
+    }
+    if(result){
+      res.status(200);
+      res.json(result);
+    }
+  })
+});
+/*
+ |-----------------------
+ | PUT /api/sites
+ |-----------------------
+*/
+router.put('/api/sites', function(req, res){
+  Sites.findOne({_id: req.body._id}, function(err, site){
+    if(err){
+      res.status(500).end();
+    }
+    if(site){
+      site.domain = req.body.domain;
+      site.ip = req.body.ip;
+      site.server = req.body.server;
+      site.date = req.body.date;
+      site.save(function(err){
+        if(err){
+          res.status(500);
+          return res.send({message: 'db save error'});
+        }
+        res.status(200);
+        res.json({message: 'site updated'});
+      });
+    }
+  })
+});
+/*
+ |-----------------------
+ | GET /api/servers
+ |-----------------------
+*/
+router.get('/api/servers', function(req, res){
+  Servers.find({}, function(err, result){
+    if(err){
+      res.status(500).end();
+    }
+    if(result){
+      res.status(200);
+      res.json(result);
     }
   })
 });

@@ -13,6 +13,8 @@ var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
 
 // DATABASE CONFIG
 require('./server/models/user');
+require('./server/models/servers');
+require('./server/models/sites');
 mongoose.connect(envConfig.db);
 
 // EXPRESS CONFIG

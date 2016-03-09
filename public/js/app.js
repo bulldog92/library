@@ -59,7 +59,10 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 		.state('home', {
 			url: "/",
 			templateUrl: "templates/main.html",
-			controller: 'MainCtrl'
+			controller: 'MainCtrl',
+			resolve: {
+				loginRequired: loginRequired
+			}
 		})
 		.state('register', {
 			url: "/register",

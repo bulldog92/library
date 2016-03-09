@@ -1,6 +1,6 @@
 app.controller('userDialogCtrl', ['$scope', '$mdDialog', 'locals', 'usersList', '$mdToast', function($scope, $mdDialog, locals, usersList, $mdToast){
   	$scope.role = locals.currentUser.role;
-	$scope.roles = ['admin', 'user'];
+    $scope.roles = ['admin', 'user'];
   	$scope.cancel = function() {
     	$mdDialog.cancel();
   	};

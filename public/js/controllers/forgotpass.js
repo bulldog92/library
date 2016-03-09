@@ -7,7 +7,7 @@ app.controller('forgotpassCtrl',['$scope', 'Account', '$location', '$timeout', f
 				$scope.successMessage = 'Новый пароль отправлен на почту';
 				$timeout(function(){
 					$location.path('/login');
-				}, 1500);
+				}, 2500);
 			}else{
 				$scope.errorMessage = 'При отправке произошла ошибка';
 			}

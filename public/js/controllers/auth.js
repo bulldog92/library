@@ -1,12 +1,5 @@
 
 app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', '$mdToast', function($scope, $auth, $location, Account, $mdToast, $rootScope){
-
-	// For facebook login
-	// $scope.authenticate = function(provider) {
-	// 	$auth.authenticate(provider);
-	// 	$location.path('/');
-	// };
-
 	// register new user
 	$scope.newUser = {};
 	$scope.errorMessage = false;
@@ -26,7 +19,6 @@ app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', '$mdToast
 				$scope.errorMessage = res.data.message;
 			});
 	};
-
 	$scope.loginUser = {};
 	$scope.login = function() {
       $auth.login($scope.loginUser)
