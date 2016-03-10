@@ -1,20 +1,21 @@
-app.factory('Sites', ['$http', function($http){
-	var sites = null;
+app.factory('Sites', ['$http', '$q', function($http, $q){
 	return {
 		getSites: getSites,
-		updateSite: updateSite 
-	};
-	function getSites(cb){
+		updateSite: updateSite,
+		addNew: addNew,
+		delSite: delSite
+	}
+	function getSites(){
+		var defer = $q.defer();
 		$http({
 			method: 'GET',
 			url: '/api/sites'
 		}).then(function(data){
-			sites = data.data;
-			cb(sites);
-			return;
+			defer.resolve(data.data);
 		}, function(err){
-			console.log(error);
+			defer.reject(err);
 		})
+		return defer.promise;
 	}
 	function updateSite(site){
 		return $http({
@@ -22,5 +23,18 @@ app.factory('Sites', ['$http', function($http){
 			data: site,
 			url: '/api/sites'
 		});
+	}
+	function addNew(newSite){
+		return $http({
+			method: 'POST',
+			data: newSite,
+			url: '/api/sites'
+		});
+	}
+	function delSite(site){
+		return $http({
+			method: 'DELETE',
+			url: '/api/sites/'+site._id
+		})
 	}
 }]);

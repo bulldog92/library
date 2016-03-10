@@ -228,7 +228,7 @@ router.put('/api/user', function(req, res){
 
 /*
  |-----------------------
- | POST /api/user
+ | POST /api/user DELETE
  |-----------------------
 */
 
@@ -244,7 +244,7 @@ router.post('/api/user_delete', function(req, res){
           res.status(500);
         }
         res.status(200);
-        res.send({'message': 'Remove'})
+        res.send({'message': 'Removed'})
       });
     }
   })
@@ -289,6 +289,56 @@ router.put('/api/sites', function(req, res){
         res.status(200);
         res.json({message: 'site updated'});
       });
+    }
+  })
+});
+/*
+ |-----------------------
+ | POST /api/sites
+ |-----------------------
+*/
+router.post('/api/sites', function(req, res){
+  Sites.findOne({domain: req.body.domain}, function(err, site){
+    if(site){
+      console.error('Site exists already!');
+      res.status(409);
+      return res.json({message:'Site exists already'});
+    }
+    var newSite = new Sites({
+      domain: req.body.domain,
+      ip: req.body.ip,
+      date: req.body.date,
+      server: req.body.server
+    });
+    newSite.save(function(err){
+      if(err){
+        res.status(500);
+        return res.send({message: 'db save error'});
+      }
+      res.status(200);
+      return res.json({message: 'site created'});
+    });
+  })
+});
+/*
+ |-----------------------
+ | Delete /api/sites
+ |-----------------------
+*/
+router.delete('/api/sites/:id', function(req, res){
+  Sites.findOne({_id: req.params.id}, function(err, site){
+    if(err){
+     res.status(500);
+     return res.send({message: 'db delete error'}); 
+    }
+    if(site){
+      site.remove(function(err){
+        if(err){
+          return res.status(500);
+        }
+        res.status(200);
+        return res.json({message: 'Site removed'});
+      })
     }
   })
 });

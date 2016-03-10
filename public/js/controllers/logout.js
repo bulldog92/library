@@ -9,6 +9,6 @@ app.controller('LogoutCtrl', ['$location', '$auth', '$rootScope', '$mdToast', fu
         		.hideDelay(1000)
         	);
 	  	$rootScope.user = {};
-	    $location.path('/');
+	    $location.path('/login');
 	  });
 }]);

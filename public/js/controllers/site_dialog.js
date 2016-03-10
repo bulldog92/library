@@ -1,5 +1,6 @@
-app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', '$mdToast', function($scope, $mdDialog, locals, Sites, $mdToast){
+app.controller('siteDialogCtrl', ['$scope', '$rootScope', '$mdDialog', 'locals', 'Sites', '$mdToast', function($scope, $rootScope, $mdDialog, locals, Sites, $mdToast){
   	$scope.site = locals.currentSite;
+    $scope.newSite = {};
   	$scope.cancel = function() {
     	$mdDialog.cancel();
   	};
@@ -26,4 +27,29 @@ app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', '$md
             );
       });
 	};
+  $scope.addSite = function(){
+    var newSite = $scope.newSite;
+    console.log(newSite);
+    Sites.addNew(newSite).then(function(){
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent('Сайт создан')
+          .position('bottom right')
+          .hideDelay(2000)
+        );
+      $mdDialog.hide();
+      Sites.getSites().then(function(data){
+        $rootScope.arrSites = data;
+      }, function(err){
+        console.log(err);
+      })
+    }, function(){
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent('Ошибка')
+          .position('bottom right')
+          .hideDelay(1000)
+        );
+    });
+  }
 }]);
