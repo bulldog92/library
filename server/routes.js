@@ -100,7 +100,6 @@ router.put('/api/me', utils.ensureAuthenticated, function(req, res) {
   			}
   			if(user.email != req.body.email ){
           console.log(user.email);
-          console.log(req.body.email);
   				User.findOne({ email: req.body.email}, function(err, res_user){
   					if(!res_user){
   						user.email = req.body.email;
@@ -249,7 +248,11 @@ router.post('/api/user_delete', function(req, res){
     }
   })
 });
-
+/*
+ |------------------------------------------------------------------------------------------------------------------------------------------------------------
+ | API SITES start
+ |------------------------------------------------------------------------------------------------------------------------------------------------------------
+*/
 /*
  |-----------------------
  | GET /api/sites
@@ -272,25 +275,30 @@ router.get('/api/sites', function(req, res){
  |-----------------------
 */
 router.put('/api/sites', function(req, res){
-  Sites.findOne({_id: req.body._id}, function(err, site){
-    if(err){
-      res.status(500).end();
-    }
-    if(site){
-      site.domain = req.body.domain;
-      site.ip = req.body.ip;
-      site.server = req.body.server;
-      site.date = req.body.date;
-      site.save(function(err){
-        if(err){
-          res.status(500);
-          return res.send({message: 'db save error'});
-        }
-        res.status(200);
-        res.json({message: 'site updated'});
-      });
-    }
-  })
+  if(req.body.domain != '' && req.body.date != '' && req.body.ip != '' && req.body.server != '' && validator.isLength(req.body.domain, {min:6, max:25}) && validator.matches(req.body.ip, '^[0-9,/.]+$') && validator.isLength(req.body.server, {min:6, max:35}) ){
+    Sites.findOne({_id: req.body._id}, function(err, site){
+      if(err){
+        res.status(500).end();
+      }
+      if(site){
+        site.domain = req.body.domain;
+        site.ip = req.body.ip;
+        site.server = req.body.server;
+        site.date = req.body.date;
+        site.save(function(err){
+          if(err){
+            res.status(500);
+            return res.send({message: 'db save error'});
+          }
+          res.status(200);
+          res.json({message: 'site updated'});
+        });
+      }
+    })
+  }else{
+    res.status(422);
+    res.send({message: 'Unprocessable Entity'});    
+  }
 });
 /*
  |-----------------------
@@ -298,31 +306,36 @@ router.put('/api/sites', function(req, res){
  |-----------------------
 */
 router.post('/api/sites', function(req, res){
-  Sites.findOne({domain: req.body.domain}, function(err, site){
-    if(site){
-      console.error('Site exists already!');
-      res.status(409);
-      return res.json({message:'Site exists already'});
-    }
-    var newSite = new Sites({
-      domain: req.body.domain,
-      ip: req.body.ip,
-      date: req.body.date,
-      server: req.body.server
-    });
-    newSite.save(function(err){
-      if(err){
-        res.status(500);
-        return res.send({message: 'db save error'});
+  if(req.body.domain != '' && req.body.date != '' && req.body.ip != '' && req.body.server != '' && validator.isLength(req.body.domain, {min:6, max:25}) && validator.matches(req.body.ip, '^[0-9,/.]+$') && validator.isLength(req.body.server, {min:6, max:35}) ){
+    Sites.findOne({domain: req.body.domain}, function(err, site){
+      if(site){
+        console.error('Site exists already!');
+        res.status(409);
+        return res.json({message:'Site exists already'});
       }
-      res.status(200);
-      return res.json({message: 'site created'});
-    });
-  })
+      var newSite = new Sites({
+        domain: req.body.domain,
+        ip: req.body.ip,
+        date: req.body.date,
+        server: req.body.server
+      });
+      newSite.save(function(err){
+        if(err){
+          res.status(500);
+          return res.send({message: 'db save error'});
+        }
+        res.status(200);
+        return res.json({message: 'site created'});
+      });
+    })
+  }else{
+    res.status(422);
+    res.send({message: 'Unprocessable Entity'});    
+  }
 });
 /*
  |-----------------------
- | Delete /api/sites
+ | DELETE /api/sites
  |-----------------------
 */
 router.delete('/api/sites/:id', function(req, res){
@@ -343,6 +356,16 @@ router.delete('/api/sites/:id', function(req, res){
   })
 });
 /*
+ |------------------------------------------------------------------------------------------------------------------------------------------------------------
+ | API SITES end
+ |------------------------------------------------------------------------------------------------------------------------------------------------------------
+*/
+/*
+ |------------------------------------------------------------------------------------------------------------------------------------------------------------
+ | API SERVERS start
+ |------------------------------------------------------------------------------------------------------------------------------------------------------------
+*/
+/*
  |-----------------------
  | GET /api/servers
  |-----------------------
@@ -358,6 +381,95 @@ router.get('/api/servers', function(req, res){
     }
   })
 });
+/*
+ |-----------------------
+ | PUT /api/servers
+ |-----------------------
+*/
+router.put('/api/servers', function(req, res){
+  if(req.body.name != '' && req.body.ip != '' && req.body.pass != '' && validator.isLength(req.body.name, {min:4, max:25}) && validator.isLength(req.body.pass, {min:6, max:35}) ){
+    Servers.findOne({_id: req.body._id}, function(err, server){
+      if(err){
+        res.status(500).end();
+      }
+      if(server){
+        server.name = req.body.name;
+        server.ip = req.body.ip;
+        server.pass = req.body.pass;
+        server.save(function(err){
+          if(err){
+            res.status(500);
+            return res.send({message: 'db save error'});
+          }
+          res.status(200);
+          res.json({message: 'server updated'});
+        });
+      }
+    })
+  }else{
+    res.status(422);
+    res.send({message: 'Unprocessable Entity'});    
+  }
+});
+/*
+ |-----------------------
+ | POST /api/servers
+ |-----------------------
+*/
+router.post('/api/servers', function(req, res){
+  if(req.body.name != '' && req.body.ip != '' && req.body.pass != '' && validator.isLength(req.body.name, {min:4, max:25}) && validator.isLength(req.body.pass, {min:6, max:35}) ){
+    Servers.findOne({name: req.body.name, ip:req.body.ip}, function(err, server){
+      if(server){
+        console.error('Server exists already!');
+        res.status(409);
+        return res.json({message:'Server exists already'});
+      }
+      var newServer = new Servers({
+        name: req.body.name,
+        ip: req.body.ip,
+        pass: req.body.pass
+      });
+      newServer.save(function(err){
+        if(err){
+          res.status(500);
+          return res.send({message: 'db save error'});
+        }
+        res.status(200);
+        return res.json({message: 'server created'});
+      });
+    })
+  }else{
+    res.status(422);
+    return res.json({message: 'Unprocessable Entity'});    
+  }
+});
+/*
+ |-----------------------
+ | DELETE /api/servers
+ |-----------------------
+*/
+router.delete('/api/servers/:id', function(req, res){
+  Servers.findOne({_id: req.params.id}, function(err, server){
+    if(err){
+     res.status(500);
+     return res.send({message: 'db delete error'}); 
+    }
+    if(server){
+      server.remove(function(err){
+        if(err){
+          return res.status(500);
+        }
+        res.status(200);
+        return res.json({message: 'Server removed'});
+      })
+    }
+  })
+});
+/*
+ |------------------------------------------------------------------------------------------------------------------------------------------------------------
+ | API SERVERS end
+ |------------------------------------------------------------------------------------------------------------------------------------------------------------
+*/
 
 // angularjs catch all route
 router.get('/*', function(req, res) {

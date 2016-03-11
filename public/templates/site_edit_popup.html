@@ -13,9 +13,9 @@
       <div class="md-dialog-content">
         <md-input-container class="md-block">
              <label>Domain</label>
-             <input ng-model="site.domain" name="domain" required>
+             <input ng-model="site.domain" name="domain" required minlength="6" maxlength="25">
              <div ng-messages="site_edit_popup.domain.$error">
-               <div ng-message="required">This is required</div>
+               <div ng-message-exp="['required', 'minlength', 'maxlength']">This is required! Minlength '6' and maxlength '25'</div>
              </div>
         </md-input-container>
         <md-input-container class="md-block">
@@ -24,16 +24,20 @@
         </md-input-container>
         <md-input-container class="md-block">
              <label>Ip</label>
-             <input ng-model="site.ip" name="ip" required>
+             <input ng-model="site.ip" name="ip" required ng-pattern="/^[0-9,/.]+$/" minlength="9" maxlength="15">
              <div ng-messages="site_edit_popup.ip.$error">
-               <div ng-message="required">This is required</div>
+               <div ng-message-exp="['required', 'pattern', 'minlength', 'maxlength']">
+                 This is required! Only numbers(maxlength 15, minlength 9)
+               </div>
              </div>
         </md-input-container>
         <md-input-container class="md-block">
              <label>Server</label>
-             <input ng-model="site.server" name="server" required>
+             <input ng-model="site.server" name="server" required minlength="6" maxlength="35">
              <div ng-messages="site_edit_popup.server.$error">
-               <div ng-message="required">This is required</div>
+               <div ng-message-exp="['required', 'minlength', 'maxlength']">
+                 This is required!  Minlength '6' and maxlength '25'.
+               </div>
              </div>             
         </md-input-container>
       </div>

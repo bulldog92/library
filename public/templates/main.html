@@ -29,13 +29,13 @@
 		</div>
 	</md-toolbar>
 		<md-table-container class="md-whiteframe-2dp">
-		  <table md-table md-progress="promise">
+		  <table md-table md-progress="promiseSites">
 		    <thead md-head md-order="query.order" md-on-reorder="logOrder">
 		      <tr md-row>
 		      	<th md-column md-numeric><span>№</span></th>
 		        <th md-column md-order-by="domain"><span>Domain</span></th>
 		        <th md-column md-order-by="date"><span>Date</span></th>
-		        <th md-column md-order-by="ip_site"><span>IP</span></th>
+		        <th md-column md-order-by="ip"><span>IP</span></th>
 		        <th md-column md-order-by="server"><span>Server</span></th>
 		        <th md-column><span>Action</span></th>
 		      </tr>
@@ -58,6 +58,9 @@
 		  </table>
 		</md-table-container>
 	</md-card>
+	<md-button class="md-fab md-primary btn__align-icon" aria-label="add server" ng-click="addServer($event)">
+	    <ng-md-icon icon="add" style="fill:white" size="30" aria-label="add server"></ng-md-icon>
+	</md-button>
 	<md-card>
 		<md-toolbar>
 			<div class="md-toolbar-tools">
@@ -65,14 +68,14 @@
 			</div>
 		</md-toolbar>
 		<md-table-container class="md-whiteframe-2dp">
-		  <table md-table ng-model="selected" md-progress="promise">
+		  <table md-table ng-model="selected" md-progress="promiseServers">
 		    <thead md-head md-order="domain" md-on-reorder="logOrder">
 		      <tr md-row>
 		      	<th md-column md-numeric><span>№</span></th>
 		        <th md-column md-order-by="name_server"><span>Name</span></th>
 		        <th md-column md-order-by="pass_server"><span>Password</span></th>
 		        <th md-column md-order-by="ip_server"><span>IP</span></th>
-		        <!--th md-column><span>Action</span></th-->
+		        <th md-column><span>Action</span></th>
 		      </tr>
 		    </thead>
 		    <tbody md-body>
@@ -81,12 +84,12 @@
 		        <td md-cell>{{server.name}}</td>
 		        <td md-cell>{{server.pass}}</td>
 		        <td md-cell>{{server.ip}}</td>
-		        <!--td md-cell>
-		        	<md-button class="md-raised md-primary" ng-click='editUser($event, user)'>Изменить</md-button>
-		        	<md-button ng-click='deleteUser($event, user)'>
-						<ng-md-icon icon="delete" size="38" aria-label="Delete user"></ng-md-icon>
+		        <td md-cell>
+		        	<md-button class="md-raised md-primary" ng-click='editServer($event, server)'>Изменить</md-button>
+		        	<md-button class="md-raised btn__align-icon" ng-click='deleteServer($event, server)'>
+						<ng-md-icon icon="delete" size="38" aria-label="Delete server"></ng-md-icon>
 		        	</md-button>
-		        </td-->
+		        </td>
 		      </tr>
 		    </tbody>
 		  </table>

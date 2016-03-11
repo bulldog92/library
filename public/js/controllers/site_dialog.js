@@ -1,8 +1,16 @@
 app.controller('siteDialogCtrl', ['$scope', '$rootScope', '$mdDialog', 'locals', 'Sites', '$mdToast', function($scope, $rootScope, $mdDialog, locals, Sites, $mdToast){
   	$scope.site = locals.currentSite;
     $scope.newSite = {};
+    function reloadSites(){
+      Sites.getSites().then(function(data){
+        $rootScope.arrSites = data;
+      }, function(err){
+        console.log(err);
+      })
+    }
   	$scope.cancel = function() {
     	$mdDialog.cancel();
+      reloadSites();
   	};
   	$scope.update_site = function(){
   		var dataSite = locals.currentSite;
@@ -38,11 +46,7 @@ app.controller('siteDialogCtrl', ['$scope', '$rootScope', '$mdDialog', 'locals',
           .hideDelay(2000)
         );
       $mdDialog.hide();
-      Sites.getSites().then(function(data){
-        $rootScope.arrSites = data;
-      }, function(err){
-        console.log(err);
-      })
+      reloadSites();
     }, function(){
       $mdToast.show(
         $mdToast.simple()

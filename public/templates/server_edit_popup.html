@@ -1,8 +1,8 @@
 <md-dialog  ng-cloak>
-  <form name="site_add_popup" ng-submit="addSite()">
+  <form name="server_edit_popup" ng-submit="update_server()">
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>New Site</h2>
+        <h2>Server edit</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           <ng-md-icon icon="close" aria-label="Close dialog"></ng-md-icon>
@@ -12,38 +12,34 @@
     <md-dialog-content>
       <div class="md-dialog-content">
         <md-input-container class="md-block">
-             <label>Domain</label>
-             <input ng-model="newSite.domain" name="domain" required minlength="6" maxlength="25">
-             <div ng-messages="site_add_popup.domain.$error">
+             <label>Name</label>
+             <input ng-model="server.name" name="domain" required minlength="6" maxlength="25">
+             <div ng-messages="server_edit_popup.domain.$error">
                <div ng-message-exp="['required', 'minlength', 'maxlength']">This is required! Minlength '6' and maxlength '25'</div>
              </div>
         </md-input-container>
         <md-input-container class="md-block">
-             <label>Date</label>
-             <input ng-model="newSite.date" name="date">
+             <label>Server</label>
+             <input ng-model="server.pass" name="server" required minlength="6" maxlength="35">
+             <div ng-messages="server_edit_popup.server.$error">
+               <div ng-message-exp="['required', 'minlength', 'maxlength']">
+                 This is required!  Minlength '6' and maxlength '25'.
+               </div>
+             </div>             
         </md-input-container>
         <md-input-container class="md-block">
              <label>Ip</label>
-             <input ng-model="newSite.ip" name="ip" required ng-pattern="/^[0-9,/.]+$/" minlength="9" maxlength="15">
-             <div ng-messages="site_add_popup.ip.$error">
+             <input ng-model="server.ip" name="ip" required ng-pattern="/^[0-9,/.]+$/" minlength="9" maxlength="15">
+             <div ng-messages="server_edit_popup.ip.$error">
                <div ng-message-exp="['required', 'pattern', 'minlength', 'maxlength']">
                  This is required! Only numbers(maxlength 15, minlength 9)
-               </div>
-             </div>
-        </md-input-container>
-        <md-input-container class="md-block">
-             <label>Server</label>
-             <input ng-model="newSite.server" name="server" required minlength="6" maxlength="35">
-             <div ng-messages="site_add_popup.server.$error">
-               <div ng-message-exp="['required', 'minlength', 'maxlength']">
-                 This is required!  Minlength '6' and maxlength '25'.
                </div>
              </div>
         </md-input-container>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
-      <md-button class="md-raised md-primary" type="submit" ng-disabled="site_add_popup.$invalid">Add new site</md-button>
+      <md-button class="md-raised md-primary" type="submit" ng-disabled="server_edit_popup.$invalid">Update Information</md-button>
       <span flex></span>
       <md-button class="md-raised md-warn" ng-click="cancel()">Отмена</md-button>
     </md-dialog-actions>

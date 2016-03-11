@@ -18,18 +18,15 @@ app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers'
     	console.log($scope.promise);
   	}
 	function reloadSites(){
-		$scope.promise = Sites.getSites();
-		$scope.promise.then(function(data){
+		$scope.promiseSites = Sites.getSites();
+		$scope.promiseSites.then(function(data){
 			$rootScope.arrSites = data;
 		}, function(err){
 			console.log(err);
 		});
 	};
 	reloadSites();
-	Servers.getServers(servCb);
-	function servCb(data){
-		$scope.arrServers = data;
-	}
+
 	/*site start*/
 	$scope.editSite = function(ev, site){
 		$scope.popup_site = site;
@@ -92,7 +89,7 @@ app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers'
 	    			.position('bottom right')
 	    			.hideDelay(1000)
 	    		);
-	    		console.log(error);
+	    		console.log(err);
 	    	})
 	    }, function(){
 	    	$mdDialog.hide();	
@@ -100,4 +97,84 @@ app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers'
 
 	  }
 	/*site end*/
+	/*Servers start*/
+	$scope.editServer = function(ev, server){
+		$scope.popup_server = server;
+		showServerPopup(ev);		
+	};
+	function showServerPopup(ev) {
+	  $mdDialog.show({
+	    controller: 'serverDialogCtrl',
+	    templateUrl: '../templates/server_edit_popup.html',
+	    parent: angular.element(document.body),
+	    targetEvent: ev,
+	    clickOutsideToClose:true,
+	    bindToController: true,
+	    locals: {
+	    	currentServer: $scope.popup_server,
+	    	reloadServers: reloadServers
+	    }
+	  })
+	};
+	$scope.addServer =  function(ev){
+		showServerPopupAdd(ev);
+	}
+	function showServerPopupAdd(ev) {
+	  $mdDialog.show({
+	    controller: 'serverDialogCtrl',
+	    templateUrl: '../templates/server_add_popup.html',
+	    parent: angular.element(document.body),
+	    targetEvent: ev,
+	    clickOutsideToClose:true,
+	    bindToController: true,
+	    locals: {
+	    	currentSite: {},
+	    	reloadServers: reloadServers
+	    }
+	  })
+	};
+	$scope.deleteServer = function(ev, server){
+		console.log(server);
+		var confirm = $mdDialog.confirm()
+	        .title('Вы уверенны?')
+	        .textContent('Cервер "' + server.name + '" удалится безвозвратно')
+	        .ariaLabel('Delete Server')
+	        .targetEvent(ev)
+	        .ok('Удалить!')
+	        .cancel('Отмена');
+	  $mdDialog.show(confirm).then(function() {
+	  	Servers.deleteServer(server).then(function(data){
+	  		$mdToast.show(
+	  		      $mdToast.simple()
+	  		       .textContent('Сервер удален')
+	  		       .position('bottom right')
+	  		       .hideDelay(1000)
+	  		      );
+	  		$mdDialog.hide();	  		
+	  		console.log(data.data.message);
+	  		reloadServers();
+	  	}, function(err){
+	  		$mdToast.show(
+	  		$mdToast.simple()
+	  			.textContent('Ошибка')
+	  			.position('bottom right')
+	  			.hideDelay(1000)
+	  		);
+	  		console.log(err);
+	  	})
+	  }, function(){
+	  	$mdDialog.hide();	
+	  });      
+	}
+	reloadServers();
+	function reloadServers(){
+		var promiseServers = Servers.getServers();
+		$scope.promiseServers = promiseServers;
+		promiseServers.then(function(servers){
+			$rootScope.arrServers = servers;
+		}, function(err){
+			console.log(err);
+		})
+	}
+	/*Server end*/
 }]);
