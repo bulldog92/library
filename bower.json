@@ -18,7 +18,6 @@
     "angular-ui-router": "~0.2.15",
     "satellizer": "~0.13.4",
     "angular-material": "~1.0.3",
-    "angular-material-data-table": "^0.9.11",
-    "bootstrap": "^3.3.6"
+    "angular-material-data-table": "^0.9.11"
   }
 }
