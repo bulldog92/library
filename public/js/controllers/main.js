@@ -13,10 +13,6 @@ app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers'
 			$scope.filter.form.$setPristine();
 		}
 	}
-	$scope.loadStuff = function () {
-    	$scope.promise = Sites.getSites();
-    	console.log($scope.promise);
-  	}
 	function reloadSites(){
 		$scope.promiseSites = Sites.getSites();
 		$scope.promiseSites.then(function(data){

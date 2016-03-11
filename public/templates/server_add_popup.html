@@ -27,15 +27,12 @@
                </div>
              </div>             
         </md-input-container>
-        <md-input-container class="md-block">
-             <label>Ip</label>
-             <input ng-model="newServer.ip" name="ip" required ng-pattern="/^[0-9,/.]+$/" minlength="9" maxlength="15">
-             <div ng-messages="server_add_popup.ip.$error">
-               <div ng-message-exp="['required', 'pattern', 'minlength', 'maxlength']">
-                 This is required! Only numbers(maxlength 15, minlength 9)
-               </div>
-             </div>
-        </md-input-container>
+        <md-chips
+          ng-model="newServer.ip"
+          md-separator-keys="keys"
+          placeholder="Enter a ips"
+          secondary-placeholder="Comma separated ips">
+        </md-chips>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">

@@ -13,29 +13,26 @@
       <div class="md-dialog-content">
         <md-input-container class="md-block">
              <label>Name</label>
-             <input ng-model="server.name" name="domain" required minlength="6" maxlength="25">
-             <div ng-messages="server_edit_popup.domain.$error">
+             <input ng-model="server.name" name="name" required minlength="6" maxlength="25">
+             <div ng-messages="server_edit_popup.name.$error">
                <div ng-message-exp="['required', 'minlength', 'maxlength']">This is required! Minlength '6' and maxlength '25'</div>
              </div>
         </md-input-container>
         <md-input-container class="md-block">
-             <label>Server</label>
-             <input ng-model="server.pass" name="server" required minlength="6" maxlength="35">
-             <div ng-messages="server_edit_popup.server.$error">
+             <label>Password</label>
+             <input ng-model="server.pass" name="pass" required minlength="6" maxlength="35">
+             <div ng-messages="server_edit_popup.pass.$error">
                <div ng-message-exp="['required', 'minlength', 'maxlength']">
                  This is required!  Minlength '6' and maxlength '25'.
                </div>
              </div>             
         </md-input-container>
-        <md-input-container class="md-block">
-             <label>Ip</label>
-             <input ng-model="server.ip" name="ip" required ng-pattern="/^[0-9,/.]+$/" minlength="9" maxlength="15">
-             <div ng-messages="server_edit_popup.ip.$error">
-               <div ng-message-exp="['required', 'pattern', 'minlength', 'maxlength']">
-                 This is required! Only numbers(maxlength 15, minlength 9)
-               </div>
-             </div>
-        </md-input-container>
+        <md-chips
+          ng-model="server.ip"
+          md-separator-keys="keys"
+          placeholder="Enter a ips"
+          secondary-placeholder="Comma separated ips">
+        </md-chips>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">

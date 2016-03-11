@@ -1,6 +1,9 @@
-app.controller('serverDialogCtrl', ['$scope', '$rootScope', '$mdDialog', 'locals', 'Servers', '$mdToast', function($scope, $rootScope, $mdDialog, locals, Servers, $mdToast){
+app.controller('serverDialogCtrl', ['$scope', '$rootScope', '$mdConstant', '$mdDialog', 'locals', 'Servers', '$mdToast', function($scope, $rootScope, $mdConstant, $mdDialog, locals, Servers, $mdToast){
   	$scope.server = locals.currentServer;
-    $scope.newServer = {};
+    $scope.newServer = {
+      ip:[]
+    };
+    $scope.keys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
   	$scope.cancel = function() {
     	$mdDialog.cancel();
       locals.reloadServers();
