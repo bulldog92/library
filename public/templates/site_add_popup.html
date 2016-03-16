@@ -18,27 +18,22 @@
                <div ng-message-exp="['required', 'minlength', 'maxlength']">This is required! Minlength '6' and maxlength '25'</div>
              </div>
         </md-input-container>
-        <md-input-container class="md-block">
-             <label>Date</label>
-             <input ng-model="newSite.date" name="date">
+        <md-input-container class="md-block" ng-cloak>
+            <md-select placeholder="Server" ng-model="newSite.server" md-on-open="getServs()" name = "server" ng-model-options="{trackBy: '$value.name'}" required>
+              <md-option ng-value="server" ng-repeat="server in servers">{{server.name}}</md-option>
+            </md-select>
+            <div ng-messages="site_add_popup.server.$error">
+              <div ng-message-exp="['required']">This is required!</div>
+            </div>
         </md-input-container>
-        <md-input-container class="md-block">
-             <label>Ip</label>
-             <input ng-model="newSite.ip" name="ip" required ng-pattern="/^[0-9,/.]+$/" minlength="9" maxlength="15">
-             <div ng-messages="site_add_popup.ip.$error">
-               <div ng-message-exp="['required', 'pattern', 'minlength', 'maxlength']">
-                 This is required! Only numbers(maxlength 15, minlength 9)
-               </div>
-             </div>
-        </md-input-container>
-        <md-input-container class="md-block">
-             <label>Server</label>
-             <input ng-model="newSite.server" name="server" required minlength="6" maxlength="35">
-             <div ng-messages="site_add_popup.server.$error">
-               <div ng-message-exp="['required', 'minlength', 'maxlength']">
-                 This is required!  Minlength '6' and maxlength '25'.
-               </div>
-             </div>
+        <md-input-container class="md-block" ng-cloak>
+          <label>Ip</label>
+            <md-select ng-model="newSite.ip" ng-disabled="!newSite.server" name = "site" required ng-model-options="{trackBy: '$value'}">
+              <md-option ng-value="site_ip" ng-repeat="site_ip in newSite.server.ip">{{site_ip}}</md-option>
+            </md-select>
+            <div ng-messages="site_add_popup.site.$error">
+              <div ng-message-exp="['required']">This is required!</div>
+            </div>
         </md-input-container>
       </div>
     </md-dialog-content>

@@ -10,7 +10,6 @@ app.controller('serverDialogCtrl', ['$scope', '$rootScope', '$mdConstant', '$mdD
   	};
   	$scope.update_server = function(){
   		var dataServer = locals.currentServer;
-      dataServer.name = $scope.server.name;
       dataServer.ip = $scope.server.ip;
       dataServer.pass = $scope.server.pass;
       Servers.updateServer(dataServer).then(function(data){

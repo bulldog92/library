@@ -75,7 +75,11 @@ router.post('/auth/login', function(req, res) {
 		res.send({message: 'Unprocessable Entity'});
 	}
 });
-
+/*all api*/
+router.all('/api/*', function(req, res, next){
+  console.log('secure');
+  next();
+});
 /*
  |--------------------------------------------------------------------------
  | GET /api/me
@@ -259,15 +263,28 @@ router.post('/api/user_delete', function(req, res){
  |-----------------------
 */
 router.get('/api/sites', function(req, res){
-  Sites.find({}, function(err, result){
-    if(err){
-      res.status(500).end();
-    }
-    if(result){
-      res.status(200);
-      res.json(result);
-    }
-  })
+  if(req.query.filter){
+    var regex = new RegExp(req.query.filter,'i');
+    Sites.find({ $or:[{domain: regex}, {ip: regex}, {server: regex}]}, function(err, result){
+      if(err){
+        res.status(500).end();
+      }
+      if(result){
+        res.status(200);
+        res.send({count: result.length, sites: result});
+      }
+    }) 
+   }else{
+   Sites.find({}, function(err, result){
+     if(err){
+       res.status(500).end();
+     }
+     if(result){
+       res.status(200);
+       res.send({count: result.length, sites: result});
+     }
+   }) 
+  }
 });
 /*
  |-----------------------
@@ -275,16 +292,14 @@ router.get('/api/sites', function(req, res){
  |-----------------------
 */
 router.put('/api/sites', function(req, res){
-  if(req.body.domain != '' && req.body.date != '' && req.body.ip != '' && req.body.server != '' && validator.isLength(req.body.domain, {min:6, max:25}) && validator.matches(req.body.ip, '^[0-9,/.]+$') && validator.isLength(req.body.server, {min:6, max:35}) ){
+  if(req.body.domain != '' && req.body.ip != '' && req.body.server != '' && validator.isLength(req.body.server, {min:6, max:35}) ){
     Sites.findOne({_id: req.body._id}, function(err, site){
       if(err){
         res.status(500).end();
       }
       if(site){
-        site.domain = req.body.domain;
         site.ip = req.body.ip;
         site.server = req.body.server;
-        site.date = req.body.date;
         site.save(function(err){
           if(err){
             res.status(500);
@@ -306,7 +321,7 @@ router.put('/api/sites', function(req, res){
  |-----------------------
 */
 router.post('/api/sites', function(req, res){
-  if(req.body.domain != '' && req.body.date != '' && req.body.ip != '' && req.body.server != '' && validator.isLength(req.body.domain, {min:6, max:25}) && validator.matches(req.body.ip, '^[0-9,/.]+$') && validator.isLength(req.body.server, {min:6, max:35}) ){
+  if(req.body.domain != '' && req.body.ip != '' && req.body.server != '' && validator.isLength(req.body.domain, {min:6, max:25}) && validator.matches(req.body.ip, '^[0-9,/.]+$') && validator.isLength(req.body.server, {min:6, max:35}) ){
     Sites.findOne({domain: req.body.domain}, function(err, site){
       if(site){
         console.error('Site exists already!');
@@ -316,7 +331,7 @@ router.post('/api/sites', function(req, res){
       var newSite = new Sites({
         domain: req.body.domain,
         ip: req.body.ip,
-        date: req.body.date,
+        date: date(),
         server: req.body.server
       });
       newSite.save(function(err){
@@ -372,6 +387,18 @@ router.delete('/api/sites/:id', function(req, res){
 */
 router.get('/api/servers', function(req, res){
   Servers.find({}, function(err, result){
+    if(err){
+      res.status(500).end();
+    }
+    if(result){
+      res.status(200);
+      res.json(result);
+    }
+  })
+});
+/* GET Server*/
+router.get('/api/servers/:name', function(req, res){
+  Servers.find({name: req.params.name}, function(err, result){
     if(err){
       res.status(500).end();
     }

@@ -1,8 +1,43 @@
 app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers', '$mdDialog', '$mdToast', function($scope, $timeout, $rootScope, Sites, Servers, $mdDialog, $mdToast){
 	'use strict'
 	$scope.query = {
-		order: 'domain'
+		filter: '',
+		order: 'site_id',
+		limit: '15',
+		page: 1
 	};
+	$scope.site = {};
+	$scope.items = [1,2,3,4,5];
+	$scope.selected = [];
+	$scope.toggle = function (item, list) {
+		var idx = list.indexOf(item);
+		if (idx > -1) list.splice(idx, 1);
+		else list.push(item);
+	};
+	$scope.exists = function (item, list) {
+		return list.indexOf(item) > -1;
+	};
+	$scope.getSitesFilter = function(query){
+		query = query || $scope.query;
+		$scope.promiseSites = Sites.getSites(query);
+		$scope.promiseSites.then(function(data){
+			$rootScope.arrSites = data.sites;
+			$scope.site.count = data.count;
+			console.log($rootScope.arrSites);
+		}, function(err){
+			console.error(err);
+		})
+	}
+	$scope.$watch('query.filter', function (newValue, oldValue) {
+	  if(newValue !== oldValue) {
+	    $scope.query.page = 1;
+	  }
+	  $scope.getSitesFilter();
+	});
+	$scope.logPagination = function (page, limit) {
+	  console.log('page: ', page);
+	  console.log('limit: ', limit);
+	}
 	$scope.logOrder = function (order) {
     	console.log('order: ', order);
   	};
@@ -16,7 +51,9 @@ app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers'
 	function reloadSites(){
 		$scope.promiseSites = Sites.getSites();
 		$scope.promiseSites.then(function(data){
-			$rootScope.arrSites = data;
+			console.log(data);
+			$rootScope.arrSites = data.sites;
+			$scope.site.count = data.count;
 		}, function(err){
 			console.log(err);
 		});
@@ -37,14 +74,15 @@ app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers'
 	      clickOutsideToClose:true,
 	      bindToController: true,
 	      locals: {
-	      	currentSite: $scope.popup_site
+	      	currentSite: $scope.popup_site,
+	      	reloadSites: reloadSites
 	      }
 	    })
 	  };
 
-	  $scope.addSite =  function(ev){
-	  	showSitePopupAdd(ev);
-	  }
+	$scope.addSite =  function(ev){
+	  showSitePopupAdd(ev);
+	}
 	  function showSitePopupAdd(ev) {
 	    $mdDialog.show({
 	      controller: 'siteDialogCtrl',
@@ -54,7 +92,8 @@ app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers'
 	      clickOutsideToClose:true,
 	      bindToController: true,
 	      locals: {
-	      	currentSite: {}
+	      	currentSite: {},
+	      	reloadSites: reloadSites
 	      }
 	    })
 	  };

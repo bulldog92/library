@@ -13,7 +13,7 @@
       <div class="md-dialog-content">
         <md-input-container class="md-block">
              <label>Name</label>
-             <input ng-model="server.name" name="name" required minlength="6" maxlength="25">
+             <input ng-model="server.name" name="name" required minlength="6" maxlength="25" disabled>
              <div ng-messages="server_edit_popup.name.$error">
                <div ng-message-exp="['required', 'minlength', 'maxlength']">This is required! Minlength '6' and maxlength '25'</div>
              </div>

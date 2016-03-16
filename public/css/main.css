@@ -21,6 +21,9 @@ h1{
   background: #fff!important;
   padding: 30px 0 0 0;
 }
+.view-container{
+  width: 100%;
+}
 /* main page end */
 @media (min-width: 640px){
 	.loginBox {

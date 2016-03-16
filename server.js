@@ -1,4 +1,3 @@
-
 var express = require('express'),
 	mongoose = require('mongoose'),
 	bodyParser = require('body-parser'),
@@ -6,16 +5,18 @@ var express = require('express'),
     methodOverride = require('method-override'),
 	cors = require('cors'),
 	app = express();
+	autoIncrement = require('mongoose-auto-increment');
 
 // ENVIRONMENT CONFIG
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
 	envConfig = require('./server/env')[env];
 
 // DATABASE CONFIG
+var connection = mongoose.connect(envConfig.db);
+autoIncrement.initialize(connection);
 require('./server/models/user');
 require('./server/models/servers');
 require('./server/models/sites');
-mongoose.connect(envConfig.db);
 
 // EXPRESS CONFIG
 app.use(bodyParser.json());

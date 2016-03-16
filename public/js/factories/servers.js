@@ -6,18 +6,31 @@ app.factory('Servers', ['$http', '$q', function($http, $q){
 		addNew: addNew,
 		deleteServer: deleteServer
 	}
-	function getServers(){
+	function getServers(name){
 		var defer = $q.defer();
-		$http({
-			method: 'GET',
-			url: '/api/servers'
-		}).then(function(data){
-			servers = data.data;
-			defer.resolve(servers);
-		}, function(err){
-			defer.reject(err);
-		})
-		return defer.promise;
+		if(name){
+			$http({
+				method: 'GET',
+				url: '/api/servers/' + name
+			}).then(function(data){
+				servers = data.data;
+				defer.resolve(servers);
+			}, function(err){
+				defer.reject(err);
+			})
+			return defer.promise;
+		}else{
+			$http({
+				method: 'GET',
+				url: '/api/servers'
+			}).then(function(data){
+				servers = data.data;
+				defer.resolve(servers);
+			}, function(err){
+				defer.reject(err);
+			})
+			return defer.promise;
+		}
 	}
 	function updateServer(server){
 		return $http({

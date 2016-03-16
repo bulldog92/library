@@ -13,6 +13,7 @@
     "method-override": "^2.3.3",
     "moment": "^2.11.1",
     "mongoose": "^4.0.5",
+    "mongoose-auto-increment": "^5.0.1",
     "nodemailer": "^2.1.0",
     "nodemailer-smtp-transport": "^2.0.1",
     "validator": "^4.6.1"

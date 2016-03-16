@@ -5,17 +5,32 @@ app.factory('Sites', ['$http', '$q', function($http, $q){
 		addNew: addNew,
 		delSite: delSite
 	}
-	function getSites(){
+	function getSites(req){
 		var defer = $q.defer();
-		$http({
-			method: 'GET',
-			url: '/api/sites'
-		}).then(function(data){
-			defer.resolve(data.data);
-		}, function(err){
-			defer.reject(err);
-		})
-		return defer.promise;
+		if(req){
+			$http({
+				method: 'GET',
+				url: '/api/sites',
+				params: {
+					filter: req.filter || ''
+				} 
+			}).then(function(data){
+				defer.resolve(data.data);
+			}, function(err){
+				defer.reject(err);
+			})
+			return defer.promise;
+		}else{
+			$http({
+				method: 'GET',
+				url: '/api/sites'
+			}).then(function(data){
+				defer.resolve(data.data);
+			}, function(err){
+				defer.reject(err);
+			})
+			return defer.promise;
+		}
 	}
 	function updateSite(site){
 		return $http({
