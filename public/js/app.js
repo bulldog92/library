@@ -93,18 +93,26 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 				loginRequired: loginRequired
 			}
 		})
-		.state('onlyAdmin', {
-			url: '/onlyAdmin',
+		.state('only_admin', {
+			url: '/only_admin',
 			templateUrl: 'templates/only_admin.html',
 			controller: 'onlyAdminCtrl',
 			resolve:{
 				adminLogin: loginRequiredAdmin
 			}
 		})
-		.state('onlyAdmin.users_list', {
+		.state('only_admin.users_list', {
 			url: '/users_list',
 			templateUrl: 'templates/users_list.html',
 			controller: 'usersListCtrl',
+			resolve:{
+				adminLogin: loginRequiredAdmin
+			}
+		})
+		.state('only_admin.servers', {
+			url: '/servers',
+			templateUrl: 'templates/servers_list.html',
+			controller: 'ServersListCtrl',
 			resolve:{
 				adminLogin: loginRequiredAdmin
 			}
@@ -115,14 +123,6 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 			controller: 'SitesListCtrl',
 			resolve:{
 				loginRequired: loginRequired
-			}
-		})
-		.state('onlyAdmin.servers', {
-			url: '/servers',
-			templateUrl: 'templates/servers_list.html',
-			controller: 'ServersListCtrl',
-			resolve:{
-				adminLogin: loginRequiredAdmin
 			}
 		})
 		.state('calculator', {

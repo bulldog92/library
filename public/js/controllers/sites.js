@@ -7,26 +7,43 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		page: 1,
 		selected: []
 	};
-	$scope.site = {};
 	$scope.properties = ['Domain', 'Date', 'Ip', 'Server'];
-	$scope.checkAll = function(){
-		if($scope.selectedAll){
+	$scope.site = {};
+	$scope.query.selected = ['Domain', 'Date', 'Ip', 'Server'];
+	$scope.selectedAll = true;
+	$scope.checkAll = checkAll;
+
+	function checkAll() {
+		if($scope.selectedAll) {
 			$scope.selectedAll = false;
 			$scope.query.selected = [];
 		}else{
 			$scope.selectedAll = true;
 			angular.forEach($scope.properties, function (property) {
-		    	$scope.query.selected.push(property);
+				if(!~$scope.query.selected.indexOf(property)){
+					$scope.query.selected.push(property);
+				}		    	
 		    });	
 		}
 	}
-	$scope.toggle = function (item, list) {
-		var idx = list.indexOf(item);
-		if (idx > -1) list.splice(idx, 1);
-		else list.push(item);
+	$scope.toggle = function (item) {
+		if($scope.selectedAll){
+			$scope.selectedAll = false;
+			$scope.query.selected = [];
+			var idx = $scope.query.selected.indexOf(item);
+			if (idx > -1) $scope.query.selected.splice(idx, 1);
+			else $scope.query.selected.push(item);
+		}else{
+			var idx = $scope.query.selected.indexOf(item);
+			if (idx > -1) $scope.query.selected.splice(idx, 1);
+			else $scope.query.selected.push(item);
+			if($scope.query.selected.length === $scope.properties.length){
+				$scope.selectedAll = true;
+			}			
+		}
 	};
-	$scope.exists = function (item, list) {
-		return list.indexOf(item) > -1;
+	$scope.exists = function (item) {
+		return $scope.query.selected.indexOf(item) > -1;
 	};
 	$scope.getSitesFilter = function(query){
 		query = query || $scope.query;

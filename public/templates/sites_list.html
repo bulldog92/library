@@ -32,7 +32,7 @@
 
       <div>
         <md-checkbox ng-checked = "selectedAll"  ng-click="checkAll()" >All</md-checkbox>  
-        <md-checkbox ng-repeat="property in properties" ng-checked="exists(property, query.selected)" ng-click="toggle(property, query.selected)">
+        <md-checkbox ng-repeat="property in properties" ng-checked="exists(property)" ng-click="toggle(property)">
           {{ property }}
         </md-checkbox>
       </div>
