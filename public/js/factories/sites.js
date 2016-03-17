@@ -12,7 +12,8 @@ app.factory('Sites', ['$http', '$q', function($http, $q){
 				method: 'GET',
 				url: '/api/sites',
 				params: {
-					filter: req.filter || ''
+					filter: req.filter || '',
+					selected: req.selected || []
 				} 
 			}).then(function(data){
 				defer.resolve(data.data);

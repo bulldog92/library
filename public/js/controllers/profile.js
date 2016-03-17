@@ -1,5 +1,5 @@
 
-app.controller('ProfileCtrl',['$scope', '$auth', 'Account', '$mdToast', '$document', function($scope, $auth, Account, $mdToast, $document) {
+app.controller('ProfileCtrl',['$rootScope','$scope', '$auth', 'Account', '$mdToast', '$document', function($rootScope,$scope, $auth, Account, $mdToast, $document) {
 	$scope.editProfile = {
 		displayName : $scope.user.displayName,
 		email : $scope.user.email
@@ -27,7 +27,10 @@ app.controller('ProfileCtrl',['$scope', '$auth', 'Account', '$mdToast', '$docume
         	}else{
         		$scope.errorMessage = error.data.message;
         	}
-        	$scope.editProfile = $scope.user;
+        	$scope.editProfile = {
+             displayName : $scope.user.displayName,
+             email : $scope.user.email   
+            };
         	console.log(error);
         });
     };

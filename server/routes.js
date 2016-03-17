@@ -264,8 +264,41 @@ router.post('/api/user_delete', function(req, res){
 */
 router.get('/api/sites', function(req, res){
   if(req.query.filter){
+    console.log(req.query.selected);
     var regex = new RegExp(req.query.filter,'i');
-    Sites.find({ $or:[{domain: regex}, {ip: regex}, {server: regex}]}, function(err, result){
+    function genQuery(arr){
+      var query = [];
+      var regex = new RegExp(req.query.filter,'i');
+      if(!arr){
+        query = [{domain: regex}, {ip: regex}, {server: regex}];
+        return query;
+      }
+      if(Array.isArray(arr)){
+        for (var i = 0; i < arr.length; i++){
+          var obj = {};
+          var propName = arr[i].toLowerCase();
+          obj[propName] = regex;
+          query.push(obj);
+        }
+        return query;
+      }else{
+        if(arr.toLowerCase() == 'date'){
+          query = [{
+            'date': regex
+          }];
+          return query;
+        }else{
+          var obj = {};
+          var propName = arr.toLowerCase();
+          obj[propName] = regex;
+          query = [obj];
+          return query;
+        }
+      }
+
+    }
+    var query = genQuery(req.query.selected);
+    Sites.find({ $or:query}, function(err, result){
       if(err){
         res.status(500).end();
       }
@@ -273,7 +306,7 @@ router.get('/api/sites', function(req, res){
         res.status(200);
         res.send({count: result.length, sites: result});
       }
-    }) 
+    })
    }else{
    Sites.find({}, function(err, result){
      if(err){

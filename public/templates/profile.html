@@ -21,7 +21,7 @@
       </md-input-container>
       <md-input-container>
         <label>Email address</label>
-        <input type="text" minlength="10" maxlength="30" ng-pattern="/^.+@.+\..+$/" required name="email" ng-model="editProfile.email">
+        <input type="text" minlength="10" maxlength="30" ng-pattern="/^.+@.+\..+$/" required name="email" ng-model="editProfile.email" disabled="true">
         <div ng-messages="editFrom.email.$error">
           <div ng-message="required">Your email is required.</div>
                 <div ng-message-exp="['minlength', 'maxlength', 'pattern']">Your email must be between 10 and 30 characters long and look like an e-mail address.</div>

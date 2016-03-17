@@ -109,6 +109,30 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 				adminLogin: loginRequiredAdmin
 			}
 		})
+		.state('sites', {
+			url: '/sites',
+			templateUrl: 'templates/sites_list.html',
+			controller: 'SitesListCtrl',
+			resolve:{
+				loginRequired: loginRequired
+			}
+		})
+		.state('onlyAdmin.servers', {
+			url: '/servers',
+			templateUrl: 'templates/servers_list.html',
+			controller: 'ServersListCtrl',
+			resolve:{
+				adminLogin: loginRequiredAdmin
+			}
+		})
+		.state('calculator', {
+			url: '/servers',
+			templateUrl: 'templates/calculator.html',
+			controller: 'calculatorCtrl',
+			resolve:{
+				loginRequired: loginRequired
+			}
+		})
 		.state('forgot_pass', {
 			url: '/forgot_pass',
 			templateUrl: 'templates/forgot_pass.html',

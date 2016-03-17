@@ -4,11 +4,11 @@ app.controller('MainCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers'
 		filter: '',
 		order: 'site_id',
 		limit: '15',
-		page: 1
+		page: 1,
+		selected: []
 	};
 	$scope.site = {};
-	$scope.items = [1,2,3,4,5];
-	$scope.selected = [];
+	$scope.properties = ['Domain', 'Date', 'Ip', 'Server'];
 	$scope.toggle = function (item, list) {
 		var idx = list.indexOf(item);
 		if (idx > -1) list.splice(idx, 1);

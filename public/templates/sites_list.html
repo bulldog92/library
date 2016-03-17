@@ -1,0 +1,73 @@
+<md-content class="md-padding">
+    <md-button class="md-fab md-primary btn__align-icon" aria-label="add site" ng-click="addSite($event)">
+        <ng-md-icon icon="add" style="fill:white" size="30" aria-label="add site"></ng-md-icon>
+    </md-button>
+    <md-card>
+    <md-toolbar ng-hide="filter.show">
+        <div class="md-toolbar-tools">
+            <h3>Sites</h3>
+            <div flex></div>
+            <md-button class="btn__align-icon" ng-click="filter.show = true">
+                <ng-md-icon icon="filter_list" style="fill:white" size="30" aria-label="search"></ng-md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+  <div layout="column" ng-show="filter.show">
+    <md-toolbar class="white-bar" >
+      <div class="md-toolbar-tools">
+        <ng-md-icon icon="search" style="fill:#c1c1c1" size="30" aria-label="search"></ng-md-icon>
+        <form name="filter.form" flex class="filter-form">
+          <md-input-container class="md-block">
+            <label>Поиск</label>
+               <input ng-model="query.filter" name="search">
+          </md-input-container>
+        </form>
+        <md-button class="btn__align-icon" ng-click="removeFilter()">
+          <ng-md-icon icon="clear" style="fill:#c1c1c1" size="38" aria-label="close filter"></ng-md-icon>
+        </md-button>
+         <md-button class="md-raised md-primary" ng-click="getSitesFilter()">test</md-button>
+      </div>
+    </md-toolbar>
+    <div layout="row" layout-padding layout-margin>
+
+      <div>
+        <md-checkbox ng-checked = "selectedAll"  ng-click="checkAll()" >All</md-checkbox>  
+        <md-checkbox ng-repeat="property in properties" ng-checked="exists(property, query.selected)" ng-click="toggle(property, query.selected)">
+          {{ property }}
+        </md-checkbox>
+      </div>
+    </div> 
+  </div>
+
+        <md-table-container class="md-whiteframe-2dp">
+          <table md-table md-progress="promiseSites">
+            <thead md-head md-order="query.order" md-on-reorder="logOrder">
+              <tr md-row>
+                <th md-column md-order-by="site_id"><span>ID</span></th>
+                <th md-column md-order-by="domain"><span>Domain</span></th>
+                <th md-column md-order-by="date"><span>Date</span></th>
+                <th md-column md-order-by="ip"><span>IP</span></th>
+                <th md-column md-order-by="server"><span>Server</span></th>
+                <th md-column><span>Action</span></th>
+              </tr>
+            </thead>
+            <tbody md-body>
+              <tr md-row ng-repeat="site in arrSites | orderBy: query.order | limitTo: query.limit: (query.page -1) * query.limit track by $index">
+                <td md-cell>{{site.site_id}}</td>
+                <td md-cell>{{site.domain}}</td>
+                <td md-cell>{{site.date | date:"MM/dd/yyyy 'at' h:mma"}}</td>
+                <td md-cell>{{site.ip}}</td>
+                <td md-cell>{{site.server}}</td>
+                <td md-cell>
+                    <md-button class="md-raised md-primary" ng-click='editSite($event, site)'>Изменить</md-button>
+                    <md-button class="md-raised btn__align-icon" ng-click='delSite($event, site)'>
+                        <ng-md-icon icon="delete" style="fill:red" size="38" aria-label="Delete site"></ng-md-icon>
+                    </md-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+    <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{site.count}}" md-page-select="true" md-on-paginate="logPagination"></md-table-pagination>
+    </md-card>
+</md-content>

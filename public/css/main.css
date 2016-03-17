@@ -13,6 +13,9 @@ h1{
 .stretch input  {
   width: 100%;
 }
+.header-bar{
+  background: #fff!important;  
+}
 /* main page start*/
 .btn__align-icon svg{
   vertical-align: middle;
@@ -24,6 +27,7 @@ h1{
 .view-container{
   width: 100%;
 }
+
 /* main page end */
 @media (min-width: 640px){
 	.loginBox {
