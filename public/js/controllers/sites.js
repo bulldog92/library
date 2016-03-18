@@ -27,7 +27,8 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		else {
 			$scope.query.selected.push(item)
 		}
-		console.log($scope.query.selected);			
+		console.log($scope.query.selected);
+		getSitesFilter();			
 	};
 
 
