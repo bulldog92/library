@@ -264,7 +264,6 @@ router.post('/api/user_delete', function(req, res){
 */
 router.get('/api/sites', function(req, res){
   if(req.query.filter){
-    console.log(req.query.selected);
     var regex = new RegExp(req.query.filter,'i');
     function genQuery(arr){
       var query = [];
@@ -283,15 +282,22 @@ router.get('/api/sites', function(req, res){
         return query;
       }else{
         if(arr.toLowerCase() == 'date'){
-          var dateExp = req.query.filter.split('.');
-          var findDate = new Date();
-          findDate.setFullYear(dateExp[2], dateExp[0] - 1 , dateExp[1]);
-          timeQuery = findDate.getTime().toString().substring(0,5);
-          var regexDate = new RegExp(timeQuery,'i');
-          query = [{
-            'date': regexDate
-          }];
-          return query;
+          if(req.query.filter.length == 10){
+            var dateExp = req.query.filter.split('.');
+            var findDate = new Date();
+            findDate.setFullYear(dateExp[2], dateExp[0] - 1 , dateExp[1]);
+            timeQuery = findDate.getTime().toString().substring(0,5);
+            var regexDate = new RegExp(timeQuery,'i');
+            query = [{
+              'date': regexDate
+            }];
+            return query;
+          }else{
+            query = [{
+              'date': regex
+            }];
+            return query;
+          }
         }else{
           var obj = {};
           var propName = arr.toLowerCase();

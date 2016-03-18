@@ -28,13 +28,18 @@
       </div>
     </md-toolbar>
     <div layout="row" layout-padding layout-margin>
-
+      <p>The fields in which to search:</p>
       <div>
-        <md-checkbox ng-checked = "selectedAll"  ng-click="checkAll()" >All</md-checkbox>  
-        <md-checkbox ng-repeat="property in properties" ng-checked="exists(property)" ng-click="toggle(property)">
+        <md-checkbox ng-checked = "selectedAll" ng-disabled = "selectedAll"  ng-click="checkAll()" >All</md-checkbox>  
+        <md-checkbox ng-repeat="property in properties" ng-checked="exists(property)" ng-click="[toggle(property), dateMessage()]">
           {{ property }}
         </md-checkbox>
+        <p ng-show="message">
+          The date entered only in the format: "mm.dd.yyyy"
+        </p>
       </div>
+    </div>
+      
     </div> 
   </div>
 

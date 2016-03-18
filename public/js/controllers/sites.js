@@ -14,11 +14,10 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 	$scope.checkAll = checkAll;
 	$scope.toggle = toggle;
 	$scope.exists = exists;
+	$scope.dateMessage = dateMessage;
+	$scope.message = false;
 	function checkAll() {
-		if($scope.selectedAll) {
-			$scope.selectedAll = false;
-			$scope.query.selected = [];
-		}else{
+		if (!$scope.selectedAll){
 			$scope.selectedAll = true;
 			angular.forEach($scope.properties, function (property) {
 				if(!~$scope.query.selected.indexOf(property)){
@@ -28,6 +27,7 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		}
 		$scope.getSitesFilter();
 	}
+
 	function toggle(item) {
 		if($scope.selectedAll){
 			$scope.selectedAll = false;
@@ -48,6 +48,15 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 	function exists(item) {
 		return $scope.query.selected.indexOf(item) > -1;
 	};
+	function dateMessage(){
+		if($scope.query.selected.length == 1 && ~$scope.query.selected.indexOf('Date')){
+			$scope.message = true;
+			console.log($scope.message);
+		}else{
+			$scope.message = false;
+			console.log($scope.message);
+		}
+	}
 	$scope.getSitesFilter = function(query){
 		query = query || $scope.query;
 		$scope.promiseSites = Sites.getSites(query);
