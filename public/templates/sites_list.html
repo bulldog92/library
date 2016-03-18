@@ -25,7 +25,6 @@
         <md-button class="btn__align-icon" ng-click="removeFilter()">
           <ng-md-icon icon="clear" style="fill:#c1c1c1" size="38" aria-label="close filter"></ng-md-icon>
         </md-button>
-         <md-button class="md-raised md-primary" ng-click="getSitesFilter()">test</md-button>
       </div>
     </md-toolbar>
     <div layout="row" layout-padding layout-margin>
@@ -55,7 +54,7 @@
               <tr md-row ng-repeat="site in arrSites | orderBy: query.order | limitTo: query.limit: (query.page -1) * query.limit track by $index">
                 <td md-cell>{{site.site_id}}</td>
                 <td md-cell>{{site.domain}}</td>
-                <td md-cell>{{site.date | date:"MM/dd/yyyy 'at' h:mma"}}</td>
+                <td md-cell>{{site.date | date:"MM.dd.yyyy"}}</td>
                 <td md-cell>{{site.ip}}</td>
                 <td md-cell>{{site.server}}</td>
                 <td md-cell>

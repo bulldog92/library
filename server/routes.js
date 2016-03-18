@@ -283,8 +283,13 @@ router.get('/api/sites', function(req, res){
         return query;
       }else{
         if(arr.toLowerCase() == 'date'){
+          var dateExp = req.query.filter.split('.');
+          var findDate = new Date();
+          findDate.setFullYear(dateExp[2], dateExp[0] - 1 , dateExp[1]);
+          timeQuery = findDate.getTime().toString().substring(0,5);
+          var regexDate = new RegExp(timeQuery,'i');
           query = [{
-            'date': regex
+            'date': regexDate
           }];
           return query;
         }else{
@@ -295,7 +300,6 @@ router.get('/api/sites', function(req, res){
           return query;
         }
       }
-
     }
     var query = genQuery(req.query.selected);
     Sites.find({ $or:query}, function(err, result){

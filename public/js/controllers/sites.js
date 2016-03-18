@@ -12,7 +12,8 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 	$scope.query.selected = ['Domain', 'Date', 'Ip', 'Server'];
 	$scope.selectedAll = true;
 	$scope.checkAll = checkAll;
-
+	$scope.toggle = toggle;
+	$scope.exists = exists;
 	function checkAll() {
 		if($scope.selectedAll) {
 			$scope.selectedAll = false;
@@ -25,8 +26,9 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 				}		    	
 		    });	
 		}
+		$scope.getSitesFilter();
 	}
-	$scope.toggle = function (item) {
+	function toggle(item) {
 		if($scope.selectedAll){
 			$scope.selectedAll = false;
 			$scope.query.selected = [];
@@ -41,8 +43,9 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 				$scope.selectedAll = true;
 			}			
 		}
+		$scope.getSitesFilter();
 	};
-	$scope.exists = function (item) {
+	function exists(item) {
 		return $scope.query.selected.indexOf(item) > -1;
 	};
 	$scope.getSitesFilter = function(query){
