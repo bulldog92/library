@@ -7,57 +7,64 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		page: 1,
 		selected: []
 	};
-	$scope.properties = ['Domain', 'Date', 'Ip', 'Server'];
+	$scope.date = {
+		datePicker: false 	
+	}
+	$scope.properties = ['Domain', 'Ip', 'Server'];
 	$scope.site = {};
-	$scope.query.selected = ['Domain', 'Date', 'Ip', 'Server'];
-	$scope.selectedAll = true;
-	$scope.checkAll = checkAll;
+	$scope.query.selected = ['Domain', 'Ip', 'Server'];
 	$scope.toggle = toggle;
 	$scope.exists = exists;
-	$scope.dateMessage = dateMessage;
-	$scope.message = false;
-	function checkAll() {
-		if (!$scope.selectedAll){
-			$scope.selectedAll = true;
-			angular.forEach($scope.properties, function (property) {
-				if(!~$scope.query.selected.indexOf(property)){
-					$scope.query.selected.push(property);
-				}		    	
-		    });	
-		}
-		$scope.getSitesFilter();
-	}
-
+	$scope.checkDate = checkDate;
+	$scope.changeDate = changeDate;
 	function toggle(item) {
-		if($scope.selectedAll){
-			$scope.selectedAll = false;
-			$scope.query.selected = [];
-			var idx = $scope.query.selected.indexOf(item);
-			if (idx > -1) $scope.query.selected.splice(idx, 1);
-			else $scope.query.selected.push(item);
-		}else{
-			var idx = $scope.query.selected.indexOf(item);
-			if (idx > -1) $scope.query.selected.splice(idx, 1);
-			else $scope.query.selected.push(item);
-			if($scope.query.selected.length === $scope.properties.length){
-				$scope.selectedAll = true;
-			}			
+		var idx = $scope.query.selected.indexOf(item);
+		if (idx > -1) {
+			$scope.query.selected.splice(idx, 1)
 		}
-		$scope.getSitesFilter();
+		else {
+			$scope.query.selected.push(item)
+		}
+		console.log($scope.query.selected);			
 	};
 	function exists(item) {
 		return $scope.query.selected.indexOf(item) > -1;
 	};
-	function dateMessage(){
-		if($scope.query.selected.length == 1 && ~$scope.query.selected.indexOf('Date')){
-			$scope.message = true;
-			console.log($scope.message);
-		}else{
-			$scope.message = false;
-			console.log($scope.message);
+	function checkDate(item) {
+		$scope.query.filter = '';
+		var idx = $scope.query.selected.indexOf(item);
+		if (idx > -1) {
+			$scope.query.selected.splice(idx, 1);
+			$scope.date.datePicker = false;
+			$scope.query.selected = ['Domain', 'Ip', 'Server'];
+		}else {
+			$scope.query.selected = [];
+			$scope.query.selected.push(item);
+			$scope.date.datePicker = true;
 		}
+		dateQuery();
 	}
-	$scope.getSitesFilter = function(query){
+	function changeDate(){
+		console.log($scope.date.value.getTime());
+		console.log($scope.query.selected);
+		dateQuery();
+	}
+	function dateQuery(){
+		var data = null;
+		if($scope.date.value){
+			data = $scope.date.value.setHours(3);
+		}else{
+			data = $scope.date.value
+		}
+		var query = {
+			filter: data || '',
+			selected: $scope.query.selected
+		};
+		console.log(query);
+		getSitesFilter(query);
+	}
+	$scope.getSitesFilter = getSitesFilter;
+	function getSitesFilter(query){
 		query = query || $scope.query;
 		$scope.promiseSites = Sites.getSites(query);
 		$scope.promiseSites.then(function(data){
@@ -72,7 +79,7 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 	  if(newValue !== oldValue) {
 	    $scope.query.page = 1;
 	  }
-	  $scope.getSitesFilter();
+	  getSitesFilter();
 	});
 	$scope.logPagination = function (page, limit) {
 	  console.log('page: ', page);

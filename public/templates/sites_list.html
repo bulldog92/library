@@ -19,7 +19,7 @@
         <form name="filter.form" flex class="filter-form">
           <md-input-container class="md-block">
             <label>Поиск</label>
-               <input ng-model="query.filter" name="search">
+               <input ng-model="query.filter" name="search" ng-disabled="date.datePicker">
           </md-input-container>
         </form>
         <md-button class="btn__align-icon" ng-click="removeFilter()">
@@ -29,14 +29,18 @@
     </md-toolbar>
     <div layout="row" layout-padding layout-margin>
       <p>The fields in which to search:</p>
-      <div>
-        <md-checkbox ng-checked = "selectedAll" ng-disabled = "selectedAll"  ng-click="checkAll()" >All</md-checkbox>  
-        <md-checkbox ng-repeat="property in properties" ng-checked="exists(property)" ng-click="[toggle(property), dateMessage()]">
+      <div ng-hide="date.datePicker">
+        <md-checkbox ng-repeat="property in properties" ng-checked="exists(property)" ng-click="toggle(property)">
           {{ property }}
         </md-checkbox>
-        <p ng-show="message">
-          The date entered only in the format: "mm.dd.yyyy"
-        </p>
+      </div>
+      <div flex></div>
+      <div layout="column">
+        <md-checkbox ng-checked="exists('Date')" ng-click="checkDate('Date')">
+        Date
+        </md-checkbox>
+        <md-datepicker ng-model="date.value" ng-show="date.datePicker" ng-change="changeDate()" md-placeholder="Enter date" required>
+        </md-datepicker>
       </div>
     </div>
       
@@ -59,7 +63,7 @@
               <tr md-row ng-repeat="site in arrSites | orderBy: query.order | limitTo: query.limit: (query.page -1) * query.limit track by $index">
                 <td md-cell>{{site.site_id}}</td>
                 <td md-cell>{{site.domain}}</td>
-                <td md-cell>{{site.date | date:"MM.dd.yyyy"}}</td>
+                <td md-cell>{{site.date | date:"dd.MM.yyyy"}}</td>
                 <td md-cell>{{site.ip}}</td>
                 <td md-cell>{{site.server}}</td>
                 <td md-cell>

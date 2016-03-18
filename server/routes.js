@@ -282,22 +282,24 @@ router.get('/api/sites', function(req, res){
         return query;
       }else{
         if(arr.toLowerCase() == 'date'){
-          if(req.query.filter.length == 10){
-            var dateExp = req.query.filter.split('.');
-            var findDate = new Date();
-            findDate.setFullYear(dateExp[2], dateExp[0] - 1 , dateExp[1]);
-            timeQuery = findDate.getTime().toString().substring(0,5);
-            var regexDate = new RegExp(timeQuery,'i');
-            query = [{
-              'date': regexDate
+          console.log(req.query.filter);
+          var startDate = new Date(req.query.filter);
+          startDate.setSeconds(0);
+          startDate.setHours(0);
+          startDate.setMinutes(0);
+          var dateMidnight = new Date(startDate);
+          dateMidnight.setSeconds(59);
+          dateMidnight.setHours(23);
+          dateMidnight.setMinutes(59);
+          console.log(startDate);
+          query = [{
+              'date': {
+                $gt:startDate,
+                $lt:dateMidnight
+              }
             }];
-            return query;
-          }else{
-            query = [{
-              'date': regex
-            }];
-            return query;
-          }
+          console.log(query);
+          return query;
         }else{
           var obj = {};
           var propName = arr.toLowerCase();
