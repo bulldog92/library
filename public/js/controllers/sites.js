@@ -17,6 +17,8 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 	$scope.exists = exists;
 	$scope.checkDate = checkDate;
 	$scope.changeDate = changeDate;
+	$scope.getSitesFilter = getSitesFilter;
+
 	function toggle(item) {
 		var idx = $scope.query.selected.indexOf(item);
 		if (idx > -1) {
@@ -27,9 +29,13 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		}
 		console.log($scope.query.selected);			
 	};
+
+
 	function exists(item) {
 		return $scope.query.selected.indexOf(item) > -1;
 	};
+
+
 	function checkDate(item) {
 		$scope.query.filter = '';
 		var idx = $scope.query.selected.indexOf(item);
@@ -44,15 +50,19 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		}
 		dateQuery();
 	}
+
+
 	function changeDate(){
 		console.log($scope.date.value.getTime());
 		console.log($scope.query.selected);
 		dateQuery();
 	}
+
+
 	function dateQuery(){
 		var data = null;
 		if($scope.date.value){
-			data = $scope.date.value.setHours(3);
+			data = $scope.date.value;
 		}else{
 			data = $scope.date.value
 		}
@@ -63,7 +73,11 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		console.log(query);
 		getSitesFilter(query);
 	}
-	$scope.getSitesFilter = getSitesFilter;
+
+
+
+
+
 	function getSitesFilter(query){
 		query = query || $scope.query;
 		$scope.promiseSites = Sites.getSites(query);
