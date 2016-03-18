@@ -151,7 +151,7 @@ app.run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $s
     $rootScope.$stateParams = $stateParams;
     $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
         // to be used for back button //won't work when page is reloaded.
-        $rootScope.previousState_name = fromState.name;
+        $rootScope.previousState_name = fromState.name || 'home';
         $rootScope.previousState_params = fromParams;
     });
     //back button function called from back button's ng-click="back()"
