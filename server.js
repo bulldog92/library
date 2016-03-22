@@ -27,8 +27,19 @@ app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 
 // ROUTES
-var indexRoutes = require('./server/routes');
-app.use('/', indexRoutes);
+//var indexRoutes = require('./server/routes');
+var sitesRoutes = require('./server/routing/sites');
+var authRoutes = require('./server/routing/auth');
+var userRoutes = require('./server/routing/user');
+var meRoutes = require('./server/routing/me');
+var serversRoutes = require('./server/routing/servers');
+//app.use('/', indexRoutes);
+app.use('/api', userRoutes);
+app.use('/api/sites', sitesRoutes);
+app.use('/auth', authRoutes);
+app.use('/api/me', meRoutes);
+app.use('/api/servers', serversRoutes);
+
 
 // Start server
 app.listen(envConfig.port, function(){
