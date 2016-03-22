@@ -1,4 +1,4 @@
-app.controller('siteDialogCtrl', ['$scope', '$rootScope', '$mdDialog', 'locals', 'Sites', 'Servers', '$mdToast', function($scope, $rootScope, $mdDialog, locals, Sites, Servers, $mdToast){
+app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', 'Servers', '$mdToast', function($scope, $mdDialog, locals, Sites, Servers, $mdToast){
   	$scope.site = locals.currentSite;
     $scope.newSite = {};
     $scope.servers = null;

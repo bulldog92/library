@@ -264,10 +264,13 @@ router.post('/api/user_delete', function(req, res){
 */
 router.get('/api/sites', function(req, res){
   if(req.query.filter){
-    var regex = new RegExp(req.query.filter,'i');
+    var replaceStr = req.query.filter.replace( /\\+/, '');
+    console.log(replaceStr);
+    var regex = new RegExp(replaceStr,'i');
     function genQuery(arr){
       var query = [];
-      var regex = new RegExp(req.query.filter,'i');
+
+      var regex = new RegExp(replaceStr,'i');
       if(!arr){
         query = [{domain: regex}, {ip: regex}, {server: regex}];
         return query;

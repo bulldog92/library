@@ -1,4 +1,4 @@
-app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers', '$mdDialog', '$mdToast', function($scope, $timeout, $rootScope, Sites, Servers, $mdDialog, $mdToast){
+app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdToast', function($scope, Sites, Servers, $mdDialog, $mdToast){
 	'use strict'
 	$scope.query = {
 		filter: '',
@@ -71,6 +71,7 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 				selected: $scope.query.selected
 			};
 			console.log(query);
+			$scope.query.page = 1;
 			getSitesFilter(query);
 		}else{
 			data = null;
@@ -84,9 +85,8 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		query = query || $scope.query;
 		$scope.promiseSites = Sites.getSites(query);
 		$scope.promiseSites.then(function(data){
-			$rootScope.arrSites = data.sites;
+			$scope.arrSites = data.sites;
 			$scope.site.count = data.count;
-			console.log($rootScope.arrSites);
 		}, function(err){
 			console.error(err);
 		})
@@ -109,7 +109,6 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		$scope.query = {
 			filter: '',
 			order: 'site_id',
-			limit: '15',
 			page: 1,
 			selected: ['Domain', 'Ip', 'Server']
 		};
@@ -124,11 +123,13 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 	function reloadSites(){
 		if($scope.query.filter){
 			getSitesFilter();
+		}else if($scope.date.value){
+			dateQuery();
 		}else{
 			$scope.promiseSites = Sites.getSites();
 			$scope.promiseSites.then(function(data){
 				console.log(data);
-				$rootScope.arrSites = data.sites;
+				$scope.arrSites = data.sites;
 				$scope.site.count = data.count;
 			}, function(err){
 				console.log(err);
