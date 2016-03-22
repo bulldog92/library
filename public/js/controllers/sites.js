@@ -75,8 +75,7 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		}else{
 			data = null;
 			getSitesFilter();
-		}
-		
+		}	
 	}
 
 
@@ -123,14 +122,18 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 		reloadSites();
 	}
 	function reloadSites(){
-		$scope.promiseSites = Sites.getSites();
-		$scope.promiseSites.then(function(data){
-			console.log(data);
-			$rootScope.arrSites = data.sites;
-			$scope.site.count = data.count;
-		}, function(err){
-			console.log(err);
-		});
+		if($scope.query.filter){
+			getSitesFilter();
+		}else{
+			$scope.promiseSites = Sites.getSites();
+			$scope.promiseSites.then(function(data){
+				console.log(data);
+				$rootScope.arrSites = data.sites;
+				$scope.site.count = data.count;
+			}, function(err){
+				console.log(err);
+			});	
+		}
 	};
 	reloadSites();
 
