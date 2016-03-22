@@ -55,6 +55,7 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 
 	function changeDate(){
 		console.log($scope.date.value.getTime());
+		console.log($scope.date.value.getTime() - $scope.date.value.getTimezoneOffset()*60*1000);
 		console.log($scope.query.selected);
 		dateQuery();
 	}
@@ -63,9 +64,9 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
 	function dateQuery(){
 		var data = null;
 		if($scope.date.value){
-			data = $scope.date.value;
+			data = ($scope.date.value.getTime() - $scope.date.value.getTimezoneOffset()*60*1000).toString();
 		}else{
-			data = $scope.date.value
+			data = null;
 		}
 		var query = {
 			filter: data || '',
@@ -105,10 +106,20 @@ app.controller('SitesListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Ser
   	};
 	$scope.removeFilter = function(){
 		$scope.filter.show = false;
+		$scope.query = {
+			filter: '',
+			order: 'site_id',
+			limit: '15',
+			page: 1,
+			selected: ['Domain', 'Ip', 'Server']
+		};
+		$scope.date.value = '';
+		$scope.date.datePicker = false;
 		if($scope.filter.form.$dirty){
 			$scope.query.filter = '';
 			$scope.filter.form.$setPristine();
 		}
+		reloadSites();
 	}
 	function reloadSites(){
 		$scope.promiseSites = Sites.getSites();

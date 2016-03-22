@@ -283,7 +283,8 @@ router.get('/api/sites', function(req, res){
       }else{
         if(arr.toLowerCase() == 'date'){
           console.log(req.query.filter);
-          var startDate = new Date(req.query.filter);
+          var startDate = new Date(parseInt(req.query.filter));
+          console.log(startDate);
           startDate.setSeconds(0);
           startDate.setHours(0);
           startDate.setMinutes(0);
