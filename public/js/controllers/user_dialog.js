@@ -14,7 +14,6 @@ app.controller('userDialogCtrl', ['$scope', '$mdDialog', 'locals', 'usersList', 
         		.position('bottom right')
         		.hideDelay(1000)
         	);
-			console.log(data);
 			$mdDialog.hide();
 		}, function(error){
 			$mdToast.show(

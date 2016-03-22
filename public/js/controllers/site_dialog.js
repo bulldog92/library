@@ -22,7 +22,6 @@ app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', 'Ser
     function getIp(serverName){
       Servers.getServers(serverName).then(function(server){
         $scope.site_ips = server[0].ip;
-          console.log($scope.site_ips);
       }, function(err){
           console.log(err);
       })
@@ -58,7 +57,6 @@ app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', 'Ser
       domain: $scope.newSite.domain,
       ip: $scope.newSite.ip
     };
-    console.log(newSite);
     Sites.addNew(newSite).then(function(){
       $mdToast.show(
         $mdToast.simple()

@@ -86,7 +86,6 @@ app.controller('ServersListCtrl',['$scope', 'Servers', '$mdDialog', '$mdToast', 
 	  })
 	};
 	$scope.deleteServer = function(ev, server){
-		console.log(server);
 		var confirm = $mdDialog.confirm()
 	        .title('Вы уверенны?')
 	        .textContent('Cервер "' + server.name + '" удалится безвозвратно')
@@ -103,7 +102,6 @@ app.controller('ServersListCtrl',['$scope', 'Servers', '$mdDialog', '$mdToast', 
 	  		       .hideDelay(1000)
 	  		      );
 	  		$mdDialog.hide();	  		
-	  		console.log(data.data.message);
 	  		reloadServers();
 	  	}, function(err){
 	  		$mdToast.show(

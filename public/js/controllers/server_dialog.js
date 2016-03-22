@@ -31,7 +31,6 @@ app.controller('serverDialogCtrl', ['$scope', '$rootScope', '$mdConstant', '$mdD
 	};
   $scope.addServer = function(){
     var newServer = $scope.newServer;
-    console.log(newServer);
     Servers.addNew(newServer).then(function(){
       $mdToast.show(
         $mdToast.simple()

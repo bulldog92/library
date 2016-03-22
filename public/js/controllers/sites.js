@@ -27,7 +27,6 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 		else {
 			$scope.query.selected.push(item)
 		}
-		console.log($scope.query.selected);
 		getSitesFilter();			
 	};
 
@@ -55,9 +54,6 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 
 
 	function changeDate(){
-		console.log($scope.date.value.getTime());
-		console.log($scope.date.value.getTime() - $scope.date.value.getTimezoneOffset()*60*1000);
-		console.log($scope.query.selected);
 		dateQuery();
 	}
 
@@ -70,7 +66,6 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 				filter: data || '',
 				selected: $scope.query.selected
 			};
-			console.log(query);
 			$scope.query.page = 1;
 			getSitesFilter(query);
 		}else{

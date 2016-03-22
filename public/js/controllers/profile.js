@@ -17,7 +17,6 @@ app.controller('ProfileCtrl',['$rootScope','$scope', '$auth', 'Account', '$mdToa
     		);
         	$scope.successMessage = 'Профиль изменен';
         	console.log('Profile has been updated');
-        	console.log(data.data.message);
         	$scope.user.email = $scope.editProfile.email;
         	$scope.user.displayName = $scope.editProfile.displayName;
         }, function(error){

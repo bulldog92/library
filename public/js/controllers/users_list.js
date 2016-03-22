@@ -2,7 +2,6 @@ app.controller('usersListCtrl', ['$scope', 'usersList', '$mdDialog', '$mdToast',
 	usersList.getUsers(cb);
 	function cb(users){
 		$scope.users = users;
-		console.log($scope.users);
 	};
 	$scope.editUser = function(ev, user){
 		$scope.popup_user = user;
@@ -22,7 +21,6 @@ app.controller('usersListCtrl', ['$scope', 'usersList', '$mdDialog', '$mdToast',
 	    })
 	  };
 	$scope.deleteUser = function(ev, user) {
-		console.log(user);
 	    // Appending dialog to document.body to cover sidenav in docs app
 	    var confirm = $mdDialog.confirm()
 	          .title('Вы уверенны?')
@@ -32,9 +30,7 @@ app.controller('usersListCtrl', ['$scope', 'usersList', '$mdDialog', '$mdToast',
 	          .ok('Удалить!')
 	          .cancel('Отмена');
 	    $mdDialog.show(confirm).then(function() {
-	    	console.log(user)
 	      usersList.deleteUser(user).then(function(data){
-	      	console.log(data);
 	      	$mdToast.show(
       			$mdToast.simple()
         		.textContent('Пользователь удален')
