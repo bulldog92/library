@@ -28,7 +28,6 @@
       </div>
     </md-toolbar>
     <div layout="row" layout-padding layout-margin>
-      <p>The fields in which to search:</p>
       <div ng-hide="date.datePicker">
         <md-checkbox ng-repeat="property in properties" ng-checked="exists(property)" ng-click="toggle(property)">
           {{ property }}

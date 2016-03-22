@@ -25,7 +25,6 @@ var validator = require('validator');
 router.get('/', function(req, res){
   if(req.query.filter){
     var replaceStr = req.query.filter.replace( /\\+/, '');
-    console.log(replaceStr);
     var regex = new RegExp(replaceStr,'i');
     function genQuery(arr){
       var query = [];
@@ -45,9 +44,7 @@ router.get('/', function(req, res){
         return query;
       }else{
         if(arr.toLowerCase() == 'date'){
-          console.log(req.query.filter);
           var startDate = new Date(parseInt(req.query.filter));
-          console.log(startDate);
           startDate.setSeconds(0);
           startDate.setHours(0);
           startDate.setMinutes(0);
@@ -55,14 +52,12 @@ router.get('/', function(req, res){
           dateMidnight.setSeconds(59);
           dateMidnight.setHours(23);
           dateMidnight.setMinutes(59);
-          console.log(startDate);
           query = [{
               'date': {
                 $gt:startDate,
                 $lt:dateMidnight
               }
             }];
-          console.log(query);
           return query;
         }else{
           var obj = {};

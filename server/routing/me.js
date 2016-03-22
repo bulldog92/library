@@ -31,7 +31,6 @@ router.put('/', utils.ensureAuthenticated, function(req, res) {
     			return res.status(400).send({ message: 'User not found' });
   			}
   			if(user.email != req.body.email ){
-          console.log(user.email);
   				User.findOne({ email: req.body.email}, function(err, res_user){
   					if(!res_user){
   						user.email = req.body.email;

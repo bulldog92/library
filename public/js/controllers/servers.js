@@ -1,6 +1,6 @@
-app.controller('ServersListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'Servers', '$mdDialog', '$mdToast', function($scope, $timeout, $rootScope, Sites, Servers, $mdDialog, $mdToast){
+app.controller('ServersListCtrl',['$scope', 'Servers', '$mdDialog', '$mdToast', function($scope, Servers, $mdDialog, $mdToast){
 	'use strict'
-	$scope.query = {
+	/*$scope.query = {
 		filter: '',
 		order: 'site_id',
 		limit: '15',
@@ -48,6 +48,7 @@ app.controller('ServersListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'S
 			$scope.filter.form.$setPristine();
 		}
 	}
+	*/
 	/*Servers start*/
 	$scope.editServer = function(ev, server){
 		$scope.popup_server = server;
@@ -122,7 +123,7 @@ app.controller('ServersListCtrl',['$scope','$timeout', '$rootScope', 'Sites', 'S
 		var promiseServers = Servers.getServers();
 		$scope.promiseServers = promiseServers;
 		promiseServers.then(function(servers){
-			$rootScope.arrServers = servers;
+			$scope.arrServers = servers;
 		}, function(err){
 			console.log(err);
 		})
