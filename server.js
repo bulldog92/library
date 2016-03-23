@@ -33,12 +33,14 @@ var authRoutes = require('./server/routing/auth');
 var userRoutes = require('./server/routing/user');
 var meRoutes = require('./server/routing/me');
 var serversRoutes = require('./server/routing/servers');
+var allRoutes = require('./server/routing/all');
 //app.use('/', indexRoutes);
 app.use('/api', userRoutes);
 app.use('/api/sites', sitesRoutes);
 app.use('/auth', authRoutes);
 app.use('/api/me', meRoutes);
 app.use('/api/servers', serversRoutes);
+app.use('/*', allRoutes);
 
 
 // Start server

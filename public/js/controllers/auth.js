@@ -1,4 +1,3 @@
-
 app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', '$mdToast', function($scope, $auth, $location, Account, $mdToast, $rootScope){
 	// register new user
 	$scope.newUser = {};
