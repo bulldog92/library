@@ -1,9 +1,9 @@
-app.controller('NavCtrl',['$scope', '$auth', '$rootScope','Account', function($scope, $auth, $rootScope, Account){
+app.controller('NavCtrl',['$scope', '$auth', '$rootScope','Account', '$http', function($scope, $auth, $rootScope, Account, $http){
 	Account.setUser();
 	$scope.isAuthenticated = function() {
       return $auth.isAuthenticated();
     };
-    $scope.isAdmin = function() {
+  $scope.isAdmin = function() {
       if($auth.isAuthenticated()){
       	if($rootScope.user){
       		if($rootScope.user.role == 'admin'){

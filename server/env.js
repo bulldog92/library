@@ -4,7 +4,7 @@ var path = require('path'),
 module.exports = {
 	development: {
 		rootPath: rootPath,
-		db: 'mongodb://localhost/mean-starter',
+		db: 'mongodb://mean-user:K2oQGn@localhost/mean-starter',
 		port: process.env.PORT || 3000
 	},
 	production: {

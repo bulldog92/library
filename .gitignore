@@ -4,3 +4,5 @@ npm-debug.log
 public/bower_components
 public/minjs
 public/mincss
+servers_files
+server/env.js

@@ -17,6 +17,7 @@ autoIncrement.initialize(connection);
 require('./server/models/user');
 require('./server/models/servers');
 require('./server/models/sites');
+require('./server/models/options');
 
 // EXPRESS CONFIG
 app.use(bodyParser.json());
@@ -34,7 +35,9 @@ var userRoutes = require('./server/routing/user');
 var meRoutes = require('./server/routing/me');
 var serversRoutes = require('./server/routing/servers');
 var allRoutes = require('./server/routing/all');
+var apiRoutes = require('./server/routing/api');
 //app.use('/', indexRoutes);
+app.use('/api', apiRoutes);
 app.use('/api', userRoutes);
 app.use('/api/sites', sitesRoutes);
 app.use('/auth', authRoutes);
