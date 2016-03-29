@@ -7,6 +7,7 @@ var express = require('express'),
 	app = express();
 	autoIncrement = require('mongoose-auto-increment');
 
+
 // ENVIRONMENT CONFIG
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
 	envConfig = require('./server/env')[env];
@@ -44,6 +45,13 @@ app.use('/auth', authRoutes);
 app.use('/api/me', meRoutes);
 app.use('/api/servers', serversRoutes);
 app.use('/*', allRoutes);
+
+
+/*Parse config servers*/
+var	parserConfig = require('./server/models/parser_config'); 
+parserConfig.addServerForSite().then(function(data){
+	parserConfig.writeSites(data);
+});
 
 
 // Start server
