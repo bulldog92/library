@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 // define schema
 var SitesSchema = new mongoose.Schema({
-    domain: { type: String},
+    domain: { type: String, unique: true},
     date: { type: Date },
     ip: String,
     server: String,
