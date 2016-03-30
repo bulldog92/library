@@ -87,8 +87,8 @@ function addServerForSite(sitesArr){
 				var site = sitesArr[i];
 				for (var j = 0; j < servers.length; j++) {
 					if (servers[j].ip.indexOf(site.ip) > -1){
-					  site.server = servers[j].name;
-					  sitesWithServer.push(site);
+						site.server = servers[j].name;
+						sitesWithServer.push(site);
 					}
 				}
 			}
@@ -102,6 +102,7 @@ function addServerForSite(sitesArr){
 
 function writeSites(sites){
 	var deferred = Q.defer();
+	var count = 0;
 	for (var i = 0; i < sites.length; i++){
 		var site = sites[i];
 		var newSite = new Sites({
@@ -113,59 +114,82 @@ function writeSites(sites){
 			errorLog: site.errorLog
 		});
 		newSite.save(function(err){
+			count++;
+			if(count == sites.length){
+				deferred.resolve({sites: 'done'});
+			}
 			if (err) {
-				console.error('site already exists');
-				deferred.reject(err);
+				//console.error('site already exists');
 				return;
 			}
 			console.log('save');
-			deferred.resolve({sites: 'done'});
 		})
-
-		/*Sites.update({
-			domain: site.domain
-		}, {$set:{
-			ip: site.ip,
-			date: date(),
-			server: site.server,
-			documentRoot: site.documentRoot,
-			errorLog: site.errorLog
-		}}, function(err){
-			if(err){
-				console.log(err);
-			}
-			console.log('update');
-		})*/			
 	}
 	return deferred.promise;
 }
 
+function checkServer(siteIp, servers){
+	for (var i = 0; i < servers.length; i++) {
+		if(servers[i].ip.indexOf(siteIp) > -1){
+			return servers[i].name;
+		}
+	}
+}
+
 
 function sitesEqual(sites){
-	for (var i = 0; i < sites.length; i++){
-		Sites.findOne({domain: site.domain}, function(err, result){
-			if(err){
-				console.log(err);
-				return;
-			}
-			if(result){
-				//console.log(result);
-				for (var j = 0; j < sites.length; j++){
-					//console.log(sites[j]);
-					if (result.domain == sites[j].domain) {
-						console.log( result.domain +' уже есть в базе');
+	var servers = Servers.find({});
+	servers.then(function(serversArr){
+		var servers = serversArr;
+		/*cycle start
+			*
+		*/
+		for (var i = 0; i < sites.length; i++){
+			var site = sites[i];
+			Sites.findOne({domain: site.domain}, function(err, result){
+				if(err){
+					console.log(err);
+					return;
+				}
+				if(result){
+					//console.log(result);
+					for (var j = 0; j < sites.length; j++){
+						if (result.domain == sites[j].domain) {
+							//console.log(result);
+							//console.log( result.domain +' уже есть в базе');
+							if (result.documentRoot == sites[j].documentRoot && result.errorLog == sites[j].errorLog && result.ip == sites[j].ip){
+								console.log('Сайты совпадают');
+								continue;
+							}
+								var objectSet = {
+									documentRoot: sites[j].documentRoot,
+									errorLog: sites[j].errorLog,
+									ip: sites[j].ip,
+									server: checkServer(sites[j].ip, servers)
+								}
+								Sites.update({domain: sites[j].domain},{$set:objectSet}, function(err){
+									if (err){
+										console.log(err);
+										return;
+									}
+									console.log('Сайт обновлен');
+								})
+						}
 					}
 				}
-			}else{
-				console.log('создать новый');
-
-			}
-		});
-	}
+			});
+		}
+		/*cycle end*/
+	}, function(err){
+		if(err){
+			console.log(err);
+		}
+	});
+	/**/
 }
 /*Mongodb add sites to sites collection end*/
 module.exports = {
-	parseConfig: parseConfig,
+	sitesEqual: sitesEqual,
 	writeSites:	writeSites,
 	addServerForSite : addServerForSite
 }
