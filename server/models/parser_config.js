@@ -18,10 +18,12 @@ function parseConfig(){
 			var siteIp = getIpRegex(array[i]);
 			var siteDomain = getDomain(array[i]);
 			var siteDocumentRoot = getDocumentRoot(array[i]);
-			if(siteIp && siteDomain && siteDocumentRoot){
+			var siteErrorLog = getErrorLog(array[i]); 
+			if(siteIp && siteDomain && siteDocumentRoot && siteErrorLog){
 				objectSite['ip'] = siteIp;
 				objectSite['domain'] = siteDomain;
 				objectSite['documentRoot'] = siteDocumentRoot;
+				objectSite['errorLog'] = siteErrorLog;
 				objectArr.push(objectSite);
 			}
 		}
@@ -60,6 +62,16 @@ function getDocumentRoot(siteConfig){
 		return false;
 	}
 }
+
+function getErrorLog(siteConfig){
+	var regErrorLog = siteConfig.match(/ErrorLog[^\n\t\r]*/);
+	if(regErrorLog){
+		var siteErrorLog = regErrorLog[0].split(' ');
+		return siteErrorLog[1];
+	}else{
+		return false;
+	}
+}
 /* regExp to get config info end*/
 
 /*Mongodb add sites to sites collection start*/
@@ -89,6 +101,7 @@ function addServerForSite(sitesArr){
 };
 
 function writeSites(sites){
+	var deferred = Q.defer();
 	for (var i = 0; i < sites.length; i++){
 		var site = sites[i];
 		var newSite = new Sites({
@@ -96,15 +109,58 @@ function writeSites(sites){
 			ip: site.ip,
 			date: date(),
 			server: site.server,
-			documentRoot: site.documentRoot
+			documentRoot: site.documentRoot,
+			errorLog: site.errorLog
 		});
 		newSite.save(function(err){
 			if (err) {
-				console.log(err);
+				console.error('site already exists');
+				deferred.reject(err);
 				return;
 			}
 			console.log('save');
-		})			
+			deferred.resolve({sites: 'done'});
+		})
+
+		/*Sites.update({
+			domain: site.domain
+		}, {$set:{
+			ip: site.ip,
+			date: date(),
+			server: site.server,
+			documentRoot: site.documentRoot,
+			errorLog: site.errorLog
+		}}, function(err){
+			if(err){
+				console.log(err);
+			}
+			console.log('update');
+		})*/			
+	}
+	return deferred.promise;
+}
+
+
+function sitesEqual(sites){
+	for (var i = 0; i < sites.length; i++){
+		Sites.findOne({domain: site.domain}, function(err, result){
+			if(err){
+				console.log(err);
+				return;
+			}
+			if(result){
+				//console.log(result);
+				for (var j = 0; j < sites.length; j++){
+					//console.log(sites[j]);
+					if (result.domain == sites[j].domain) {
+						console.log( result.domain +' уже есть в базе');
+					}
+				}
+			}else{
+				console.log('создать новый');
+
+			}
+		});
 	}
 }
 /*Mongodb add sites to sites collection end*/
