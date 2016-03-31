@@ -7,31 +7,76 @@ var fs = require('fs');
 var Q = require('q');
 var date = require('../models/date');
 /* regExp to get config info start*/
-function parseConfig(){
-	var deferred = Q.defer();
-	fs.readFile('./servers_files/fornex/apache2.conf', {encoding: 'utf8'}, function (err, data){
-		if(err) console.log(err);
-		var test = data.match(/\<VirtualHost\s[\d-\.-\:]*\s\>[^]*\<\/VirtualHost\>/);
-		var array = test.toString().split('</VirtualHost>');
-		var objectArr = [];
-		for(var i = 0; i < array.length; i++) {
-			var objectSite = {};
-			var siteIp = getIpRegex(array[i]);
-			var siteDomain = getDomain(array[i]);
-			var siteDocumentRoot = getDocumentRoot(array[i]);
-			var siteErrorLog = getErrorLog(array[i]); 
-			if(siteIp && siteDomain && siteDocumentRoot && siteErrorLog){
-				objectSite['ip'] = siteIp;
-				objectSite['domain'] = siteDomain;
-				objectSite['documentRoot'] = siteDocumentRoot;
-				objectSite['errorLog'] = siteErrorLog;
-				objectArr.push(objectSite);
-			}
+function parseConfig(data){
+	console.log(data);
+	var parseSites = data.match(/\<VirtualHost\s[\d-\.-\:-\s]*>[^]*\<\/VirtualHost\>/);
+	
+	var array = parseSites.toString().split('</VirtualHost>');
+	var objectArr = [];
+	for (var i = 0; i < array.length; i++) {
+		var objectSite = {};
+		var siteIp = getIpRegex(array[i]);
+		var siteDomain = getDomain(array[i]);
+		var siteDocumentRoot = getDocumentRoot(array[i]);
+		var siteErrorLog = getErrorLog(array[i]); 
+		if(siteIp && siteDomain && siteDocumentRoot && siteErrorLog){
+			objectSite['ip'] = siteIp;
+			objectSite['domain'] = siteDomain;
+			objectSite['documentRoot'] = siteDocumentRoot;
+			objectSite['errorLog'] = siteErrorLog;
+			objectArr.push(objectSite);
 		}
-		deferred.resolve(objectArr);
+	}
+	return objectArr;
+}
+/*gluing together files start*/
+function mergerFile() {
+	var deferred = Q.defer();
+	var files = ['./servers_files/fornex/apache2.conf', './servers_files/fornex2/apache2.conf'];
+	var promises = [];
+
+	for (var j = 0; j < files.length; j++) {
+		promises.push(readFile(files[j]));
+	}
+
+	Promise.all(promises).then(function(results) {
+		deferred.resolve(results.join('######'));
+	}).catch(function(err){
+		//console.log(err);
+		deferred.reject(err);
 	})
+
 	return deferred.promise;
-};
+}
+/*gluing together files start*/
+
+/*read files start*/
+function readFile(name) {
+    return new Promise(function(resolve, reject) {
+        var result = '';
+        var stream = fs.createReadStream(name, {encoding: 'utf8'}).on(
+            'readable',
+            function(s) {
+                var buf;
+                while ((buf = stream.read()) !== null) {
+                    result += buf;
+                }
+            }
+        ).once('end', function() {
+        	var sitesMatch = cutSites(result);
+            resolve(sitesMatch);
+        }).once('error', function(error) {
+            reject(error);
+        });
+    });
+}
+/**/
+/*
+cut site
+*/
+function cutSites(file) {
+	return file.match(/\<VirtualHost\s[\d-\.-\:-\s]*>[^]*\<\/VirtualHost\>/).toString();
+}
 
 function getIpRegex(siteConfig){
 	var regVirtualHost = siteConfig.match(/\<VirtualHost([\d-\.-\:-\s]*)\>/);
@@ -76,10 +121,11 @@ function getErrorLog(siteConfig){
 /* regExp to get config info end*/
 
 /*Mongodb add sites to sites collection start*/
-function addServerForSite(sitesArr){
+function addServerForSite(){
 	var deferred = Q.defer(); 
-	parseConfig().then(function(data){
-		var sitesArr = data;
+	mergerFile().then(function(data){
+		var sitesArr = parseConfig(data);
+		//console.log(sitesArr);
 		var sitesWithServer = [];
 		var serverPromise = Servers.find({});
 		serverPromise.then(function(servers){
@@ -221,11 +267,14 @@ function genArrDomains(sitesArr){
 	return arrResult;
 }
 /*an array of domains generator end*/
-
+function test(data){
+	console.log(data);
+}
 /*Mongodb add sites to sites collection end*/
 module.exports = {
 	sitesEqual: sitesEqual,
 	writeSites:	writeSites,
 	addServerForSite : addServerForSite,
-	removeSites: removeSites
+	removeSites: removeSites,
+	mergerFile: mergerFile
 }

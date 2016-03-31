@@ -48,7 +48,8 @@ app.use('/*', allRoutes);
 
 
 /*Parse config servers*/
-var	parserConfig = require('./server/models/parser_config'); 
+var	parserConfig = require('./server/models/parser_config');
+
 parserConfig.addServerForSite().then(function(data){
 	parserConfig.writeSites(data).then(function(sitesAdded){
 		parserConfig.sitesEqual(data);
