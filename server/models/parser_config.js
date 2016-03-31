@@ -1,3 +1,4 @@
+'use strict';
 var path = require('path');
 var mongoose = require('mongoose');
 var Servers = mongoose.model('Servers');
@@ -185,11 +186,46 @@ function sitesEqual(sites){
 			console.log(err);
 		}
 	});
-	/**/
 }
+
+/*
+ removes the site if it is not in the database
+*/
+
+function removeSites(sitesParse){
+	var sitesOnDbPromise = Sites.find({});
+	sitesOnDbPromise.then(function(sitesOnDb){
+		var sitesDomainsArr = genArrDomains(sitesParse);
+		for (var i = 0; i < sitesOnDb.length; i++) {
+				if( !~(sitesDomainsArr.indexOf(sitesOnDb[i].domain)) ) {
+					Sites.remove({domain: sitesOnDb[i].domain}, function(err){
+						if(err){
+							console.log(err);
+							return;
+						}
+						console.log('delete');
+					});
+				}
+		}
+	}, function(err){
+		console.log(err);
+	})
+}
+
+/*an array of domains generator start*/
+function genArrDomains(sitesArr){
+	var arrResult = [];
+	for (var i = 0; i < sitesArr.length; i++) {
+		arrResult.push(sitesArr[i].domain);
+	}
+	return arrResult;
+}
+/*an array of domains generator end*/
+
 /*Mongodb add sites to sites collection end*/
 module.exports = {
 	sitesEqual: sitesEqual,
 	writeSites:	writeSites,
-	addServerForSite : addServerForSite
+	addServerForSite : addServerForSite,
+	removeSites: removeSites
 }

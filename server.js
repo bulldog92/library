@@ -52,6 +52,7 @@ var	parserConfig = require('./server/models/parser_config');
 parserConfig.addServerForSite().then(function(data){
 	parserConfig.writeSites(data).then(function(sitesAdded){
 		parserConfig.sitesEqual(data);
+		parserConfig.removeSites(data);
 	},function(err){
 		console.log(err);
 	})
