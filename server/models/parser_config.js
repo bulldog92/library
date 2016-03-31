@@ -8,9 +8,7 @@ var Q = require('q');
 var date = require('../models/date');
 /* regExp to get config info start*/
 function parseConfig(data){
-	console.log(data);
 	var parseSites = data.match(/\<VirtualHost\s[\d-\.-\:-\s]*>[^]*\<\/VirtualHost\>/);
-	
 	var array = parseSites.toString().split('</VirtualHost>');
 	var objectArr = [];
 	for (var i = 0; i < array.length; i++) {
