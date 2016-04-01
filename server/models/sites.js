@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
 // define schema
 var SitesSchema = new mongoose.Schema({
     domain: { type: String, unique: true},

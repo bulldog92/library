@@ -8,7 +8,9 @@ var ServersSchema = new mongoose.Schema({
   name: { type: String, unique: true},
   pass: { type: String, select: true },
   ip: [String],
-  user: ServerUser
+  user: ServerUser,
+  host: String,
+  fileUrl: String
 });
 // register schema
 mongoose.model('Servers', ServersSchema);
