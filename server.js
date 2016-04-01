@@ -58,7 +58,7 @@ ftp call start
 */
 
 
-var	sftp = require('./server/models/files_uploader');
+var	sftp = require('./server/models/files_downloader');
 	sftp.configServer().then(function(data){
 		console.log(data);
 	})
