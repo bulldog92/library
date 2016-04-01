@@ -55,6 +55,8 @@
                 <th md-column md-order-by="date"><span>Date</span></th>
                 <th md-column md-order-by="ip"><span>IP</span></th>
                 <th md-column md-order-by="server"><span>Server</span></th>
+                <th md-column md-order-by="documentRoot"><span>DocumentRoot</span></th>
+                <th md-column md-order-by="errorLog"><span>ErrorLog</span></th>
                 <th md-column><span>Action</span></th>
               </tr>
             </thead>
@@ -65,6 +67,8 @@
                 <td md-cell>{{site.date | date:"dd.MM.yyyy"}}</td>
                 <td md-cell>{{site.ip}}</td>
                 <td md-cell>{{site.server}}</td>
+                <td md-cell>{{site.documentRoot}}</td>
+                <td md-cell>{{site.errorLog}}</td>
                 <td md-cell>
                     <md-button class="md-raised md-primary" ng-click='editSite($event, site)'>Изменить</md-button>
                     <md-button class="md-raised btn__align-icon" ng-click='delSite($event, site)'>

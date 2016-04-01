@@ -183,15 +183,18 @@ function checkServer(siteIp, servers){
 
 
 function sitesEqual(sites){
+	var deferredIn = Q.defer();
 	var servers = Servers.find({});
 	servers.then(function(serversArr){
 		var servers = serversArr;
+		var promiseArr = [];
 		/*cycle start
 			*
 		*/
 		for (var i = 0; i < sites.length; i++){
 			var site = sites[i];
 			Sites.findOne({domain: site.domain}, function(err, result){
+				var sitesForUpdate = [];
 				if(err){
 					console.log(err);
 					return;
@@ -207,29 +210,59 @@ function sitesEqual(sites){
 								continue;
 							}
 								var objectSet = {
+									domain: sites[j].domain,
 									documentRoot: sites[j].documentRoot,
 									errorLog: sites[j].errorLog,
 									ip: sites[j].ip,
 									server: checkServer(sites[j].ip, servers)
 								}
-								Sites.update({domain: sites[j].domain},{$set:objectSet}, function(err){
-									if (err){
-										console.log(err);
-										return;
-									}
-									console.log('Сайт обновлен');
-								})
+								sitesForUpdate.push(objectSet);
 						}
 					}
+					/*Update sites function start*/
+					for (var k = 0; k < sitesForUpdate.length; k++) {
+						promiseArr.push(updaterSites(sitesForUpdate[k]));
+					}
+
+
+
+					Promise.all(promiseArr).then(function(results) {
+						deferredIn.resolve('сайты обновлены');
+					}).catch(function(err){
+						deferredIn.reject(err);
+					})
+
+
+
+
+					function updaterSites(siteUpdate) {
+						return new Promise(function(resolve, reject) {
+							Sites.update({domain: siteUpdate.domain}, {$set:{
+								documentRoot: siteUpdate.documentRoot,
+								errorLog: siteUpdate.errorLog,
+								ip: siteUpdate.ip,
+								server: siteUpdate.server
+							}}, function(err) {
+								if(err) {
+									reject();
+									return;
+								}
+								console.log('update');
+								resolve();
+							})
+						})
+					}
+					/*Update sites function end*/
 				}
 			});
 		}
 		/*cycle end*/
 	}, function(err){
 		if(err){
-			console.log(err);
+			deferredIn.reject(err);
 		}
 	});
+return deferredIn.promise;
 }
 
 /*
@@ -264,15 +297,20 @@ function genArrDomains(sitesArr){
 	}
 	return arrResult;
 }
-/*an array of domains generator end*/
-function test(data){
-	console.log(data);
+
+function parserGo(){
+	addServerForSite().then(function(data){
+		writeSites(data).then(function(sitesAdded){
+			sitesEqual(data).then(function(){
+				removeSites(data);
+			}, function(err){
+				console.log(err);
+			})
+		})
+	});
 }
+/*an array of domains generator end*/
 /*Mongodb add sites to sites collection end*/
 module.exports = {
-	sitesEqual: sitesEqual,
-	writeSites:	writeSites,
-	addServerForSite : addServerForSite,
-	removeSites: removeSites,
-	mergerFile: mergerFile
+	parserGo: parserGo
 }
