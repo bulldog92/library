@@ -149,28 +149,43 @@ function addServerForSite(files){
 function writeSites(sites){
 	var deferred = Q.defer();
 	var count = 0;
-	for (var i = 0; i < sites.length; i++){
-		var site = sites[i];
-		var newSite = new Sites({
-			domain: site.domain,
-			ip: site.ip,
-			date: date(),
-			server: site.server,
-			documentRoot: site.documentRoot,
-			errorLog: site.errorLog
-		});
-		newSite.save(function(err){
-			count++;
-			if(count == sites.length){
-				deferred.resolve({sites: 'done'});
+	var arrAdd = [];
+	Sites.find({}).then(function(sitesDb){
+		var arrDominsDb = genArrDomains(sitesDb);
+		for (var j = 0; j < sites.length; j++) {
+			if (!~arrDominsDb.indexOf(sites[j].domain)) {
+				arrAdd.push(sites[j]);
 			}
-			if (err) {
-				//console.error('site already exists');
-				return;
+		}
+		if(arrAdd.length){
+			for (var i = 0; i < arrAdd.length; i++){
+				var site = arrAdd[i];
+				var newSite = new Sites({
+					domain: site.domain,
+					ip: site.ip,
+					date: date(),
+					server: site.server,
+					documentRoot: site.documentRoot,
+					errorLog: site.errorLog
+				});
+				newSite.save(function(err){
+					count++;
+					if(count == arrAdd.length){
+						deferred.resolve(arrAdd);
+					}
+					if (err) {
+						//console.error('site already exists');
+						return;
+					}
+					console.log('save');
+				})
 			}
-			console.log('save');
-		})
-	}
+		}else{
+			deferred.resolve('сайты существуют');
+		}
+	}, function(err){
+			deferred.reject(err);
+	})
 	return deferred.promise;
 }
 

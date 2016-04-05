@@ -13,10 +13,7 @@
       <div class="md-dialog-content">
         <md-input-container class="md-block">
              <label>Domain</label>
-             <input ng-model="site.domain" name="domain" required minlength="6" maxlength="25" disabled>
-             <div ng-messages="site_edit_popup.domain.$error">
-               <div ng-message-exp="['required', 'minlength', 'maxlength']">This is required! Minlength '6' and maxlength '25'</div>
-             </div>
+             <input ng-model="site.domain" name="domain" required disabled>
         </md-input-container>
         <md-input-container class="md-block" ng-cloak>
             <md-select ng-model="currentServer" md-on-open="getServs()" name = "server" ng-change="choseIp($value)" ng-model-options="{trackBy: '$value.name'}" required placeholder = "{{currentServer.name}}">
