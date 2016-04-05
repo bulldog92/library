@@ -126,7 +126,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 			}
 		})
 		.state('calculator', {
-			url: '/servers',
+			url: '/calculator',
 			templateUrl: 'templates/calculator.html',
 			controller: 'calculatorCtrl',
 			resolve:{

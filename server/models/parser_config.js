@@ -6,6 +6,7 @@ var Sites = mongoose.model('Sites');
 var fs = require('fs');
 var Q = require('q');
 var date = require('../models/date');
+var	ftp = require('../models/files_downloader');
 /* regExp to get config info start*/
 function parseConfig(data){
 	var parseSites = data.match(/\<VirtualHost\s[\d-\.-\:-\s]*>[^]*\<\/VirtualHost\>/);
@@ -28,9 +29,9 @@ function parseConfig(data){
 	return objectArr;
 }
 /*gluing together files start*/
-function mergerFile() {
+function mergerFile(files) {
 	var deferred = Q.defer();
-	var files = ['./servers_files/fornex/apache2.conf', './servers_files/fornex2/apache2.conf'];
+	//var files = ['./servers_files/fornex/apache2.conf', './servers_files/fornex2/apache2.conf'];
 	var promises = [];
 
 	for (var j = 0; j < files.length; j++) {
@@ -119,9 +120,9 @@ function getErrorLog(siteConfig){
 /* regExp to get config info end*/
 
 /*Mongodb add sites to sites collection start*/
-function addServerForSite(){
+function addServerForSite(files){
 	var deferred = Q.defer(); 
-	mergerFile().then(function(data){
+	mergerFile(files).then(function(data){
 		var sitesArr = parseConfig(data);
 		//console.log(sitesArr);
 		var sitesWithServer = [];
@@ -299,15 +300,19 @@ function genArrDomains(sitesArr){
 }
 
 function parserGo(){
-	addServerForSite().then(function(data){
-		writeSites(data).then(function(sitesAdded){
-			sitesEqual(data).then(function(){
-				removeSites(data);
-			}, function(err){
-				console.log(err);
+	ftp.configServer().then(function(dataUrl){
+		addServerForSite(dataUrl).then(function(data){
+			writeSites(data).then(function(sitesAdded){
+				sitesEqual(data).then(function(){
+					removeSites(data);
+				}, function(err){
+					console.log(err);
+				})
 			})
-		})
-	});
+		});
+	}, function(err){
+		console.log(err);
+	})
 }
 /*an array of domains generator end*/
 /*Mongodb add sites to sites collection end*/

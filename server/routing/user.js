@@ -4,16 +4,23 @@ var express = require('express'),
   User = mongoose.model('User'),
   rootPath = path.normalize(__dirname + '/../'),
   router = express.Router();
-
+var utils = require('../utils');
 var mailer = require('../mailer');
 var validator = require('validator');
 
 
 
 /*all api*/
-router.all('/*', function(req, res, next){
-  console.log('secure');
-  next();
+router.all('/*', utils.ensureAuthenticated, function(req, res, next){
+  console.log(req.user);
+  if(req.user){
+    User.findById(req.user, function(err, user){
+      if(err){
+        return res.status(401).send({message: 'Access allowed only for registered users'})
+      }
+      next();
+    })
+  }
 });
 
 

@@ -6,4 +6,5 @@ public/minjs
 public/mincss
 servers_files
 server/env.js
+backup/mean-starter
 backup

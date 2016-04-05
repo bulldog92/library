@@ -48,25 +48,10 @@ app.use('/*', allRoutes);
 
 
 /*Parse config servers*/
-//var	parserConfig = require('./server/models/parser_config');
+var	parserConfig = require('./server/models/parser_config');
 
-//parserConfig.parserGo();
+parserConfig.parserGo();
 /*Parse config servers end*/
-/*
-
-ftp call start 
-*/
-
-
-var	sftp = require('./server/models/files_downloader');
-	sftp.configServer().then(function(data){
-		console.log(data);
-	})
-
-
-/*
-ftp call end
-*/
 
 // Start server
 app.listen(envConfig.port, function(){
