@@ -175,6 +175,7 @@ function writeSites(sites){
 					}
 					if (err) {
 						//console.error('site already exists');
+						deferred.reject(err);
 						return;
 					}
 					console.log('save');

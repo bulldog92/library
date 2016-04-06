@@ -19,8 +19,9 @@ function uploadFile(config) {
 				password: config.user.pass
 			}).then(function(serverMess){
 				mkdirp(directoryUri + config.name, function(){
-					sftp.fastGet(config.fileUrl, directoryUri + config.name + '/apache2.conf').then(function(){
-						deffered.resolve(directoryUri + config.name + '/apache2.conf');
+					var dirName = directoryUri + config.name + '/apache2.conf';
+					sftp.fastGet(config.fileUrl, dirName).then(function(){
+						deffered.resolve(dirName);
 						sftp.end();
 					});
 				})
