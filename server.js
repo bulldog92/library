@@ -5,7 +5,8 @@ var express = require('express'),
     methodOverride = require('method-override'),
 	cors = require('cors'),
 	app = express(),
-	autoIncrement = require('mongoose-auto-increment');
+	autoIncrement = require('mongoose-auto-increment'),
+	schedule = require('node-schedule');
 
 
 // ENVIRONMENT CONFIG
@@ -52,6 +53,18 @@ var	parserConfig = require('./server/models/parser_config');
 
 parserConfig.parserGo();
 /*Parse config servers end*/
+
+/*Cron job sync all servers*/
+/*
+var parserConfig = require('./server/models/parser_config');
+var j = schedule.scheduleJob('0 40 08 * * *', function(){
+  console.log('The answer to life, the universe, and everything!');
+	parserConfig.parserGo();
+});
+console.log(new Date());
+*/
+/*Cron job end*/
+
 
 // Start server
 app.listen(envConfig.port, function(){

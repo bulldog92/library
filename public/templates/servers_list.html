@@ -13,9 +13,11 @@
   	    <thead md-head md-order="domain" md-on-reorder="logOrder">
   	      <tr md-row>
   	      	<th md-column md-numeric><span>№</span></th>
-  	        <th md-column md-order-by="name_server"><span>Name</span></th>
-  	        <th md-column md-order-by="pass_server"><span>Password</span></th>
-  	        <th md-column md-order-by="ip_server"><span>IP</span></th>
+  	        <th md-column md-order-by="name"><span>Name</span></th>
+  	        <th md-column md-order-by="ip"><span>IP</span></th>
+  	        <th md-column md-order-by="root_pass"><span>Root password</span></th>
+            <th md-column md-order-by="user_pass"><span>User password</span></th>
+            <th md-column md-order-by="path_config"><span>Path config</span></th>
   	        <th md-column><span>Action</span></th>
   	      </tr>
   	    </thead>
@@ -23,8 +25,10 @@
   	      <tr md-row ng-repeat="server in arrServers track by $index">
   	        <td md-cell>{{$index + 1}}</td>
   	        <td md-cell>{{server.name}}</td>
-  	        <td md-cell>{{server.pass}}</td>
   	        <td md-cell>{{server.ip}}</td>
+  	        <td md-cell>{{server.root_pass}}</td>
+            <td md-cell>{{server.user_pass}}</td>
+            <td md-cell>{{server.path_config}}</td>
   	        <td md-cell>
   	        	<md-button class="md-raised md-primary" ng-click='editServer($event, server)'>Изменить</md-button>
   	        	<md-button class="md-raised btn__align-icon" ng-click='deleteServer($event, server)'>

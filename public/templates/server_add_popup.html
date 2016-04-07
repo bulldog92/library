@@ -19,11 +19,29 @@
              </div>
         </md-input-container>
         <md-input-container class="md-block">
-             <label>Password</label>
-             <input ng-model="newServer.pass" name="pass" required minlength="6" maxlength="35">
-             <div ng-messages="server_add_popup.pass.$error">
+             <label>Root password</label>
+             <input ng-model="newServer.root_pass" name="root_pass" required minlength="6" maxlength="35">
+             <div ng-messages="server_add_popup.root_pass.$error">
                <div ng-message-exp="['required', 'minlength', 'maxlength']">
                  This is required!  Minlength '6' and maxlength '25'.
+               </div>
+             </div>             
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>User password</label>
+             <input ng-model="newServer.user_pass" name="user_pass" required minlength="6" maxlength="35">
+             <div ng-messages="server_add_popup.user_pass.$error">
+               <div ng-message-exp="['required', 'minlength', 'maxlength']">
+                 This is required!  Minlength '6' and maxlength '25'.
+               </div>
+             </div>             
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>Config path</label>
+             <input ng-model="newServer.path_config" name="path_config" required>
+             <div ng-messages="server_add_popup.path_config.$error">
+               <div ng-message-exp="['required']">
+                 This is required!
                </div>
              </div>             
         </md-input-container>

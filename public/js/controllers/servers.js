@@ -80,7 +80,7 @@ app.controller('ServersListCtrl',['$scope', 'Servers', '$mdDialog', '$mdToast', 
 	    clickOutsideToClose:true,
 	    bindToController: true,
 	    locals: {
-	    	currentSite: {},
+	    	currentServer: {},
 	    	reloadServers: reloadServers
 	    }
 	  })
