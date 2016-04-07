@@ -24,12 +24,11 @@ var validator = require('validator');
 */
 router.get('/', function(req, res){
   if(req.query.filter){
-    var replaceStr = req.query.filter.replace( /\\+/, '');
-    var regex = new RegExp(replaceStr,'i');
+    var replaceStr = req.query.filter.replace( /[\\\)\(\[\]\\*\+\&]+/gmi, '');
     function genQuery(arr){
       var query = [];
 
-      var regex = new RegExp(replaceStr,'i');
+      var regex = new RegExp(replaceStr,'gmi');
       if(!arr){
         query = [{domain: regex}, {ip: regex}, {server: regex}];
         return query;
