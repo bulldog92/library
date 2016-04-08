@@ -19,6 +19,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	$scope.changeDate = changeDate;
 	$scope.getSitesFilter = getSitesFilter;
 	$scope.showPopupOne = showPopupOne;
+	$scope.showPopupFtp = showPopupFtp;
 
 	function toggle(item) {
 		var idx = $scope.query.selected.indexOf(item);
@@ -125,7 +126,6 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 		}else{
 			$scope.promiseSites = Sites.getSites();
 			$scope.promiseSites.then(function(data){
-				console.log(data);
 				$scope.arrSites = data.sites;
 				$scope.site.count = data.count;
 			}, function(err){
@@ -135,7 +135,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	};
 	reloadSites();
 
-	/*Document Root popup start*/
+	/*Document popup one prop start*/
 	function showPopupOne(ev, onePopupInfo, nameTitle) {
 		$mdDialog.show({
 		  controller: 'onePopupInfo',
@@ -150,9 +150,31 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 		  }
 		})
 	}
-	/*Document Root poup end*/
+	/*Document popup one prop end*/
+	/*
+		popup ftp start
+	*/
+
+	function showPopupFtp(ev, serverName, ip) {
+		$mdDialog.show({
+		  controller: 'popupFtpCtrl',
+		  templateUrl: '../templates/site_popup_ftp.html',
+		  parent: angular.element(document.body),
+		  targetEvent: ev,
+		  clickOutsideToClose:true,
+		  bindToController: true,
+		  locals: {
+		  	serverName: serverName,
+		  	ip: ip
+		  }
+		})
+	}
 
 
+
+	/*
+		popup ftp start
+	*/
 
 	/*site start*/
 	$scope.editSite = function(ev, site){

@@ -55,8 +55,9 @@
                 <th md-column md-order-by="date"><span>Date</span></th>
                 <th md-column md-order-by="ip"><span>IP</span></th>
                 <th md-column md-order-by="server"><span>Server</span></th>
-                <th md-column md-order-by="documentRoot"><span>DocumentRoot</span></th>
-                <th md-column md-order-by="errorLog"><span>ErrorLog</span></th>
+                <th md-column><span>DocumentRoot</span></th>
+                <th md-column><span>ErrorLog</span></th>
+                <th md-column><span>Ftp</span></th>
                 <th md-column md-order-by="description"><span>Description</span></th>
                 <th md-column><span>Action</span></th>
               </tr>
@@ -78,9 +79,14 @@
                     <ng-md-icon icon="info" style="fill:#c1c1c1" size="38" aria-label="errorLog"></ng-md-icon>
                   </md-button>
                 </td>
+                <td md-cell>
+                  <md-button class="btn__align-icon" ng-click="showPopupFtp(ev, site.server, site.ip)">
+                    <ng-md-icon icon="cast_connected" style="fill:#c1c1c1" size="38" aria-label="fpt"></ng-md-icon>
+                  </md-button>
+                </td>
                 <td md-cell>{{site.description}}</td>
                 <td md-cell>
-                    <md-button class="md-raised md-primary" ng-click='editSite($event, site)'>Изменить</md-button>
+                    <md-button class="md-raised md-primary" ng-click='editSite($event, site)'>Edit</md-button>
                     <md-button class="md-raised btn__align-icon" ng-click='delSite($event, site)'>
                         <ng-md-icon icon="delete" style="fill:red" size="38" aria-label="Delete site"></ng-md-icon>
                     </md-button>
