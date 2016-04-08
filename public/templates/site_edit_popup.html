@@ -15,21 +15,25 @@
              <label>Domain</label>
              <input ng-model="site.domain" name="domain" required disabled>
         </md-input-container>
-        <md-input-container class="md-block" ng-cloak>
+        <!--md-input-container class="md-block" ng-cloak>
             <md-select ng-model="currentServer" md-on-open="getServs()" name = "server" ng-change="choseIp($value)" ng-model-options="{trackBy: '$value.name'}" required placeholder = "{{currentServer.name}}">
               <md-option ng-value="server" ng-repeat="server in servers">{{server.name}}</md-option>
             </md-select>
             <div ng-messages="site_edit_popup.server.$error">
               <div ng-message-exp="['required']">This is required!</div>
             </div>
-        </md-input-container>
-        <md-input-container class="md-block" ng-cloak>
-            <md-select ng-model="currentIp" placeholder="{{currentIp}}" ng-disabled="!currentServer.name" md-on-open="getIp(currentServer.name)" ng-model-options="{trackBy: '$value'}" name = "site" required>
+        </md-input-container-->
+        <!--md-input-container class="md-block" ng-cloak>
+            <md-select ng-model="currentIp" placeholder="{{currentIp}}" ng-disabled="!currentServer.name" md-on-open="getIp(currentServer.name)" ng-model-options="{trackBy: '$value'}" name = "site" required >
               <md-option ng-value="site_ip" ng-repeat="site_ip in site_ips">{{site_ip}}</md-option>
             </md-select> 
             <div ng-messages="site_add_popup.site.$error">
               <div ng-message-exp="['required']">This is required!</div>
             </div>
+        </md-input-container-->
+        <md-input-container class="md-block">
+          <label>Description</label>
+          <textarea ng-model="site.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
         </md-input-container>
       </div>
     </md-dialog-content>

@@ -7,7 +7,8 @@ var SitesSchema = new mongoose.Schema({
     ip: String,
     server: String,
     documentRoot: String,
-    errorLog: String
+    errorLog: String,
+    description: String
 });
 // register schema
 SitesSchema.plugin(autoIncrement.plugin, { model: 'Sites', field: 'site_id' ,startAt: 1, incrementBy: 1 });

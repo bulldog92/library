@@ -1,7 +1,7 @@
 <md-content class="md-padding">
-    <md-button class="md-fab md-primary btn__align-icon" aria-label="add site" ng-click="addSite($event)">
+    <!--md-button class="md-fab md-primary btn__align-icon" aria-label="add site" ng-click="addSite($event)">
         <ng-md-icon icon="add" style="fill:white" size="30" aria-label="add site"></ng-md-icon>
-    </md-button>
+    </md-button-->
     <md-card>
     <md-toolbar ng-hide="filter.show">
         <div class="md-toolbar-tools">
@@ -57,6 +57,7 @@
                 <th md-column md-order-by="server"><span>Server</span></th>
                 <th md-column md-order-by="documentRoot"><span>DocumentRoot</span></th>
                 <th md-column md-order-by="errorLog"><span>ErrorLog</span></th>
+                <th md-column md-order-by="description"><span>Description</span></th>
                 <th md-column><span>Action</span></th>
               </tr>
             </thead>
@@ -69,6 +70,7 @@
                 <td md-cell>{{site.server}}</td>
                 <td md-cell>{{site.documentRoot}}</td>
                 <td md-cell>{{site.errorLog}}</td>
+                <td md-cell>{{site.description}}</td>
                 <td md-cell>
                     <md-button class="md-raised md-primary" ng-click='editSite($event, site)'>Изменить</md-button>
                     <md-button class="md-raised btn__align-icon" ng-click='delSite($event, site)'>

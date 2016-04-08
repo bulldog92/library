@@ -253,6 +253,7 @@ function sitesEqual(sites){
 
 
 					function updaterSites(siteUpdate) {
+						console.log(siteUpdate);
 						return new Promise(function(resolve, reject) {
 							Sites.update({domain: siteUpdate.domain}, {$set:{
 								documentRoot: siteUpdate.documentRoot,

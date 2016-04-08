@@ -19,15 +19,6 @@
              </div>
         </md-input-container>
         <md-input-container class="md-block">
-             <label>Password</label>
-             <input ng-model="server.pass" name="pass" required minlength="6" maxlength="35">
-             <div ng-messages="server_edit_popup.pass.$error">
-               <div ng-message-exp="['required', 'minlength', 'maxlength']">
-                 This is required!  Minlength '6' and maxlength '25'.
-               </div>
-             </div>             
-        </md-input-container>
-        <md-input-container class="md-block">
              <label>Root password</label>
              <input ng-model="server.root_pass" name="root_pass" required minlength="6" maxlength="35">
              <div ng-messages="server_edit_popup.root_pass.$error">

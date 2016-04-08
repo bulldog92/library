@@ -95,14 +95,13 @@ router.get('/', function(req, res){
  |-----------------------
 */
 router.put('/', function(req, res){
-  if(req.body.domain != '' && req.body.ip != '' && req.body.server != '' && validator.isLength(req.body.server, {min:6, max:35}) ){
+  if(req.body.domain != '' && req.body.description != ''){
     Sites.findOne({_id: req.body._id}, function(err, site){
       if(err){
         res.status(500).end();
       }
       if(site){
-        site.ip = req.body.ip;
-        site.server = req.body.server;
+        site.description = req.body.description;
         site.save(function(err){
           if(err){
             res.status(500);
