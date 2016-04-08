@@ -68,8 +68,16 @@
                 <td md-cell>{{site.date | date:"dd.MM.yyyy"}}</td>
                 <td md-cell>{{site.ip}}</td>
                 <td md-cell>{{site.server}}</td>
-                <td md-cell>{{site.documentRoot}}</td>
-                <td md-cell>{{site.errorLog}}</td>
+                <td md-cell>
+                  <md-button class="btn__align-icon" ng-click="showPopupOne(ev, site.documentRoot, 'DocumentRoot')">
+                    <ng-md-icon icon="folder" style="fill:#c1c1c1" size="38" aria-label="documentRoot"></ng-md-icon>
+                  </md-button>
+                </td>
+                <td md-cell>
+                  <md-button class="btn__align-icon" ng-click="showPopupOne(ev, site.errorLog, 'ErrorLog')">
+                    <ng-md-icon icon="info" style="fill:#c1c1c1" size="38" aria-label="errorLog"></ng-md-icon>
+                  </md-button>
+                </td>
                 <td md-cell>{{site.description}}</td>
                 <td md-cell>
                     <md-button class="md-raised md-primary" ng-click='editSite($event, site)'>Изменить</md-button>

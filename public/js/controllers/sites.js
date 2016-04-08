@@ -18,6 +18,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	$scope.checkDate = checkDate;
 	$scope.changeDate = changeDate;
 	$scope.getSitesFilter = getSitesFilter;
+	$scope.showPopupOne = showPopupOne;
 
 	function toggle(item) {
 		var idx = $scope.query.selected.indexOf(item);
@@ -133,6 +134,25 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 		}
 	};
 	reloadSites();
+
+	/*Document Root popup start*/
+	function showPopupOne(ev, onePopupInfo, nameTitle) {
+		$mdDialog.show({
+		  controller: 'onePopupInfo',
+		  templateUrl: '../templates/site_popup_one.html',
+		  parent: angular.element(document.body),
+		  targetEvent: ev,
+		  clickOutsideToClose:true,
+		  bindToController: true,
+		  locals: {
+		  	onePopupInfo: onePopupInfo,
+		  	nameTitle: nameTitle
+		  }
+		})
+	}
+	/*Document Root poup end*/
+
+
 
 	/*site start*/
 	$scope.editSite = function(ev, site){

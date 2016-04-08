@@ -6,7 +6,8 @@ var app = angular.module('libraryApp', [
 	'ngMaterial',
 	'ngMessages',
 	'ngMdIcons',
-	'md.data.table'
+	'md.data.table',
+	'angular-clipboard'
 ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider){
