@@ -45,6 +45,24 @@
                </div>
              </div>             
         </md-input-container>
+        <md-input-container class="md-block">
+             <label>ISP Manager link</label>
+             <input ng-model="server.isp_link" name="isp_link" required>
+             <div ng-messages="server_edit_popup.isp_link.$error">
+               <div ng-message-exp="['required']">
+                 This is required!
+               </div>
+             </div>             
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>phpMyAdmin link</label>
+             <input ng-model="server.phpMyAdmin_link" name="phpMyAdmin_link" required>
+             <div ng-messages="server_edit_popup.phpMyAdmin_link.$error">
+               <div ng-message-exp="['required']">
+                 This is required!
+               </div>
+             </div>             
+        </md-input-container>
         <md-chips
           ng-model="server.ip"
           md-separator-keys="keys"

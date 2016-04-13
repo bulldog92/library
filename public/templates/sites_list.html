@@ -58,6 +58,8 @@
                 <th md-column><span>DocumentRoot</span></th>
                 <th md-column><span>ErrorLog</span></th>
                 <th md-column><span>Ftp</span></th>
+                <th md-column><span>ISP Manager</span></th>
+                <th md-column><span>phpMyAdmin</span></th>
                 <th md-column md-order-by="description"><span>Description</span></th>
                 <th md-column><span>Action</span></th>
               </tr>
@@ -84,11 +86,21 @@
                     <ng-md-icon icon="cast_connected" style="fill:#c1c1c1" size="38" aria-label="fpt"></ng-md-icon>
                   </md-button>
                 </td>
+                <td md-cell>                  
+                  <md-button class="btn__align-icon" href="/api/ispmr/{{site.server}}" target="_blank">
+                    <ng-md-icon icon="web" style="fill:#c1c1c1" size="38" aria-label="isp"></ng-md-icon>
+                  </md-button>
+                </td>
+                <td md-cell>
+                  <md-button class="btn__align-icon" href="/api/php_my_admin/{{site.server}}" target="_blank">
+                    <ng-md-icon icon="business" style="fill:#c1c1c1" size="38" aria-label="php_my_admin"></ng-md-icon>
+                  </md-button>
+                </td>
                 <td md-cell>{{site.description}}</td>
                 <td md-cell>
                     <md-button class="md-raised md-primary" ng-click='editSite($event, site)'>Edit</md-button>
                     <md-button class="md-raised btn__align-icon" ng-click='delSite($event, site)'>
-                        <ng-md-icon icon="delete" style="fill:red" size="38" aria-label="Delete site"></ng-md-icon>
+                        <ng-md-icon icon="delete" size="38" aria-label="Delete site"></ng-md-icon>
                     </md-button>
                 </td>
               </tr>

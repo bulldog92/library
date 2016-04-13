@@ -5,7 +5,9 @@ var ServersSchema = new mongoose.Schema({
   root_pass: { type: String, select: true },
   user_pass: { type: String, select: true },
   ip: [String],
-  path_config: String
+  path_config: String,
+  isp_link: String,
+  phpMyAdmin_link: String
 });
 // register schema
 mongoose.model('Servers', ServersSchema);

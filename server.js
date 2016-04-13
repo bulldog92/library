@@ -38,8 +38,12 @@ var meRoutes = require('./server/routing/me');
 var serversRoutes = require('./server/routing/servers');
 var allRoutes = require('./server/routing/all');
 var apiRoutes = require('./server/routing/api');
+var ispManager = require('./server/routing/isp');
+var phpMyAdmin = require('./server/routing/php_my_admin');
 //app.use('/', indexRoutes);
 app.use('/api', apiRoutes);
+app.use('/api/ispmr', ispManager);
+app.use('/api/php_my_admin', phpMyAdmin);
 app.use('/api', userRoutes);
 app.use('/api/sites', sitesRoutes);
 app.use('/auth', authRoutes);
@@ -51,7 +55,7 @@ app.use('/*', allRoutes);
 /*Parse config servers*/
 var	parserConfig = require('./server/models/parser_config');
 
-parserConfig.parserGo();
+//parserConfig.parserGo();
 /*Parse config servers end*/
 
 /*Cron job sync all servers*/
@@ -64,7 +68,6 @@ var j = schedule.scheduleJob('0 40 08 * * *', function(){
 console.log(new Date());
 */
 /*Cron job end*/
-
 
 // Start server
 app.listen(envConfig.port, function(){

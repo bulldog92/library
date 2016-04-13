@@ -22,8 +22,8 @@
 		        <td md-cell>{{user.date_born | date:"MM/dd/yyyy 'at' h:mma"}}</td>
 		        <td md-cell>
 		        	<md-button class="md-raised md-primary" ng-click='editUser($event, user)'>Edit</md-button>
-		        	<md-button ng-click='deleteUser($event, user)'>
-						<ng-md-icon icon="delete" style="fill:red" size="38" aria-label="Delete user"></ng-md-icon>
+		        	<md-button class="md-raised btn__align-icon" ng-click='deleteUser($event, user)'>
+						<ng-md-icon icon="delete" size="38" aria-label="Delete user"></ng-md-icon>
 		        	</md-button>
 		        </td>
 		      </tr>

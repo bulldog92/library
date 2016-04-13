@@ -25,8 +25,8 @@ router.get('/', function(req, res, next){
   					}
   					var resObj = {
   						ip: site.ip,
-  						login: server.user.login,
-  						pass: server.user.pass
+  						login: 'user',
+  						pass: server.user_pass
   					}
   					console.log(resObj);
   					Options.findOne({name: 'aes'}, function(err, options){
