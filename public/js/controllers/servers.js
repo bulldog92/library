@@ -1,5 +1,12 @@
 app.controller('ServersListCtrl',['$scope', 'Servers', '$mdDialog', '$mdToast', function($scope, Servers, $mdDialog, $mdToast){
 	'use strict'
+	$scope.query = {
+		filter: '',
+		order: 'name',
+		limit: '15',
+		page: 1,
+		selected: []
+	};
 	/*$scope.query = {
 		filter: '',
 		order: 'site_id',

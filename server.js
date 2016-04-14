@@ -54,8 +54,7 @@ app.use('/*', allRoutes);
 
 /*Parse config servers*/
 var	parserConfig = require('./server/models/parser_config');
-
-//parserConfig.parserGo();
+parserConfig.parserGo();
 /*Parse config servers end*/
 
 /*Cron job sync all servers*/
