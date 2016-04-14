@@ -19,7 +19,7 @@
         <form name="filter.form" flex class="filter-form">
           <md-input-container class="md-block">
             <label>Поиск</label>
-               <input ng-model="query.filter" name="search" ng-disabled="date.datePicker">
+               <input ng-model="query.filter" name="search" ng-disabled="date.datePicker" focus-me="{{filter.show}}" >
           </md-input-container>
         </form>
         <md-button class="btn__align-icon" ng-click="removeFilter()">

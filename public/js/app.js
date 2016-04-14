@@ -7,7 +7,8 @@ var app = angular.module('libraryApp', [
 	'ngMessages',
 	'ngMdIcons',
 	'md.data.table',
-	'angular-clipboard'
+	'angular-clipboard',
+	'cfp.hotkeys'
 ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider){

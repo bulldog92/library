@@ -1,4 +1,4 @@
-app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdToast', function($scope, Sites, Servers, $mdDialog, $mdToast){
+app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdToast', 'hotkeys', function($scope, Sites, Servers, $mdDialog, $mdToast, hotkeys){
 	'use strict'
 	$scope.query = {
 		filter: '',
@@ -20,6 +20,18 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	$scope.getSitesFilter = getSitesFilter;
 	$scope.showPopupOne = showPopupOne;
 	$scope.showPopupFtp = showPopupFtp;
+
+
+	hotkeys.bindTo($scope)
+	  .add({
+	    combo: 'ctrl+f',
+	    description: 'blah blah',
+	    callback: function() {
+	    	event.preventDefault();
+	    	console.log('сработало');
+			$scope.filter.show = true;
+	    }
+	  })
 
 	function toggle(item) {
 		var idx = $scope.query.selected.indexOf(item);
