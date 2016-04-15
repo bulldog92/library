@@ -25,10 +25,9 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	hotkeys.bindTo($scope)
 	  .add({
 	    combo: 'ctrl+f',
-	    description: 'blah blah',
+	    description: 'search',
 	    callback: function() {
 	    	event.preventDefault();
-	    	console.log('сработало');
 			$scope.filter.show = true;
 	    }
 	  })
@@ -78,7 +77,9 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 			data = $scope.date.value.getTime() - $scope.date.value.getTimezoneOffset()*60*1000;
 			var query = {
 				filter: data || '',
-				selected: $scope.query.selected
+				selected: $scope.query.selected,
+				limit: $scope.query.limit,
+				page: $scope.query.page
 			};
 			$scope.query.page = 1;
 			getSitesFilter(query);
@@ -94,6 +95,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 		query = query || $scope.query;
 		$scope.promiseSites = Sites.getSites(query);
 		$scope.promiseSites.then(function(data){
+			console.log(data);
 			$scope.arrSites = data.sites;
 			$scope.site.count = data.count;
 		}, function(err){
@@ -109,6 +111,13 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	$scope.logPagination = function (page, limit) {
 	  console.log('page: ', page);
 	  console.log('limit: ', limit);
+	  $scope.query.page = page;
+	  $scope.query.limit = limit;
+	  if($scope.date.value){
+	  	dateQuery();
+	  }else{
+	  	getSitesFilter();
+	  }
 	}
 	$scope.logOrder = function (order) {
     	console.log('order: ', order);
@@ -136,13 +145,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 		}else if($scope.date.value){
 			dateQuery();
 		}else{
-			$scope.promiseSites = Sites.getSites();
-			$scope.promiseSites.then(function(data){
-				$scope.arrSites = data.sites;
-				$scope.site.count = data.count;
-			}, function(err){
-				console.log(err);
-			});	
+			getSitesFilter();
 		}
 	};
 	reloadSites();

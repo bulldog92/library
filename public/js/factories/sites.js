@@ -13,7 +13,9 @@ app.factory('Sites', ['$http', '$q', function($http, $q){
 				url: '/api/sites',
 				params: {
 					filter: req.filter || '',
-					selected: req.selected || []
+					selected: req.selected || [],
+					page: req.page || '',
+					limit: req.limit || ''
 				} 
 			}).then(function(data){
 				defer.resolve(data.data);

@@ -68,23 +68,23 @@ router.get('/', function(req, res){
       }
     }
     var query = genQuery(req.query.selected);
-    Sites.find({ $or:query}, function(err, result){
+    Sites.paginate({ $or:query}, {page: parseInt(req.query.page), limit: parseInt(req.query.limit)}, function(err, result){
       if(err){
         res.status(500).end();
       }
       if(result){
         res.status(200);
-        res.send({count: result.length, sites: result});
+        res.send({count: result.total, sites: result.docs});
       }
     })
    }else{
-   Sites.find({}, function(err, result){
+   Sites.paginate({}, {page: parseInt(req.query.page), limit: parseInt(req.query.limit)}, function(err, result){
      if(err){
        res.status(500).end();
      }
      if(result){
        res.status(200);
-       res.send({count: result.length, sites: result});
+       res.send({count: result.total, sites: result.docs});
      }
    }) 
   }
