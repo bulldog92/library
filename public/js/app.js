@@ -119,6 +119,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 				adminLogin: loginRequiredAdmin
 			}
 		})
+		.state('only_admin.statistics', {
+			url: '/statistics',
+			templateUrl: 'templates/statistics.html',
+			controller: 'statisticsCtrl',
+			resolve:{
+				adminLogin: loginRequiredAdmin
+			}
+		})
 		.state('sites', {
 			url: '/sites',
 			templateUrl: 'templates/sites_list.html',
