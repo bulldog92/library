@@ -65,7 +65,7 @@
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row ng-repeat="site in arrSites | orderBy: query.order track by $index">
+              <tr md-row ng-repeat="site in arrSites track by $index">
                 <td md-cell>{{site.site_id}}</td>
                 <td md-cell>{{site.domain}}</td>
                 <td md-cell>{{site.date | date:"dd.MM.yyyy"}}</td>

@@ -79,7 +79,8 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 				filter: data || '',
 				selected: $scope.query.selected,
 				limit: $scope.query.limit,
-				page: $scope.query.page
+				page: $scope.query.page,
+				order: $scope.query.order
 			};
 			$scope.query.page = 1;
 			getSitesFilter(query);
@@ -109,8 +110,6 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	  getSitesFilter();
 	});
 	$scope.logPagination = function (page, limit) {
-	  console.log('page: ', page);
-	  console.log('limit: ', limit);
 	  $scope.query.page = page;
 	  $scope.query.limit = limit;
 	  if($scope.date.value){
@@ -120,7 +119,8 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	  }
 	}
 	$scope.logOrder = function (order) {
-    	console.log('order: ', order);
+    	$scope.query.order = order;
+    	dateQuery();
   	};
 	$scope.removeFilter = function(){
 		$scope.filter.show = false;

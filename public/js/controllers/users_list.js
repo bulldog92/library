@@ -1,4 +1,10 @@
 app.controller('usersListCtrl', ['$scope', 'usersList', '$mdDialog', '$mdToast', function($scope, usersList, $mdDialog, $mdToast){
+	$scope.query = {
+		order: 'displayName',
+		limit: '15',
+		page: 1
+	}
+
 	usersList.getUsers(cb);
 	function cb(users){
 		$scope.users = users;

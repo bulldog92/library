@@ -24,7 +24,9 @@ var validator = require('validator');
 */
 router.get('/', function(req, res){
   if(req.query.filter){
-    var replaceStr = req.query.filter.replace( /[\\\)\(\[\]\\*\+\&]+/gmi, '');
+    var replaceStr =  req.query.filter.replace( /^http\:\/\//, '');
+    replaceStr = replaceStr.replace( /\/$/, '');
+    replaceStr = replaceStr.replace( /[\\\)\(\[\]\\*\+\&]+/gmi, '');
     function genQuery(arr){
       var query = [];
 
@@ -68,7 +70,7 @@ router.get('/', function(req, res){
       }
     }
     var query = genQuery(req.query.selected);
-    Sites.paginate({ $or:query}, {page: parseInt(req.query.page), limit: parseInt(req.query.limit)}, function(err, result){
+    Sites.paginate({ $or:query}, {page: parseInt(req.query.page), limit: parseInt(req.query.limit), sort: req.query.order}, function(err, result){
       if(err){
         res.status(500).end();
       }
@@ -78,7 +80,7 @@ router.get('/', function(req, res){
       }
     })
    }else{
-   Sites.paginate({}, {page: parseInt(req.query.page), limit: parseInt(req.query.limit)}, function(err, result){
+   Sites.paginate({}, {page: parseInt(req.query.page), limit: parseInt(req.query.limit), sort: req.query.order }, function(err, result){
      if(err){
        res.status(500).end();
      }

@@ -15,7 +15,8 @@ app.factory('Sites', ['$http', '$q', function($http, $q){
 					filter: req.filter || '',
 					selected: req.selected || [],
 					page: req.page || '',
-					limit: req.limit || ''
+					limit: req.limit || '',
+					order: req.order || ''
 				} 
 			}).then(function(data){
 				defer.resolve(data.data);
