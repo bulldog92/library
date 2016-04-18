@@ -44,10 +44,10 @@
     </md-toolbar>
     <md-toolbar>
       <div class="md-toolbar-tools header-bar" ng-controller='NavCtrl' layout-padding>
-        <md-button ui-sref="sites" ng-if="isAuthenticated()" class="md-raised md-primary">Sites</md-button>
-        <md-button ui-sref="only_admin.servers" ng-if="isAdmin()" class="md-raised md-primary">Servers</md-button>
-        <md-button ui-sref="only_admin.users_list" ng-if="isAdmin()" class="md-raised md-primary">Users list</md-button>
-        <md-button ui-sref="calculator" ng-if="isAuthenticated()" class="md-raised md-primary">Calc</md-button>
+        <md-button ui-sref="sites" ui-sref-active="active" ng-if="isAuthenticated()" class="md-raised md-primary">Sites</md-button>
+        <md-button ui-sref="only_admin.servers" ui-sref-active="active" ng-if="isAdmin()" class="md-raised md-primary">Servers</md-button>
+        <md-button ui-sref="only_admin.users_list" ui-sref-active="active" ng-if="isAdmin()" class="md-raised md-primary">Users list</md-button>
+        <md-button ui-sref="calculator" ui-sref-active="active" ng-if="isAuthenticated()" class="md-raised md-primary">Calc</md-button>
       </div>
     </md-toolbar>
     <!-- Main content -->
