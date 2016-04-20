@@ -231,17 +231,17 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	  $scope.delSite = function(ev, site){
 	  	console.log(site);
 	  	var confirm = $mdDialog.confirm()
-	          .title('Вы уверенны?')
-	          .textContent('Сайт удалится безвозвратно')
+	          .title('Are you sure?')
+	          .textContent('The site is deleted permanently!!!')
 	          .ariaLabel('Delete Site')
 	          .targetEvent(ev)
-	          .ok('Удалить!')
-	          .cancel('Отмена');
+	          .ok('Delete!')
+	          .cancel('Cancel');
 	    $mdDialog.show(confirm).then(function() {
 	    	Sites.delSite(site).then(function(data){
 	    		$mdToast.show(
 	    		      $mdToast.simple()
-	    		       .textContent('Сайт удален')
+	    		       .textContent('Site removed!')
 	    		       .position('bottom right')
 	    		       .hideDelay(2000)
 	    		      );
@@ -251,7 +251,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	    	}, function(err){
 	    		$mdToast.show(
 	    		$mdToast.simple()
-	    			.textContent('Ошибка')
+	    			.textContent('Error!!!')
 	    			.position('bottom right')
 	    			.hideDelay(1000)
 	    		);

@@ -15,7 +15,7 @@ app.controller('serverDialogCtrl', ['$scope', '$rootScope', '$mdConstant', '$mdD
       Servers.updateServer(dataServer).then(function(data){
         $mdToast.show(
           $mdToast.simple()
-            .textContent('Сервер изменен')
+            .textContent('The server is changed')
             .position('bottom right')
             .hideDelay(1500)
           );
@@ -23,7 +23,7 @@ app.controller('serverDialogCtrl', ['$scope', '$rootScope', '$mdConstant', '$mdD
       }, function(err){
           $mdToast.show(
             $mdToast.simple()
-              .textContent('Ошибка')
+              .textContent('Error!!!')
               .position('bottom right')
               .hideDelay(1000)
             );
@@ -34,7 +34,7 @@ app.controller('serverDialogCtrl', ['$scope', '$rootScope', '$mdConstant', '$mdD
     Servers.addNew(newServer).then(function(){
       $mdToast.show(
         $mdToast.simple()
-          .textContent('Сервер создан')
+          .textContent('The server is created!')
           .position('bottom right')
           .hideDelay(1500)
         );
@@ -43,7 +43,7 @@ app.controller('serverDialogCtrl', ['$scope', '$rootScope', '$mdConstant', '$mdD
     }, function(){
       $mdToast.show(
         $mdToast.simple()
-          .textContent('Ошибка')
+          .textContent('Error!!!')
           .position('bottom right')
           .hideDelay(1000)
         );

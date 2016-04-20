@@ -4,7 +4,7 @@ app.controller('LogoutCtrl', ['$location', '$auth', '$rootScope', '$mdToast', fu
 	  .then(function() {
 	  	$mdToast.show(
       			$mdToast.simple()
-        		.textContent('Пока')
+        		.textContent('Bye!')
         		.position('bottom right')
         		.hideDelay(1000)
         	);

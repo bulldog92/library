@@ -37,7 +37,7 @@ app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', 'Ser
       Sites.updateSite(dataSite).then(function(data){
         $mdToast.show(
           $mdToast.simple()
-            .textContent('Сайт изменен')
+            .textContent('Website changed!')
             .position('bottom right')
             .hideDelay(2000)
           );
@@ -45,7 +45,7 @@ app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', 'Ser
       }, function(err){
           $mdToast.show(
             $mdToast.simple()
-              .textContent('Ошибка')
+              .textContent('Error!!!')
               .position('bottom right')
               .hideDelay(1000)
             );
@@ -60,7 +60,7 @@ app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', 'Ser
     Sites.addNew(newSite).then(function(){
       $mdToast.show(
         $mdToast.simple()
-          .textContent('Сайт создан')
+          .textContent('Website created!')
           .position('bottom right')
           .hideDelay(2000)
         );
@@ -69,7 +69,7 @@ app.controller('siteDialogCtrl', ['$scope', '$mdDialog', 'locals', 'Sites', 'Ser
     }, function(){
       $mdToast.show(
         $mdToast.simple()
-          .textContent('Ошибка')
+          .textContent('Error!!!')
           .position('bottom right')
           .hideDelay(1000)
         );
