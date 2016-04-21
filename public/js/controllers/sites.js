@@ -128,7 +128,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 			filter: '',
 			order: 'site_id',
 			page: 1,
-			limit: '15',
+			limit: $scope.query.limit,
 			selected: ['Domain', 'Ip', 'Server']
 		};
 		$scope.date.value = '';
