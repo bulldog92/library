@@ -1,2 +1,101 @@
-<h1>calc</h1>
-{{test}}
+<md-content class="md-padding">
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h1>Calculator</h1>
+		</div>
+	</md-toolbar>
+
+	<md-table-container class="md-whiteframe-2dp layout-padding">
+		<div layout="row">
+			<div layout="column">
+			    <md-input-container>
+			        <label>Salary, $</label>
+			        <input type="number" ng-model="data.salary">
+			    </md-input-container>
+			    <md-input-container>
+			        <label>Plan succeed, %</label>
+			        <input type="number" ng-model="data.plan">
+			    </md-input-container>
+			</div>
+
+			<div flex="20" layout="column" layout-align="top center">
+			    <md-button class="md-raised md-primary" ng-click="count()">Count &#8658;</md-button>
+			</div>
+
+			<div flex ng-show="showResults"> 
+			    <md-list flex>
+			        <md-list-item class="md-2-line" ng-click="null">
+				        <div class="md-list-item-text" layout="column">
+				          	<p>Bonus</p>
+				            <p>$ {{ bonus() | number:0 }}</p>
+				        </div>
+				    </md-list-item>
+				    <md-list-item class="md-2-line" ng-click="null">
+				        <div class="md-list-item-text" layout="column">
+				          	<p>Total (salary + bonus)</p>
+				            <p>$ {{ summ() | number:0 }}</p>
+				        </div>
+				    </md-list-item>
+				</md-list>
+               	<md-checkbox ng-click="showEUR()">
+                	Count in €
+              	</md-checkbox>
+              	<md-list flex ng-show="showResultsEUR">
+	              	<md-input-container>
+				        <label>Cross rate</label>
+				        <input type="number" step="0.01" ng-model="data.cross">
+				    </md-input-container>
+					<md-list-item class="md-2-line" ng-click="null">
+					       <div class="md-list-item-text" layout="column">
+					        <p>Bonus</p>
+					        <p>€ {{ bonus() * data.cross | number:0 }}</p>
+					    </div>
+					</md-list-item>
+					<md-list-item class="md-2-line" ng-click="null">
+					    <div class="md-list-item-text" layout="column">
+					      	<p>Total (salary + bonus)</p>
+					        <p>€ {{ (data.salary + bonus()) * data.cross | number:0 }}</p>
+					    </div>
+					</md-list-item>
+				</md-list>
+				<md-checkbox ng-click="showTP()">
+                	Show calculator for tax payers
+              	</md-checkbox>
+			</div>
+		</div>
+
+		<md-divider></md-divider>
+
+		<div layout="row" ng-show="showBlockTP">
+			<div layout="column">
+				<div>
+			        <md-switch ng-model="data.cb6" md-no-ink aria-label="Switch currency" ng-change="changeCurrency(data.cb6)">
+						Switch currency: {{ message }}
+					</md-switch>
+			    </div>
+			    <md-input-container>
+			        <label>₴ to {{ message }} rate, ₴</label>
+			        <input type="number" step="0.01" ng-model="data.rate">
+			    </md-input-container>
+			    <md-input-container>
+			        <label>Transferred to credit card, ₴</label>
+			        <input type="number" ng-model="data.transfer">
+			    </md-input-container>
+			</div>
+			<div flex="20" layout="column" layout-align="top center">
+			    <md-button class="md-raised md-primary" ng-click="countTP()">Count &#8658;</md-button>
+			</div>
+			<div flex ng-show="showResultsTP"> 
+			    <md-list flex>
+			        <md-list-item class="md-2-line" ng-click="null">
+				        <div class="md-list-item-text" layout="column">
+				          	<p>Total (salary + bonus() - transferred)</p>
+				            <p>{{ message }} {{ totalTP() | number:0 }}</p>
+				        </div>
+				    </md-list-item>
+				</md-list>
+			</div>
+		</div>
+	</md-table-container>
+
+</md-content>
