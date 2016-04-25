@@ -19,11 +19,47 @@
              </div>
         </md-input-container>
         <md-input-container class="md-block">
-             <label>Password</label>
-             <input ng-model="server.pass" name="pass" required minlength="6" maxlength="35">
-             <div ng-messages="server_edit_popup.pass.$error">
+             <label>Root password</label>
+             <input ng-model="server.root_pass" name="root_pass" required minlength="6" maxlength="35">
+             <div ng-messages="server_edit_popup.root_pass.$error">
                <div ng-message-exp="['required', 'minlength', 'maxlength']">
                  This is required!  Minlength '6' and maxlength '25'.
+               </div>
+             </div>             
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>User password</label>
+             <input ng-model="server.user_pass" name="user_pass" required minlength="6" maxlength="35">
+             <div ng-messages="server_edit_popup.user_pass.$error">
+               <div ng-message-exp="['required', 'minlength', 'maxlength']">
+                 This is required!  Minlength '6' and maxlength '25'.
+               </div>
+             </div>             
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>Config path</label>
+             <input ng-model="server.path_config" name="path_config" required>
+             <div ng-messages="server_edit_popup.path_config.$error">
+               <div ng-message-exp="['required']">
+                 This is required!
+               </div>
+             </div>             
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>ISP Manager link</label>
+             <input ng-model="server.isp_link" name="isp_link" required>
+             <div ng-messages="server_edit_popup.isp_link.$error">
+               <div ng-message-exp="['required']">
+                 This is required!
+               </div>
+             </div>             
+        </md-input-container>
+        <md-input-container class="md-block">
+             <label>phpMyAdmin link</label>
+             <input ng-model="server.phpMyAdmin_link" name="phpMyAdmin_link" required>
+             <div ng-messages="server_edit_popup.phpMyAdmin_link.$error">
+               <div ng-message-exp="['required']">
+                 This is required!
                </div>
              </div>             
         </md-input-container>
@@ -36,9 +72,9 @@
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
-      <md-button class="md-raised md-primary" type="submit" ng-disabled="server_edit_popup.$invalid">Update Information</md-button>
+      <md-button class="md-raised md-primary" type="submit" ng-disabled="server_edit_popup.$pristine ||server_edit_popup.$invalid">Update Information</md-button>
       <span flex></span>
-      <md-button class="md-raised md-warn" ng-click="cancel()">Отмена</md-button>
+      <md-button class="md-raised md-warn" ng-click="cancel()">Cancel</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

@@ -47,15 +47,19 @@ router.get('/:name', function(req, res){
  |-----------------------
 */
 router.put('/', function(req, res){
-  if(req.body.name != '' && req.body.ip != '' && req.body.pass != '' && validator.isLength(req.body.name, {min:4, max:25}) && validator.isLength(req.body.pass, {min:6, max:35}) ){
+  if(req.body.name != '' && req.body.ip != '' && validator.isLength(req.body.name, {min:4, max:25}) ){
     Servers.findOne({_id: req.body._id}, function(err, server){
       if(err){
-        res.status(500).end();
+        return res.status(500).end();
       }
       if(server){
-        server.name = req.body.name;
         server.ip = req.body.ip;
-        server.pass = req.body.pass;
+        server.root_pass = req.body.root_pass;
+        server.user_pass = req.body.user_pass;
+        server.path_config = req.body.path_config;
+        server.isp_link = req.body.isp_link;
+        server.phpMyAdmin_link = req.body.phpMyAdmin_link;
+
         server.save(function(err){
           if(err){
             res.status(500);
@@ -68,7 +72,7 @@ router.put('/', function(req, res){
     })
   }else{
     res.status(422);
-    res.send({message: 'Unprocessable Entity'});    
+    return res.send({message: 'Unprocessable Entity'});    
   }
 });
 /*
@@ -77,8 +81,8 @@ router.put('/', function(req, res){
  |-----------------------
 */
 router.post('/', function(req, res){
-  if(req.body.name != '' && req.body.ip != '' && req.body.pass != '' && validator.isLength(req.body.name, {min:4, max:25}) && validator.isLength(req.body.pass, {min:6, max:35}) ){
-    Servers.findOne({name: req.body.name, ip:req.body.ip}, function(err, server){
+  if(req.body.name != '' && req.body.ip != '' && req.body.root_pass != '' && req.body.user_pass != '' && req.body.path_config != '' && validator.isLength(req.body.name, {min:4, max:25}) && validator.isLength(req.body.root_pass, {min:6, max:35}) ){
+    Servers.findOne({$or: [{name: req.body.name}, {ip: {$in: req.body.ip}}]}, function(err, server){
       if(server){
         console.error('Server exists already!');
         res.status(409);
@@ -87,7 +91,11 @@ router.post('/', function(req, res){
       var newServer = new Servers({
         name: req.body.name,
         ip: req.body.ip,
-        pass: req.body.pass
+        root_pass: req.body.root_pass,
+        user_pass: req.body.user_pass,
+        path_config: req.body.path_config,
+        isp_link: req.body.isp_link,
+        phpMyAdmin_link: req.body.phpMyAdmin_link
       });
       newServer.save(function(err){
         if(err){

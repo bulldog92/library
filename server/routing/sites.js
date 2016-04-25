@@ -24,12 +24,13 @@ var validator = require('validator');
 */
 router.get('/', function(req, res){
   if(req.query.filter){
-    var replaceStr = req.query.filter.replace( /\\+/, '');
-    var regex = new RegExp(replaceStr,'i');
+    var replaceStr =  req.query.filter.replace( /^http\:\/\//, '');
+    replaceStr = replaceStr.replace( /\/$/, '');
+    replaceStr = replaceStr.replace( /[\\\)\(\[\]\\*\+\&]+/gmi, '');
     function genQuery(arr){
       var query = [];
 
-      var regex = new RegExp(replaceStr,'i');
+      var regex = new RegExp(replaceStr,'gmi');
       if(!arr){
         query = [{domain: regex}, {ip: regex}, {server: regex}];
         return query;
@@ -69,23 +70,23 @@ router.get('/', function(req, res){
       }
     }
     var query = genQuery(req.query.selected);
-    Sites.find({ $or:query}, function(err, result){
+    Sites.paginate({ $or:query}, {page: parseInt(req.query.page), limit: parseInt(req.query.limit), sort: req.query.order}, function(err, result){
       if(err){
         res.status(500).end();
       }
       if(result){
         res.status(200);
-        res.send({count: result.length, sites: result});
+        res.send({count: result.total, sites: result.docs});
       }
     })
    }else{
-   Sites.find({}, function(err, result){
+   Sites.paginate({}, {page: parseInt(req.query.page), limit: parseInt(req.query.limit), sort: req.query.order }, function(err, result){
      if(err){
        res.status(500).end();
      }
      if(result){
        res.status(200);
-       res.send({count: result.length, sites: result});
+       res.send({count: result.total, sites: result.docs});
      }
    }) 
   }
@@ -96,14 +97,13 @@ router.get('/', function(req, res){
  |-----------------------
 */
 router.put('/', function(req, res){
-  if(req.body.domain != '' && req.body.ip != '' && req.body.server != '' && validator.isLength(req.body.server, {min:6, max:35}) ){
+  if(req.body.domain != '' && req.body.description != ''){
     Sites.findOne({_id: req.body._id}, function(err, site){
       if(err){
         res.status(500).end();
       }
       if(site){
-        site.ip = req.body.ip;
-        site.server = req.body.server;
+        site.description = req.body.description;
         site.save(function(err){
           if(err){
             res.status(500);

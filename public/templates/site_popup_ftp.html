@@ -1,0 +1,36 @@
+<md-dialog  ng-cloak>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Ftp</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <ng-md-icon icon="close" aria-label="Close dialog"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <div layout="row">
+        <p ng-bind='ip'></p>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="copyBufer(ip)">
+          <ng-md-icon icon="content_copy" aria-label="copy"></ng-md-icon>
+        </md-button>
+      </div>
+      <div layout="row">
+        <p ng-bind='login'></p>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="copyBufer(login)">
+          <ng-md-icon icon="content_copy" aria-label="copy"></ng-md-icon>
+        </md-button>
+      </div>
+      <div layout="row">
+        <p ng-bind='user_pass'></p>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="copyBufer(user_pass)">
+          <ng-md-icon icon="content_copy" aria-label="copy"></ng-md-icon>
+        </md-button>
+      </div>
+    </div>
+  </md-dialog-content>
+</md-dialog>

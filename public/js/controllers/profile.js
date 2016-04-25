@@ -11,18 +11,18 @@ app.controller('ProfileCtrl',['$rootScope','$scope', '$auth', 'Account', '$mdToa
         .then(function(data) {
         	$mdToast.show(
       			$mdToast.simple()
-        		.textContent('Профиль изменен!')
+        		.textContent('Profile changed!')
         		.position('bottom right')
         		.hideDelay(3000)
     		);
-        	$scope.successMessage = 'Профиль изменен';
+        	$scope.successMessage = 'Profile changed';
         	console.log('Profile has been updated');
         	$scope.user.email = $scope.editProfile.email;
         	$scope.user.displayName = $scope.editProfile.displayName;
         }, function(error){
         	if(error.status == '304'){
         		console.log('not modified');
-        		$scope.errorMessage = 'Ничего не изменилось';	
+        		$scope.errorMessage = 'Nothing changed!';	
         	}else{
         		$scope.errorMessage = error.data.message;
         	}

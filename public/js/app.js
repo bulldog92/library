@@ -6,7 +6,9 @@ var app = angular.module('libraryApp', [
 	'ngMaterial',
 	'ngMessages',
 	'ngMdIcons',
-	'md.data.table'
+	'md.data.table',
+	'angular-clipboard',
+	'cfp.hotkeys'
 ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider){
@@ -113,6 +115,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($s
 			url: '/servers',
 			templateUrl: 'templates/servers_list.html',
 			controller: 'ServersListCtrl',
+			resolve:{
+				adminLogin: loginRequiredAdmin
+			}
+		})
+		.state('only_admin.statistics', {
+			url: '/statistics',
+			templateUrl: 'templates/statistics.html',
+			controller: 'statisticsCtrl',
 			resolve:{
 				adminLogin: loginRequiredAdmin
 			}

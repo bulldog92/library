@@ -1,4 +1,4 @@
-app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdToast', function($scope, Sites, Servers, $mdDialog, $mdToast){
+app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdToast', 'hotkeys', function($scope, Sites, Servers, $mdDialog, $mdToast, hotkeys){
 	'use strict'
 	$scope.query = {
 		filter: '',
@@ -18,6 +18,19 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	$scope.checkDate = checkDate;
 	$scope.changeDate = changeDate;
 	$scope.getSitesFilter = getSitesFilter;
+	$scope.showPopupOne = showPopupOne;
+	$scope.showPopupFtp = showPopupFtp;
+
+
+	hotkeys.bindTo($scope)
+	  .add({
+	    combo: 'ctrl+f',
+	    description: 'search',
+	    callback: function() {
+	    	event.preventDefault();
+			$scope.filter.show = true;
+	    }
+	  })
 
 	function toggle(item) {
 		var idx = $scope.query.selected.indexOf(item);
@@ -64,7 +77,10 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 			data = $scope.date.value.getTime() - $scope.date.value.getTimezoneOffset()*60*1000;
 			var query = {
 				filter: data || '',
-				selected: $scope.query.selected
+				selected: $scope.query.selected,
+				limit: $scope.query.limit,
+				page: $scope.query.page,
+				order: $scope.query.order
 			};
 			$scope.query.page = 1;
 			getSitesFilter(query);
@@ -80,6 +96,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 		query = query || $scope.query;
 		$scope.promiseSites = Sites.getSites(query);
 		$scope.promiseSites.then(function(data){
+			console.log(data);
 			$scope.arrSites = data.sites;
 			$scope.site.count = data.count;
 		}, function(err){
@@ -93,11 +110,17 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	  getSitesFilter();
 	});
 	$scope.logPagination = function (page, limit) {
-	  console.log('page: ', page);
-	  console.log('limit: ', limit);
+	  $scope.query.page = page;
+	  $scope.query.limit = limit;
+	  if($scope.date.value){
+	  	dateQuery();
+	  }else{
+	  	getSitesFilter();
+	  }
 	}
 	$scope.logOrder = function (order) {
-    	console.log('order: ', order);
+    	$scope.query.order = order;
+    	dateQuery();
   	};
 	$scope.removeFilter = function(){
 		$scope.filter.show = false;
@@ -105,7 +128,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 			filter: '',
 			order: 'site_id',
 			page: 1,
-			limit: '15',
+			limit: $scope.query.limit,
 			selected: ['Domain', 'Ip', 'Server']
 		};
 		$scope.date.value = '';
@@ -122,17 +145,51 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 		}else if($scope.date.value){
 			dateQuery();
 		}else{
-			$scope.promiseSites = Sites.getSites();
-			$scope.promiseSites.then(function(data){
-				console.log(data);
-				$scope.arrSites = data.sites;
-				$scope.site.count = data.count;
-			}, function(err){
-				console.log(err);
-			});	
+			getSitesFilter();
 		}
 	};
 	reloadSites();
+
+	/*Document popup one prop start*/
+	function showPopupOne(ev, onePopupInfo, nameTitle) {
+		$mdDialog.show({
+		  controller: 'onePopupInfo',
+		  templateUrl: '../templates/site_popup_one.html',
+		  parent: angular.element(document.body),
+		  targetEvent: ev,
+		  clickOutsideToClose:true,
+		  bindToController: true,
+		  locals: {
+		  	onePopupInfo: onePopupInfo,
+		  	nameTitle: nameTitle
+		  }
+		})
+	}
+	/*Document popup one prop end*/
+	/*
+		popup ftp start
+	*/
+
+	function showPopupFtp(ev, serverName, ip) {
+		$mdDialog.show({
+		  controller: 'popupFtpCtrl',
+		  templateUrl: '../templates/site_popup_ftp.html',
+		  parent: angular.element(document.body),
+		  targetEvent: ev,
+		  clickOutsideToClose:true,
+		  bindToController: true,
+		  locals: {
+		  	serverName: serverName,
+		  	ip: ip
+		  }
+		})
+	}
+
+
+
+	/*
+		popup ftp start
+	*/
 
 	/*site start*/
 	$scope.editSite = function(ev, site){
@@ -174,17 +231,17 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	  $scope.delSite = function(ev, site){
 	  	console.log(site);
 	  	var confirm = $mdDialog.confirm()
-	          .title('Вы уверенны?')
-	          .textContent('Сайт удалится безвозвратно')
+	          .title('Are you sure?')
+	          .textContent('The site is deleted permanently!!!')
 	          .ariaLabel('Delete Site')
 	          .targetEvent(ev)
-	          .ok('Удалить!')
-	          .cancel('Отмена');
+	          .ok('Delete!')
+	          .cancel('Cancel');
 	    $mdDialog.show(confirm).then(function() {
 	    	Sites.delSite(site).then(function(data){
 	    		$mdToast.show(
 	    		      $mdToast.simple()
-	    		       .textContent('Сайт удален')
+	    		       .textContent('Site removed!')
 	    		       .position('bottom right')
 	    		       .hideDelay(2000)
 	    		      );
@@ -194,7 +251,7 @@ app.controller('SitesListCtrl',['$scope', 'Sites', 'Servers', '$mdDialog', '$mdT
 	    	}, function(err){
 	    		$mdToast.show(
 	    		$mdToast.simple()
-	    			.textContent('Ошибка')
+	    			.textContent('Error!!!')
 	    			.position('bottom right')
 	    			.hideDelay(1000)
 	    		);

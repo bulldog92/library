@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.min.css"/>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/calculator.css">
+  <link rel="stylesheet" href="css/statistics.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/angular-hotkeys/build/hotkeys.min.css">
   <!-- min css start>
   <link rel="stylesheet" href="css/mincss/all_min.css">
   <!-- min css end -->
@@ -34,7 +36,7 @@
         </md-button>
         <div flex></div>
         <md-button class="md-raised md-primary" ui-sref-active="active" ng-if="isAuthenticated()" ui-sref='profile' aria-label='edit'>
-          Edit <span ng-bind='user.displayName'></span>
+          Edit profile
         </md-button>
         <md-button class="md-raised md-primary" ui-sref-active="active" ng-if="isAuthenticated()" ui-sref='logout'>
           logout
@@ -43,10 +45,11 @@
     </md-toolbar>
     <md-toolbar>
       <div class="md-toolbar-tools header-bar" ng-controller='NavCtrl' layout-padding>
-        <md-button ui-sref="sites" ng-if="isAuthenticated()" class="md-raised md-primary">Sites</md-button>
-        <md-button ui-sref="only_admin.servers" ng-if="isAdmin()" class="md-raised md-primary">Servers</md-button>
-        <md-button ui-sref="only_admin.users_list" ng-if="isAdmin()" class="md-raised md-primary">Users list</md-button>
-        <md-button ui-sref="calculator" ng-if="isAuthenticated()" class="md-raised md-primary">Calc</md-button>
+        <md-button ui-sref="sites" ui-sref-active="active" ng-if="isAuthenticated()" class="md-raised md-primary">Sites</md-button>
+        <md-button ui-sref="only_admin.servers" ui-sref-active="active" ng-if="isAdmin()" class="md-raised md-primary">Servers</md-button>
+        <md-button ui-sref="only_admin.users_list" ui-sref-active="active" ng-if="isAdmin()" class="md-raised md-primary">Users list</md-button>
+        <md-button ui-sref="calculator" ui-sref-active="active" ng-if="isAuthenticated()" class="md-raised md-primary">Calc</md-button>
+        <md-button ui-sref="only_admin.statistics" ui-sref-active="active" ng-if="isAdmin()" class="md-raised md-primary">Statistics</md-button>
       </div>
     </md-toolbar>
     <!-- Main content -->
@@ -83,6 +86,8 @@
   <script src="bower_components/angular-messages/angular-messages.min.js"></script>
   <script src="bower_components/angular-material/angular-material.min.js"></script>
   <script src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
+  <script src="bower_components/angular-clipboard/angular-clipboard.js"></script>
+  <script src="bower_components/angular-hotkeys/build/hotkeys.min.js"></script>
   <script src="//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
 
   <!-- Angular app -->
@@ -91,6 +96,7 @@
   <script src='js/factories/user_list.js'></script>
   <script src='js/factories/sites.js'></script>
   <script src='js/factories/servers.js'></script>
+  <script src='js/factories/statistics.js'></script>
   <script src='js/controllers/main.js'></script>
   <script src='js/controllers/auth.js'></script>
   <script src='js/controllers/nav.js'></script>
@@ -103,10 +109,14 @@
   <script src='js/controllers/user_dialog.js'></script>
   <script src='js/controllers/sites.js'></script>
   <script src='js/controllers/site_dialog.js'></script>
+  <script src='js/controllers/one_popup_info.js'></script>
+  <script src='js/controllers/popup_ftp.js'></script>
   <script src='js/controllers/servers.js'></script>
   <script src='js/controllers/server_dialog.js'></script>
   <script src='js/controllers/calculator.js'></script>
+  <script src='js/controllers/statistics.js'></script>
   <script src='js/directives/confirm.js'></script>
+  <script src='js/directives/focus.js'></script>
   <!--script src='minjs/index.js'></script-->
 </body>
 </html>

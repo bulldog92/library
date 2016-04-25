@@ -3,7 +3,7 @@
 	<md-card>
 		<md-table-container class="md-whiteframe-2dp">
 		  <table md-table ng-model="selected" md-progress="promise">
-		    <thead md-head md-order="displayName" md-on-reorder="logOrder">
+		    <thead md-head md-order="query.order" md-on-reorder="logOrder">
 		      <tr md-row>
 		      	<th md-column md-numeric><span>№</span></th>
 		        <th md-column md-order-by="displayName"><span>Name</span></th>
@@ -14,16 +14,16 @@
 		      </tr>
 		    </thead>
 		    <tbody md-body>
-		      <tr md-row ng-repeat="user in users track by $index">
+		      <tr md-row ng-repeat="user in users | orderBy: query.order | limitTo: query.limit: (query.page -1) * query.limit track by $index">
 		        <td md-cell>{{$index + 1}}</td>
 		        <td md-cell>{{user.displayName}}</td>
 		        <td md-cell>{{user.email}}</td>
 		        <td md-cell>{{user.role}}</td>
 		        <td md-cell>{{user.date_born | date:"MM/dd/yyyy 'at' h:mma"}}</td>
 		        <td md-cell>
-		        	<md-button class="md-raised md-primary" ng-click='editUser($event, user)'>Изменить</md-button>
-		        	<md-button ng-click='deleteUser($event, user)'>
-						<ng-md-icon icon="delete" style="fill:red" size="38" aria-label="Delete user"></ng-md-icon>
+		        	<md-button class="md-raised md-primary" ng-click='editUser($event, user)'>Edit</md-button>
+		        	<md-button class="md-raised btn__align-icon" ng-click='deleteUser($event, user)'>
+						<ng-md-icon icon="delete" size="38" aria-label="Delete user"></ng-md-icon>
 		        	</md-button>
 		        </td>
 		      </tr>

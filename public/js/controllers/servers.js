@@ -1,5 +1,12 @@
 app.controller('ServersListCtrl',['$scope', 'Servers', '$mdDialog', '$mdToast', function($scope, Servers, $mdDialog, $mdToast){
 	'use strict'
+	$scope.query = {
+		filter: '',
+		order: 'name',
+		limit: '15',
+		page: 1,
+		selected: []
+	};
 	/*$scope.query = {
 		filter: '',
 		order: 'site_id',
@@ -80,24 +87,24 @@ app.controller('ServersListCtrl',['$scope', 'Servers', '$mdDialog', '$mdToast', 
 	    clickOutsideToClose:true,
 	    bindToController: true,
 	    locals: {
-	    	currentSite: {},
+	    	currentServer: {},
 	    	reloadServers: reloadServers
 	    }
 	  })
 	};
 	$scope.deleteServer = function(ev, server){
 		var confirm = $mdDialog.confirm()
-	        .title('Вы уверенны?')
-	        .textContent('Cервер "' + server.name + '" удалится безвозвратно')
+	        .title('Are you sure?')
+	        .textContent('Server "' + server.name + '" permanently deleted')
 	        .ariaLabel('Delete Server')
 	        .targetEvent(ev)
-	        .ok('Удалить!')
-	        .cancel('Отмена');
+	        .ok('Delete!')
+	        .cancel('Cancel');
 	  $mdDialog.show(confirm).then(function() {
 	  	Servers.deleteServer(server).then(function(data){
 	  		$mdToast.show(
 	  		      $mdToast.simple()
-	  		       .textContent('Сервер удален')
+	  		       .textContent('The server deleted!')
 	  		       .position('bottom right')
 	  		       .hideDelay(1000)
 	  		      );
@@ -106,7 +113,7 @@ app.controller('ServersListCtrl',['$scope', 'Servers', '$mdDialog', '$mdToast', 
 	  	}, function(err){
 	  		$mdToast.show(
 	  		$mdToast.simple()
-	  			.textContent('Ошибка')
+	  			.textContent('Error!!!')
 	  			.position('bottom right')
 	  			.hideDelay(1000)
 	  		);

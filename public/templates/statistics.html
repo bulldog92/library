@@ -1,0 +1,30 @@
+<md-content>
+<h2>Statistics</h2>
+</md-content>
+<md-content class="statistic-content">
+	<md-card ng-repeat="statistic in serversStatistics track by $index" class="table-wrapp">
+		<md-table-container class="md-whiteframe-2dp">
+		<h4>{{statistic.name | uppercase}}</h4>
+		  <table md-table>
+			<thead md-head>
+				<tr md-row>
+					<th md-column><strong>Ip</strong></th>
+					<th md-column><strong>Sites count</strong></th>
+				</tr>
+			</thead>
+		    <tbody md-body>
+		      <tr md-row ng-repeat="ipCounter in statistic.ipCounter track by $index">
+		      <td md-cell>
+		      	{{ipCounter.ip}}
+		      </td>
+		      <td md-cell>
+		      	<strong>{{ipCounter.count}}</strong>
+		      </td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</md-table-container>
+	</md-card>
+</md-content>
+
+

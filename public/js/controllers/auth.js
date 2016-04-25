@@ -24,7 +24,7 @@ app.controller('AuthCtrl', ['$scope', '$auth', '$location', 'Account', '$mdToast
         .then(function() {
         	$mdToast.show(
       			$mdToast.simple()
-        		.textContent('Вход')
+        		.textContent('Enter')
         		.position('bottom right')
         		.hideDelay(1000)
         	);

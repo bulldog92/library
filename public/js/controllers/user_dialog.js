@@ -10,7 +10,7 @@ app.controller('userDialogCtrl', ['$scope', '$mdDialog', 'locals', 'usersList', 
   		usersList.changeRole(dataUser).then(function(data){
 			$mdToast.show(
       			$mdToast.simple()
-        		.textContent('Пользователь изменен')
+        		.textContent('User changed!')
         		.position('bottom right')
         		.hideDelay(1000)
         	);
@@ -18,7 +18,7 @@ app.controller('userDialogCtrl', ['$scope', '$mdDialog', 'locals', 'usersList', 
 		}, function(error){
 			$mdToast.show(
       			$mdToast.simple()
-        		.textContent('Ошибка')
+        		.textContent('Error!!!')
         		.position('bottom right')
         		.hideDelay(1000)
         	);
